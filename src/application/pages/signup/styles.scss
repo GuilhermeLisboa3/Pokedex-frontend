@@ -1,0 +1,111 @@
+@import '../../styles/colors.scss';
+
+main{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-container{
+    width: 600px;
+    padding: 50px;
+    margin:0 auto;
+    border-radius: 6px;
+    box-shadow:$box-shadow 0px 12px 28px 0px, $box-shadow 0px 2px 4px 0px, $box-shadow 0px 0px 0px 1px inset;
+
+    .imagens{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+
+      .imgLogo{
+        width: 150px;
+        cursor: pointer;
+      }
+
+      .imgPokemon{
+        width: 150px;
+      }
+    }
+
+    form {
+      padding: 10px;
+      .formGroup{
+        margin-top: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        padding: 3px;
+        border-radius: 5px;
+        position: relative;
+        height: 35px;
+  
+        .label{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          background-color: $color-third;
+          height: 100%;
+          top: 0;
+          left: 0;
+          width: 40px;
+          border-radius: 5px 0px 0px 5px;
+  
+          .icon{
+            background-color: transparent;
+            color: white;
+            font-size: 1.7rem;
+          }
+        }
+        .inputName{
+          display: flex;
+          outline: none;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          height: 100%;
+          top: 0;
+          left: 40px;
+          width: 91.8%;
+          border-radius: 0px 5px 5px 0px;
+          padding-left: 10px;
+          border: 2px solid $color-secondary;
+          transition: 0.3s ease;
+          &::placeholder{
+              color: $color-secondary;
+          }
+          &:focus{
+              background-color: transparent;
+              border-color: $color-third;
+              color: black;
+              box-shadow: none;
+          }
+        }
+      }
+  
+      .button{
+        display: block;
+        background: $color-third;
+        border-radius: 50px;
+        box-shadow: $color-third 0 10px 20px -10px;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 8px 18px;
+        border: none;
+        margin: 30px auto 10px auto;
+        border: 1px solid transparent;
+        transition: 0.3s ease;
+        &:hover{
+            background-color: transparent;
+            color: $color-third;
+            border-color: $color-third;
+        }
+      }
+    }
+  }
+}
