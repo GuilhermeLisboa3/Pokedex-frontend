@@ -1,12 +1,19 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "outDir": "dist",
-    "rootDirs": ["src", "tests"],
+    "rootDirs": [
+      "src",
+      "tests"
+    ],
     "target": "es2021",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "react",
+    "jsx": "preserve",
     "baseUrl": "src",
     "allowJs": true,
     "sourceMap": true,
@@ -17,7 +24,29 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "paths": { "@/*": ["*"], "@/tests/*": ["../tests/*"] }
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "*"
+      ],
+      "@/tests/*": [
+        "../tests/*"
+      ]
+    },
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true
   },
-  "include": ["src", "tests"]
+  "include": [
+    "src",
+    "tests",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
