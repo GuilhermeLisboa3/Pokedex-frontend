@@ -1,4 +1,4 @@
-import React from 'react'
+import '@/application/styles/global.scss'
 
 export default function RootLayout ({ children }: { children: React.ReactNode }): JSX.Element {
   return (
