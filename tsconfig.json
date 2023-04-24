@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "outDir": "dist",
-    "rootDirs": [ "src", "tests"],
+    "rootDirs": ["src", "tests"],
     "target": "es2021",
     "module": "esnext",
     "moduleResolution": "node",
@@ -17,12 +17,7 @@
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "plugins": [{ "name": "next" } ],
-    "paths": { "@/*": ["*"], "@/tests/*": ["../tests/*"]},
-    "noEmit": true,
-    "incremental": true,
-    "isolatedModules": true
+    "paths": { "@/*": ["*"], "@/tests/*": ["../tests/*"] }
   },
-  "include": ["src","tests",".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src", "tests"]
 }
