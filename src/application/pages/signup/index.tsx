@@ -1,5 +1,5 @@
 import './styles.scss'
-import { Input } from '@/application/components'
+import { Button, Input } from '@/application/components'
 
 import { IoIosLock, IoIosMail, IoIosPerson } from 'react-icons/io'
 import Link from 'next/link'
@@ -21,7 +21,7 @@ export const SignUp = function (): JSX.Element {
             <Input icon={ <IoIosMail className='icon'/> } id="email" name="email" type="email" placeholder="Digite seu email" required className='inputName'/>
             <Input icon={ <IoIosLock className='icon'/> } id="password" name="password" type="password" placeholder="Digite sua senha" required className='inputName'/>
             <Input icon={ <IoIosLock className='icon'/> } name="confirmPassword" type="password" placeholder="Confirme sua senha" required className='inputName'/>
-            <button type="submit" className='button' disabled={true}>ENTRAR</button>
+            <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
           </form>
         </div>
       </main>
