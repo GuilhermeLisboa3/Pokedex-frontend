@@ -50,4 +50,17 @@ describe('SignUp', () => {
     expect(validator.validate).toHaveBeenCalledWith('password', { password })
     expect(validator.validate).toHaveBeenCalledWith('passwordConfirmation', { password, passwordConfirmation })
   })
+
+  it('should add class bg-danger if Validation fails', () => {
+    const { container } = makeSut()
+    const error = new Error().message
+    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
+
+    populateFields()
+
+    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[2].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[3].className).toBe('label bg-danger')
+  })
 })
