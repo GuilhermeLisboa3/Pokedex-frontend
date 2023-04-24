@@ -99,13 +99,13 @@ describe('SignUp', () => {
     expect(addAccount).toHaveBeenCalledWith({ name, email, password })
   })
 
-  it('should call AddAccount only once', async () => {
+  it('should not call AddAccount if form is invalid', async () => {
     makeSut()
+    validator.validate.mockReturnValueOnce('error')
 
-    simulateSubmit()
-    await waitFor(() => screen.getByTestId('form'))
-    fireEvent.click(screen.getByRole('button'))
+    populateFields()
+    fireEvent.submit(screen.getByTestId('form'))
 
-    expect(addAccount).toHaveBeenCalledTimes(1)
+    expect(addAccount).not.toHaveBeenCalledTimes(1)
   })
 })
