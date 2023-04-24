@@ -13,13 +13,13 @@ type Props = {
 
 export const SignUp: React.FC<Props> = ({ validator }: Props) => {
   const [name, setName] = useState('')
-  const [, setNameError] = useState<string | undefined>('')
+  const [nameError, setNameError] = useState<string | undefined>('')
   const [email, setEmail] = useState('')
-  const [, setEmailError] = useState<string | undefined>('')
+  const [emailError, setEmailError] = useState<string | undefined>('')
   const [password, setPassword] = useState('')
-  const [, setPasswordError] = useState<string | undefined>('')
+  const [passwordError, setPasswordError] = useState<string | undefined>('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
-  const [, setPasswordConfirmationError] = useState<string | undefined>('')
+  const [passwordConfirmationError, setPasswordConfirmationError] = useState<string | undefined>('')
 
   useEffect(() => { setNameError(validator.validate('name', { name })) }, [name])
   useEffect(() => { setEmailError(validator.validate('email', { email })) }, [email])
@@ -38,10 +38,10 @@ export const SignUp: React.FC<Props> = ({ validator }: Props) => {
             <img src="/charizard.png" alt="charizard" className='imgPokemon'/>
           </div>
           <form action="">
-            <Input icon={ <IoIosPerson className='icon'/> } name="name" type="text" placeholder="Digite seu nome" hasError='bg-danger' state={name} setState={setName}/>
-            <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError='bg-danger' state={email} setState={setEmail}/>
-            <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError='bg-danger' state={password} setState={setPassword}/>
-            <Input icon={ <IoIosLock className='icon'/> } name="passwordConfirmation" type="password" placeholder="Confirme sua senha" hasError='bg-danger' state={passwordConfirmation} setState={setPasswordConfirmation}/>
+            <Input icon={ <IoIosPerson className='icon'/> } name="name" type="text" placeholder="Digite seu nome" hasError={nameError === undefined ? 'bg-success' : 'bg-danger'} state={name} setState={setName}/>
+            <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={emailError === undefined ? 'bg-success' : 'bg-danger'} state={email} setState={setEmail}/>
+            <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={passwordError === undefined ? 'bg-success' : 'bg-danger'} state={password} setState={setPassword}/>
+            <Input icon={ <IoIosLock className='icon'/> } name="passwordConfirmation" type="password" placeholder="Confirme sua senha" hasError={passwordConfirmationError === undefined ? 'bg-success' : 'bg-danger'} state={passwordConfirmation} setState={setPasswordConfirmation}/>
             <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
           </form>
         </div>
