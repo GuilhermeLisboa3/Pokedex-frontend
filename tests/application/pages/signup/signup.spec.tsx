@@ -1,9 +1,9 @@
 import { SignUp } from '@/application/pages/signup/signup'
 import { type Validator } from '@/application/validation'
-import { AccountParams } from '@/tests/mocks'
+import { AccountParams, populateField } from '@/tests/mocks'
 
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
 describe('SignUp', () => {
@@ -21,9 +21,11 @@ describe('SignUp', () => {
     }
   }
 
-  const populateField = (fieldName: string, value: string): void => {
-    const input = screen.getByTestId(fieldName)
-    fireEvent.input(input, { target: { value } })
+  const populateFields = (): void => {
+    populateField('name', name)
+    populateField('email', email)
+    populateField('password', password)
+    populateField('passwordConfirmation', passwordConfirmation)
   }
 
   beforeAll(() => {
@@ -41,10 +43,7 @@ describe('SignUp', () => {
   it('should call Validator with correct input', () => {
     makeSut()
 
-    populateField('name', name)
-    populateField('email', email)
-    populateField('password', password)
-    populateField('passwordConfirmation', passwordConfirmation)
+    populateFields()
 
     expect(validator.validate).toHaveBeenCalledWith('name', { name })
     expect(validator.validate).toHaveBeenCalledWith('email', { email })
