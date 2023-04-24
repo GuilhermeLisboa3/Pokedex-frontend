@@ -17,10 +17,10 @@ export const SignUp = function (): JSX.Element {
             <img src="/charizard.png" alt="charizard" className='imgPokemon'/>
           </div>
           <form action="">
-            <Input icon={ <IoIosPerson className='icon'/> } id="name" name="name" type="name" placeholder="Digite seu nome" required className='inputName'/>
-            <Input icon={ <IoIosMail className='icon'/> } id="email" name="email" type="email" placeholder="Digite seu email" required className='inputName'/>
-            <Input icon={ <IoIosLock className='icon'/> } id="password" name="password" type="password" placeholder="Digite sua senha" required className='inputName'/>
-            <Input icon={ <IoIosLock className='icon'/> } name="confirmPassword" type="password" placeholder="Confirme sua senha" required className='inputName'/>
+            <Input icon={ <IoIosPerson className='icon'/> } id="name" name="name" type="name" placeholder="Digite seu nome" required className='inputName' hasError='bg-danger'/>
+            <Input icon={ <IoIosMail className='icon'/> } id="email" name="email" type="email" placeholder="Digite seu email" required className='inputName' hasError='bg-danger'/>
+            <Input icon={ <IoIosLock className='icon'/> } id="password" name="password" type="password" placeholder="Digite sua senha" required className='inputName' hasError='bg-danger'/>
+            <Input icon={ <IoIosLock className='icon'/> } name="confirmPassword" type="password" placeholder="Confirme sua senha" required className='inputName' hasError='bg-danger'/>
             <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
           </form>
         </div>
