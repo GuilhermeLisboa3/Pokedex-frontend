@@ -3,19 +3,20 @@ import { type Validator } from '@/application/validation'
 import { AccountParams, populateField } from '@/tests/mocks'
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
 describe('SignUp', () => {
   const { email, name, password, passwordConfirmation } = AccountParams
-  let validator: MockProxy<Validator>
+  const validator: MockProxy<Validator> = mock()
+  const addAccount: jest.Mock = jest.fn()
 
   type SutTypes = {
     container: HTMLElement
   }
 
   const makeSut = (): SutTypes => {
-    const { container } = render(<SignUp validator={validator}/>)
+    const { container } = render(<SignUp validator={validator} addAccount={addAccount}/>)
     return {
       container
     }
@@ -28,8 +29,12 @@ describe('SignUp', () => {
     populateField('passwordConfirmation', passwordConfirmation)
   }
 
+  const simulateSubmit = (): void => {
+    populateFields()
+    fireEvent.click(screen.getByRole('button'))
+  }
+
   beforeAll(() => {
-    validator = mock()
     validator.validate.mockReturnValue(undefined)
   })
 
@@ -83,5 +88,14 @@ describe('SignUp', () => {
     populateFields()
 
     expect(screen.getByRole('button')).toBeEnabled()
+  })
+
+  it('should call addAccount with correct input', async () => {
+    makeSut()
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(addAccount).toHaveBeenCalledWith({ name, email, password })
   })
 })
