@@ -30,9 +30,12 @@ describe('SignUp', () => {
 
   beforeAll(() => {
     validator = mock()
+    validator.validate.mockReturnValue(undefined)
   })
 
   it('should load with correct initial state', () => {
+    validator.validate.mockReturnValueOnce('error')
+
     const { container } = makeSut()
 
     expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
@@ -53,8 +56,7 @@ describe('SignUp', () => {
 
   it('should add class bg-danger if Validation fails', () => {
     const { container } = makeSut()
-    const error = new Error().message
-    validator.validate.mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error).mockReturnValueOnce(error)
+    validator.validate.mockReturnValueOnce('error').mockReturnValueOnce('error').mockReturnValueOnce('error').mockReturnValueOnce('error')
 
     populateFields()
 
@@ -62,5 +64,16 @@ describe('SignUp', () => {
     expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
     expect(container.getElementsByTagName('label')[2].className).toBe('label bg-danger')
     expect(container.getElementsByTagName('label')[3].className).toBe('label bg-danger')
+  })
+
+  it('should add class bg-success if Validation on success', () => {
+    const { container } = makeSut()
+
+    populateFields()
+
+    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-success')
+    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-success')
+    expect(container.getElementsByTagName('label')[2].className).toBe('label bg-success')
+    expect(container.getElementsByTagName('label')[3].className).toBe('label bg-success')
   })
 })
