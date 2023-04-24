@@ -26,6 +26,10 @@ export const SignUp: React.FC<Props> = ({ validator }: Props) => {
   useEffect(() => { setPasswordError(validator.validate('password', { password })) }, [password])
   useEffect(() => { setPasswordConfirmationError(validator.validate('passwordConfirmation', { password, passwordConfirmation })) }, [passwordConfirmation])
 
+  const hasError = (error: string | undefined): 'bg-danger' | 'bg-success' => {
+    return error === undefined ? 'bg-success' : 'bg-danger'
+  }
+
   return (
     <>
       <main>
@@ -38,10 +42,10 @@ export const SignUp: React.FC<Props> = ({ validator }: Props) => {
             <img src="/charizard.png" alt="charizard" className='imgPokemon'/>
           </div>
           <form action="">
-            <Input icon={ <IoIosPerson className='icon'/> } name="name" type="text" placeholder="Digite seu nome" hasError={nameError === undefined ? 'bg-success' : 'bg-danger'} state={name} setState={setName}/>
-            <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={emailError === undefined ? 'bg-success' : 'bg-danger'} state={email} setState={setEmail}/>
-            <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={passwordError === undefined ? 'bg-success' : 'bg-danger'} state={password} setState={setPassword}/>
-            <Input icon={ <IoIosLock className='icon'/> } name="passwordConfirmation" type="password" placeholder="Confirme sua senha" hasError={passwordConfirmationError === undefined ? 'bg-success' : 'bg-danger'} state={passwordConfirmation} setState={setPasswordConfirmation}/>
+            <Input icon={ <IoIosPerson className='icon'/> } name="name" type="text" placeholder="Digite seu nome" hasError={hasError(nameError)} state={name} setState={setName}/>
+            <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={hasError(emailError)} state={email} setState={setEmail}/>
+            <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={hasError(passwordError)} state={password} setState={setPassword}/>
+            <Input icon={ <IoIosLock className='icon'/> } name="passwordConfirmation" type="password" placeholder="Confirme sua senha" hasError={hasError(passwordConfirmationError)} state={passwordConfirmation} setState={setPasswordConfirmation}/>
             <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
           </form>
         </div>
