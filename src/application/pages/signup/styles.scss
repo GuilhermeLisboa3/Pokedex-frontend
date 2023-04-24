@@ -31,61 +31,6 @@ main{
 
     form {
       padding: 10px;
-      .formGroup{
-        margin-top: 3rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: white;
-        padding: 3px;
-        border-radius: 5px;
-        position: relative;
-        height: 35px;
-  
-        .label{
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          position: absolute;
-          background-color: $color-third;
-          height: 100%;
-          top: 0;
-          left: 0;
-          width: 40px;
-          border-radius: 5px 0px 0px 5px;
-  
-          .icon{
-            background-color: transparent;
-            color: white;
-            font-size: 1.7rem;
-          }
-        }
-        .inputName{
-          display: flex;
-          outline: none;
-          justify-content: center;
-          align-items: center;
-          position: absolute;
-          height: 100%;
-          top: 0;
-          left: 40px;
-          width: 91.8%;
-          border-radius: 0px 5px 5px 0px;
-          padding-left: 10px;
-          border: 2px solid $color-secondary;
-          transition: 0.3s ease;
-          &::placeholder{
-              color: $color-secondary;
-          }
-          &:focus{
-              background-color: transparent;
-              border-color: $color-third;
-              color: black;
-              box-shadow: none;
-          }
-        }
-      }
-  
       .button{
         display: block;
         background: $color-third;
