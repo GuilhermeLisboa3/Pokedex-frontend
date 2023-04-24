@@ -46,7 +46,7 @@ export const SignUp: React.FC<Props> = ({ validator }: Props) => {
             <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={hasError(emailError)} state={email} setState={setEmail}/>
             <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={hasError(passwordError)} state={password} setState={setPassword}/>
             <Input icon={ <IoIosLock className='icon'/> } name="passwordConfirmation" type="password" placeholder="Confirme sua senha" hasError={hasError(passwordConfirmationError)} state={passwordConfirmation} setState={setPasswordConfirmation}/>
-            <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
+            <Button type='submit' isFormInvalid={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError} text='ENTRAR'/>
           </form>
         </div>
       </main>
