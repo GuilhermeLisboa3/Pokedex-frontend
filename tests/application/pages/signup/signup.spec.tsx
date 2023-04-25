@@ -5,6 +5,7 @@ import { AccountParams, populateField } from '@/tests/mocks'
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
+import { FieldInUseError } from '@/domain/errors'
 
 describe('SignUp', () => {
   const { email, name, password, passwordConfirmation } = AccountParams
@@ -107,5 +108,14 @@ describe('SignUp', () => {
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(addAccount).not.toHaveBeenCalledTimes(1)
+  })
+
+  it('should show alert error if AddAccount fails', async () => {
+    makeSut()
+    addAccount.mockRejectedValue(new FieldInUseError('email'))
+
+    simulateSubmit()
+
+    expect(await screen.findByText(new FieldInUseError('email').message)).toBeInTheDocument()
   })
 })
