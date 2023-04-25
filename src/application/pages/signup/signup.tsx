@@ -1,6 +1,6 @@
 'use server'
 import './styles.scss'
-import { Button, Input } from '@/application/components'
+import { Button, Input, Toas } from '@/application/components'
 import { type Validator } from '@/application/validation'
 import { type AddAccount } from '@/domain/use-cases/account'
 
@@ -14,6 +14,8 @@ type Props = {
 }
 
 export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
+  const [toastIsOpen, setToastIsOpen] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   const [lodding, setLodding] = useState(false)
   const [name, setName] = useState('')
   const [nameError, setNameError] = useState<string | undefined>('')
@@ -33,7 +35,15 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
     event.preventDefault()
     if (lodding || nameError || emailError || passwordError || passwordConfirmationError) return
     setLodding(true)
-    await addAccount({ name, email, password })
+    try {
+      await addAccount({ name, email, password })
+    } catch (error: any) {
+      setToastIsOpen(true)
+      setTimeout(() => {
+        setToastIsOpen(false)
+      }, 1000 * 3)
+      setToastMessage(error.message)
+    }
   }
 
   const hasError = (error: string | undefined): 'bg-danger' | 'bg-success' => {
@@ -59,6 +69,7 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
             <Button type='submit' isFormInvalid={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError} text='ENTRAR'/>
           </form>
         </div>
+        <Toas color='bg-danger' isOpen={toastIsOpen} message={toastMessage}/>
       </main>
     </>
   )

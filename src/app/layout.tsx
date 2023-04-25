@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
 import '@/application/styles/global.scss'
 
 export default function RootLayout ({ children }: { children: React.ReactNode }): JSX.Element {
