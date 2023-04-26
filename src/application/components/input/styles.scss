@@ -40,14 +40,12 @@
     width: 91.8%;
     border-radius: 0px 5px 5px 0px;
     padding-left: 10px;
-    border: 2px solid $color-secondary;
     transition: 0.3s ease;
     &::placeholder{
         color: $color-secondary;
     }
     &:focus{
         background-color: transparent;
-        border-color: $color-third;
         color: black;
         box-shadow: none;
     }
