@@ -4,11 +4,11 @@ import { AccountParams, populateField } from '@/tests/mocks'
 import { FieldInUseError } from '@/domain/errors'
 
 import React from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
   useRouter () {
     return ({
       route: '/',
@@ -53,7 +53,7 @@ describe('SignUp', () => {
   })
 
   beforeEach(() => {
-    const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+    const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
     useRouter.mockImplementation(() => ({
       route: '/',
       pathname: '',
