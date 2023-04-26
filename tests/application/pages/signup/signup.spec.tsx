@@ -1,11 +1,24 @@
 import { SignUp } from '@/application/pages/signup/signup'
 import { type Validator } from '@/application/validation'
 import { AccountParams, populateField } from '@/tests/mocks'
+import { FieldInUseError } from '@/domain/errors'
 
 import React from 'react'
+import { useRouter } from 'next/router'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
-import { FieldInUseError } from '@/domain/errors'
+
+jest.mock('next/router', () => ({
+  useRouter () {
+    return ({
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: '',
+      push: jest.fn()
+    })
+  }
+}))
 
 describe('SignUp', () => {
   const { email, name, password, passwordConfirmation } = AccountParams
@@ -37,6 +50,16 @@ describe('SignUp', () => {
 
   beforeAll(() => {
     validator.validate.mockReturnValue(undefined)
+  })
+
+  beforeEach(() => {
+    const useRouter = jest.spyOn(require('next/router'), 'useRouter')
+    useRouter.mockImplementation(() => ({
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: ''
+    }))
   })
 
   it('should load with correct initial state', () => {
@@ -112,10 +135,18 @@ describe('SignUp', () => {
 
   it('should show alert error if AddAccount fails', async () => {
     makeSut()
-    addAccount.mockRejectedValue(new FieldInUseError('email'))
+    addAccount.mockRejectedValueOnce(new FieldInUseError('email'))
 
     simulateSubmit()
 
     expect(await screen.findByText(new FieldInUseError('email').message)).toBeInTheDocument()
+  })
+
+  it('should go to login page', async () => {
+    makeSut()
+
+    simulateSubmit()
+
+    expect(useRouter).toHaveBeenCalled()
   })
 })
