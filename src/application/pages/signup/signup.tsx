@@ -3,6 +3,7 @@ import './styles.scss'
 import { Button, Input, Toas } from '@/application/components'
 import { type Validator } from '@/application/validation'
 import { type AddAccount } from '@/domain/use-cases/account'
+import { useRouter } from 'next/router'
 
 import { IoIosLock, IoIosMail, IoIosPerson } from 'react-icons/io'
 import Link from 'next/link'
@@ -14,6 +15,7 @@ type Props = {
 }
 
 export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
+  const router = useRouter()
   const [toastIsOpen, setToastIsOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState('')
   const [lodding, setLodding] = useState(false)
@@ -36,7 +38,8 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
     if (lodding || nameError || emailError || passwordError || passwordConfirmationError) return
     setLodding(true)
     try {
-      await addAccount({ name, email, password })
+      const account = await addAccount({ name, email, password })
+      if (account) router.push('/login?registred=true')
     } catch (error: any) {
       setToastIsOpen(true)
       setTimeout(() => {
