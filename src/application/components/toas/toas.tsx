@@ -3,18 +3,24 @@ import { Toast, ToastBody } from 'reactstrap'
 
 type Props = {
   isOpen: boolean
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
+  setLodding?: React.Dispatch<React.SetStateAction<boolean>>
   message: string
   color: string
 }
 
-export const Toas: React.FC<Props> = ({ isOpen, message, color }: Props) => {
+export const Toas: React.FC<Props> = ({ isOpen, setIsOpen, setLodding, message, color }: Props) => {
+  setTimeout(() => {
+    setIsOpen(false)
+    if (setLodding) setLodding(false)
+  }, 1000 * 3)
   return (
     <>
       <Toast
-        className={`${color} text-white fixed-top ms-auto mt-3`}
+        className='text-white fixed-top ms-auto mt-3'
         isOpen={isOpen}
       >
-        <ToastBody className="text-center">{message}</ToastBody>
+        <ToastBody className={`${color} text-center`}>{message}</ToastBody>
       </Toast>
     </>
   )
