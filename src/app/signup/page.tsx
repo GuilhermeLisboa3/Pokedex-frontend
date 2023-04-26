@@ -1,7 +1,12 @@
+'use client'
+import { MakeSignUp } from '@/main/factories/application/page'
 
-export default function Login (): JSX.Element {
+const SignUp = (): JSX.Element => {
   return (
     <>
+      <MakeSignUp/>
     </>
   )
 }
+
+export default SignUp

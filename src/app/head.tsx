@@ -1,4 +1,4 @@
-export default function Head (): JSX.Element {
+const Head = (): JSX.Element => {
   return (
     <>
       <title>Create Next App</title>
@@ -7,3 +7,5 @@ export default function Head (): JSX.Element {
     </>
   )
 }
+
+export default Head

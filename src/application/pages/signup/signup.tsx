@@ -1,9 +1,8 @@
-'use server'
 import './styles.scss'
 import { Button, Input, Toas } from '@/application/components'
 import { type Validator } from '@/application/validation'
 import { type AddAccount } from '@/domain/use-cases/account'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { IoIosLock, IoIosMail, IoIosPerson } from 'react-icons/io'
 import Link from 'next/link'

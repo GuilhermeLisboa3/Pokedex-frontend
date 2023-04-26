@@ -1,6 +1,8 @@
-export default function Page (): JSX.Element {
+const Page = (): JSX.Element => {
   return (
     <>
     </>
   )
 }
+
+export default Page
