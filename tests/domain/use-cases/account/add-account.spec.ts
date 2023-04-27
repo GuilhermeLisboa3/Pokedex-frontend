@@ -26,8 +26,8 @@ describe('AddAccountUseCase', () => {
     expect(httpClient.request).toHaveBeenCalledTimes(1)
   })
 
-  it('should throw FieldInUseError if HttpClient return 400', async () => {
-    httpClient.request.mockResolvedValueOnce({ statusCode: 400 })
+  it('should throw FieldInUseError if HttpClient return 403', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 403 })
 
     const promise = sut({ name, email, password })
 
