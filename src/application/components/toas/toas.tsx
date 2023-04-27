@@ -17,6 +17,7 @@ export const Toas: React.FC<Props> = ({ isOpen, setIsOpen, setLodding, message, 
   return (
     <>
       <Toast
+        data-testid='toas'
         className='text-white fixed-top ms-auto mt-3'
         isOpen={isOpen}
       >
