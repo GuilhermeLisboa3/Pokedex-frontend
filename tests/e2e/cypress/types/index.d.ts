@@ -3,5 +3,6 @@ declare namespace Cypress {
     getInputById: (id: string) => Chainable<Element>
     getLabelByFor: (id: string) => Chainable<Element>
     getByTestId: (id: string) => Chainable<Element>
+    testUrl: (path: string) => Chainable<Element>
   }
 }
