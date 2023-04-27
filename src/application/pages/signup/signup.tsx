@@ -41,9 +41,6 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
       if (account) router.push('/login?registred=true')
     } catch (error: any) {
       setToastIsOpen(true)
-      setTimeout(() => {
-        setToastIsOpen(false)
-      }, 1000 * 3)
       setToastMessage(error.message)
     }
   }
@@ -71,7 +68,7 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
             <Button type='submit' isFormInvalid={!!nameError || !!emailError || !!passwordError || !!passwordConfirmationError} text='ENTRAR'/>
           </form>
         </div>
-        <Toas color='bg-danger' isOpen={toastIsOpen} message={toastMessage}/>
+        <Toas color='bg-danger' isOpen={toastIsOpen} setIsOpen={setToastIsOpen} setLodding={setLodding} message={toastMessage}/>
       </main>
     </>
   )
