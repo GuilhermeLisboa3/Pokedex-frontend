@@ -12,6 +12,7 @@
     "@typescript-eslint/no-floating-promises": "off",
     "@next/next/no-img-element": "off",
     "react-hooks/exhaustive-deps": "off",
+    "cypress/unsafe-to-chain-command": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error"
   }

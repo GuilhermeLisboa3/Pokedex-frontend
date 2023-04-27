@@ -5,11 +5,11 @@ describe('SignUp', () => {
   const invalidEmail = faker.random.word()
   const invalidPasswordConfirmation = faker.random.words(2)
 
-  const populateField = (email = faker.internet.email(), passwordConfirmation = password): void => {
-    cy.getInputById('name').type(name)
-    cy.getInputById('email').type(email)
-    cy.getInputById('password').type(password)
-    cy.getInputById('passwordConfirmation').type(passwordConfirmation)
+  const populateFields = (email = faker.internet.email(), passwordConfirmation = password): void => {
+    cy.getInputById('name').focus().type(name)
+    cy.getInputById('email').focus().type(email)
+    cy.getInputById('password').focus().type(password)
+    cy.getInputById('passwordConfirmation').focus().type(passwordConfirmation)
   }
 
   beforeEach(() => {
@@ -25,7 +25,7 @@ describe('SignUp', () => {
   })
 
   it('should keep the button disabled if form is invalid', () => {
-    populateField(invalidEmail, invalidPasswordConfirmation)
+    populateFields(invalidEmail, invalidPasswordConfirmation)
     cy.getLabelByFor('email').should('have.class', 'bg-danger')
     cy.getLabelByFor('passwordConfirmation').should('have.class', 'bg-danger')
     cy.get('button').should('have.attr', 'disabled')
@@ -33,11 +33,23 @@ describe('SignUp', () => {
   })
 
   it('should enable the button and add the class bg-success pro label', () => {
-    populateField()
+    populateFields()
     cy.getLabelByFor('name').should('have.class', 'bg-success')
     cy.getLabelByFor('email').should('have.class', 'bg-success')
     cy.getLabelByFor('password').should('have.class', 'bg-success')
     cy.getLabelByFor('passwordConfirmation').should('have.class', 'bg-success')
     cy.get('button').should('not.have.attr', 'disabled')
+  })
+
+  it('should return FieldInUseErro on 403', () => {
+    cy.intercept(
+      { method: 'POST', url: /register/ },
+      { delay: 50, statusCode: 403 }
+    )
+
+    populateFields()
+
+    cy.get('button').click()
+    cy.get("[data-testid='toas']").should('exist').should('have.text', 'O email já está em uso!')
   })
 })
