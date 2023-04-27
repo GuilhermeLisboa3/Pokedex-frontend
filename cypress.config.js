@@ -8,6 +8,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:3000',
     supportFile: 'tests/e2e/cypress/support/index.js',
+    fixturesFolder: 'tests/e2e/cypress/fixtures',
     specPattern: 'tests/e2e/cypress/integration/**/*.cy.{js,jsx,ts,tsx}'
   }
 })

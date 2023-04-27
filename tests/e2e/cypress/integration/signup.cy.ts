@@ -1,9 +1,15 @@
+import { mockOk, mockForbiddenError, mockUnauthorizedError } from '../mocks/http-mocks'
+
 import faker from 'faker'
+
 describe('SignUp', () => {
   const name = faker.name.findName()
   const password = faker.internet.password()
   const invalidEmail = faker.random.word()
   const invalidPasswordConfirmation = faker.random.words(2)
+
+  const mockError = (method: any): void => { method('POST', /register/) }
+  const mockSuccess = (): void => { mockOk('POST', /register/, 'signup') }
 
   const populateFields = (email = faker.internet.email(), passwordConfirmation = password): void => {
     cy.getInputById('name').focus().type(name)
@@ -47,10 +53,7 @@ describe('SignUp', () => {
   })
 
   it('should return FieldInUseErro on 403', () => {
-    cy.intercept(
-      { method: 'POST', url: /register/ },
-      { delay: 50, statusCode: 403 }
-    )
+    mockError(mockForbiddenError)
 
     simulateSubmit()
 
@@ -58,25 +61,20 @@ describe('SignUp', () => {
   })
 
   it('should return UnexpectedError on 500', () => {
-    cy.intercept(
-      { method: 'POST', url: /register/ },
-      { delay: 50, statusCode: faker.helpers.randomize([400, 404, 500]), body: { error: faker.random.words() } }
-    )
+    mockError(mockUnauthorizedError)
+
     simulateSubmit()
 
     cy.get("[data-testid='toas']").should('exist').should('have.text', 'Algo deu errado. Tente novamente!')
   })
 
   it('should prevent multiple submits', () => {
-    cy.intercept(
-      { method: 'POST', url: /register/ },
-      { delay: 50, statusCode: 200, body: true }
-    ).as('signUpRequest')
+    mockSuccess()
 
     simulateSubmit()
     cy.get('button[type=submit]').click()
-    cy.wait('@signUpRequest')
+    cy.wait('@request')
 
-    cy.get('@signUpRequest.all').should('have.length', 1)
+    cy.get('@request.all').should('have.length', 1)
   })
 })
