@@ -18,4 +18,12 @@ describe('Toas', () => {
     expect(setIsOpen).toHaveBeenCalledWith(false)
     expect(setLodding).toHaveBeenCalledWith(false)
   })
+
+  it('should not call setLodding if not exists', () => {
+    render(<Toas color='bg-danger' message='message' isOpen={false} setIsOpen={setIsOpen}/>)
+    act(() => {
+      jest.advanceTimersByTime(3000)
+    })
+    expect(setIsOpen).toHaveBeenCalledWith(false)
+  })
 })
