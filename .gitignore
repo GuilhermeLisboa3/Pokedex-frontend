@@ -2,4 +2,3 @@ node_modules
 coverage
 .next
 .env
-cypress
