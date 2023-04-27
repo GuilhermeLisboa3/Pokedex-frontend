@@ -12,7 +12,7 @@
     ],
     "target": "es2021",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "node", 
     "jsx": "preserve",
     "baseUrl": "src",
     "allowJs": true,
@@ -47,6 +47,8 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cypress.config.js",
+    "./tests/e2e/cypress"
   ]
 }

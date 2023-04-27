@@ -13,7 +13,7 @@ module.exports = {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
   },
   testPathIgnorePatterns: [
-    '/node_modules/', '/.next/'
+    '/node_modules/', '/.next/', '<rootDir>/tests/e2e/cypress'
   ],
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   setupFilesAfterEnv: ['<rootDir>/src/main/config/jest-setup.ts'],
