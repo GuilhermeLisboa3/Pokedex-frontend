@@ -32,6 +32,13 @@
       border-color: $color-third;
   }
 }
+.button:disabled,
+.button.disabled{
+  color:#fff;
+  background-color: transparent;
+  color: #fd4f5597;
+  border-color: #fd4f5597;
+}
 
 ::-webkit-scrollbar{
   width: 8px;

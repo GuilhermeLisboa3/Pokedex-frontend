@@ -10,10 +10,12 @@ type Props = {
 }
 
 export const Toas: React.FC<Props> = ({ isOpen, setIsOpen, setLodding, message, color }: Props) => {
-  setTimeout(() => {
-    setIsOpen(false)
-    if (setLodding) setLodding(false)
-  }, 1000 * 3)
+  if (isOpen) {
+    setTimeout(() => {
+      setIsOpen(false)
+      if (setLodding) setLodding(false)
+    }, 1000 * 3)
+  }
   return (
     <>
       <Toast

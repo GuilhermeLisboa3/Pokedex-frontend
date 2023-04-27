@@ -12,6 +12,11 @@ describe('SignUp', () => {
     cy.getInputById('passwordConfirmation').focus().type(passwordConfirmation)
   }
 
+  const simulateSubmit = (): void => {
+    populateFields()
+    cy.get('button[type=submit]').click()
+  }
+
   beforeEach(() => {
     cy.visit('signup')
   })
@@ -47,9 +52,8 @@ describe('SignUp', () => {
       { delay: 50, statusCode: 403 }
     )
 
-    populateFields()
+    simulateSubmit()
 
-    cy.get('button').click()
     cy.get("[data-testid='toas']").should('exist').should('have.text', 'O email já está em uso!')
   })
 
@@ -58,10 +62,21 @@ describe('SignUp', () => {
       { method: 'POST', url: /register/ },
       { delay: 50, statusCode: faker.helpers.randomize([400, 404, 500]), body: { error: faker.random.words() } }
     )
+    simulateSubmit()
 
-    populateFields()
-
-    cy.get('button').click()
     cy.get("[data-testid='toas']").should('exist').should('have.text', 'Algo deu errado. Tente novamente!')
+  })
+
+  it('should prevent multiple submits', () => {
+    cy.intercept(
+      { method: 'POST', url: /register/ },
+      { delay: 50, statusCode: 200, body: true }
+    ).as('signUpRequest')
+
+    simulateSubmit()
+    cy.get('button[type=submit]').click()
+    cy.wait('@signUpRequest')
+
+    cy.get('@signUpRequest.all').should('have.length', 1)
   })
 })

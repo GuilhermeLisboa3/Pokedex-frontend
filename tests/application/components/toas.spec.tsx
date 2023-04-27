@@ -11,7 +11,7 @@ describe('Toas', () => {
   const setLodding: jest.Mock = jest.fn()
 
   it('should call setState if exists', () => {
-    render(<Toas color='bg-danger' message='message' isOpen={false} setIsOpen={setIsOpen} setLodding={setLodding} />)
+    render(<Toas color='bg-danger' message='message' isOpen={true} setIsOpen={setIsOpen} setLodding={setLodding} />)
     act(() => {
       jest.advanceTimersByTime(3000)
     })
@@ -20,7 +20,7 @@ describe('Toas', () => {
   })
 
   it('should not call setLodding if not exists', () => {
-    render(<Toas color='bg-danger' message='message' isOpen={false} setIsOpen={setIsOpen}/>)
+    render(<Toas color='bg-danger' message='message' isOpen={true} setIsOpen={setIsOpen}/>)
     act(() => {
       jest.advanceTimersByTime(3000)
     })
