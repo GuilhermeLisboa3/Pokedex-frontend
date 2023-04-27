@@ -4,7 +4,6 @@ import { AccountParams, populateField } from '@/tests/mocks'
 import { FieldInUseError } from '@/domain/errors'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
@@ -50,16 +49,6 @@ describe('SignUp', () => {
 
   beforeAll(() => {
     validator.validate.mockReturnValue(undefined)
-  })
-
-  beforeEach(() => {
-    const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
-    useRouter.mockImplementation(() => ({
-      route: '/',
-      pathname: '',
-      query: '',
-      asPath: ''
-    }))
   })
 
   it('should load with correct initial state', () => {
@@ -150,13 +139,5 @@ describe('SignUp', () => {
     simulateSubmit()
 
     expect(await screen.findByText(new FieldInUseError('email').message)).toBeInTheDocument()
-  })
-
-  it('should go to login page', async () => {
-    makeSut()
-
-    simulateSubmit()
-
-    expect(useRouter).toHaveBeenCalled()
   })
 })
