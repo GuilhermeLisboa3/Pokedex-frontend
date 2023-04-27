@@ -52,4 +52,16 @@ describe('SignUp', () => {
     cy.get('button').click()
     cy.get("[data-testid='toas']").should('exist').should('have.text', 'O email já está em uso!')
   })
+
+  it('should return UnexpectedError on 500', () => {
+    cy.intercept(
+      { method: 'POST', url: /register/ },
+      { delay: 50, statusCode: faker.helpers.randomize([400, 404, 500]), body: { error: faker.random.words() } }
+    )
+
+    populateFields()
+
+    cy.get('button').click()
+    cy.get("[data-testid='toas']").should('exist').should('have.text', 'Algo deu errado. Tente novamente!')
+  })
 })
