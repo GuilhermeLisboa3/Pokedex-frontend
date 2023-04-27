@@ -7,7 +7,7 @@ export default defineConfig({
       return require('./tests/e2e/cypress/plugins/index.js')(on, config)
     },
     baseUrl: 'http://localhost:3000',
-    supportFile: false,
+    supportFile: 'tests/e2e/cypress/support/index.js',
     specPattern: 'tests/e2e/cypress/integration/**/*.cy.{js,jsx,ts,tsx}'
   }
 })
