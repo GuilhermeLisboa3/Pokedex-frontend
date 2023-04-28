@@ -39,4 +39,14 @@ describe('Login', () => {
     expect(validator.validate).toHaveBeenCalledWith('email', { email })
     expect(validator.validate).toHaveBeenCalledWith('password', { password })
   })
+
+  it('should add class bg-danger if Validation fails', () => {
+    const { container } = makeSut()
+    validator.validate.mockReturnValueOnce('error').mockReturnValueOnce('error')
+
+    populateFields()
+
+    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
+  })
 })
