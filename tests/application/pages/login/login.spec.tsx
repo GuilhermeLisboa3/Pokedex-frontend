@@ -3,23 +3,29 @@ import { AccountParams, populateField } from '@/tests/mocks'
 import { type Validator } from '@/application/validation'
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
 describe('Login', () => {
   const { email, password } = AccountParams
   const validator: MockProxy<Validator> = mock()
+  const authentication: jest.Mock = jest.fn()
 
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
-    const { container } = render(<Login validator={validator}/>)
+    const { container } = render(<Login validator={validator} authentication={authentication}/>)
     return { container }
   }
 
   const populateFields = (): void => {
     populateField('email', email)
     populateField('password', password)
+  }
+
+  const simulateSubmit = (): void => {
+    populateFields()
+    fireEvent.click(screen.getByRole('button'))
   }
 
   beforeAll(() => {
@@ -70,5 +76,14 @@ describe('Login', () => {
     populateFields()
 
     expect(screen.getByRole('button')).toBeEnabled()
+  })
+
+  it('should call Authentication with correct input', async () => {
+    makeSut()
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(authentication).toHaveBeenCalledWith({ email, password })
   })
 })
