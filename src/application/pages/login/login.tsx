@@ -1,14 +1,22 @@
 'use client'
 import './styles.scss'
 import { Button, Input } from '@/application/components'
+import { type Validator } from '@/application/validation'
 
 import { IoIosLock, IoIosMail } from 'react-icons/io'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export const Login: React.FC = () => {
+type Props = {
+  validator: Validator
+}
+
+export const Login: React.FC<Props> = ({ validator }: Props) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => { validator.validate('email', { email }) }, [email])
+  useEffect(() => { validator.validate('password', { password }) }, [password])
 
   return (
     <>
