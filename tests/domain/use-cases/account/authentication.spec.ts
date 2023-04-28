@@ -34,6 +34,14 @@ describe('AuthenticationUseCase', () => {
     await expect(promise).rejects.toThrow(new InvalidCredentialsError())
   })
 
+  it('should throw UnexpectedError if HttpClient return 400', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 400 })
+
+    const promise = sut({ email, password })
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
   it('should throw UnexpectedError if HttpClient return 500', async () => {
     httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
 
