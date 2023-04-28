@@ -1,6 +1,7 @@
 import { Login } from '@/application/pages/login/login'
 import { AccountParams, populateField } from '@/tests/mocks'
 import { type Validator } from '@/application/validation'
+import { InvalidCredentialsError } from '@/domain/errors'
 
 import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
@@ -105,5 +106,14 @@ describe('Login', () => {
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(authentication).not.toHaveBeenCalledTimes(1)
+  })
+
+  it('should show alert error if Authentication fails', async () => {
+    makeSut()
+    authentication.mockRejectedValueOnce(new InvalidCredentialsError())
+
+    simulateSubmit()
+
+    expect(await screen.findByText(new InvalidCredentialsError().message)).toBeInTheDocument()
   })
 })
