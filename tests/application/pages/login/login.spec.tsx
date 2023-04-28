@@ -7,6 +7,14 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
+jest.mock('next/navigation', () => ({
+  useSearchParams () {
+    return {
+      get: jest.fn()
+    }
+  }
+}))
+
 describe('Login', () => {
   const { email, password } = AccountParams
   const validator: MockProxy<Validator> = mock()
@@ -37,6 +45,7 @@ describe('Login', () => {
     validator.validate.mockReturnValueOnce('error').mockReturnValueOnce('error')
     const { container } = makeSut()
 
+    expect(screen.queryByText('Registrado com sucesso!')).not.toBeInTheDocument()
     expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
     expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
     expect(screen.getByText('ENTRAR')).toBeTruthy()
@@ -106,6 +115,17 @@ describe('Login', () => {
     fireEvent.submit(screen.getByTestId('form'))
 
     expect(authentication).not.toHaveBeenCalledTimes(1)
+  })
+
+  it('should show the toas if the user was redirected from the login page after registering', async () => {
+    const useSearch = jest.spyOn(require('next/navigation'), 'useSearchParams')
+    useSearch.mockImplementationOnce(() => ({
+      get: jest.fn().mockReturnValueOnce('true')
+    }))
+    makeSut()
+
+    expect(await screen.findByText('Registrado com sucesso!')).toBeInTheDocument()
+    expect((await screen.findByText('Registrado com sucesso!')).className).toBe('bg-success text-center toast-body')
   })
 
   it('should show alert error if Authentication fails', async () => {
