@@ -86,4 +86,14 @@ describe('Login', () => {
 
     expect(authentication).toHaveBeenCalledWith({ email, password })
   })
+
+  it('should call Authentication only once', async () => {
+    makeSut()
+
+    simulateSubmit()
+    fireEvent.click(screen.getByRole('button'))
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(authentication).toHaveBeenCalledTimes(1)
+  })
 })
