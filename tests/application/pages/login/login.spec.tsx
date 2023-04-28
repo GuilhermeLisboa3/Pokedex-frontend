@@ -22,7 +22,12 @@ describe('Login', () => {
     populateField('password', password)
   }
 
+  beforeAll(() => {
+    validator.validate.mockReturnValue(undefined)
+  })
+
   it('should load with correct initial state', () => {
+    validator.validate.mockReturnValueOnce('error').mockReturnValueOnce('error')
     const { container } = makeSut()
 
     expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
@@ -48,5 +53,14 @@ describe('Login', () => {
 
     expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
     expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
+  })
+
+  it('should add class bg-success if Validation on success', () => {
+    const { container } = makeSut()
+
+    populateFields()
+
+    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-success')
+    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-success')
   })
 })
