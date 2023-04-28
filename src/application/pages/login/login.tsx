@@ -6,6 +6,7 @@ import { type Authentication } from '@/domain/use-cases/account'
 import { IoIosLock, IoIosMail } from 'react-icons/io'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 type Props = {
   validator: Validator
@@ -13,7 +14,9 @@ type Props = {
 }
 
 export const Login: React.FC<Props> = ({ validator, authentication }: Props) => {
+  const searchParams = useSearchParams()
   const [toastIsOpen, setToastIsOpen] = useState(false)
+  const [toastColor, setToastColor] = useState('bg-danger')
   const [toastMessage, setToastMessage] = useState('')
   const [lodding, setLodding] = useState(false)
   const [email, setEmail] = useState('')
@@ -23,6 +26,13 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
 
   useEffect(() => { setEmailError(validator.validate('email', { email })) }, [email])
   useEffect(() => { setPasswordError(validator.validate('password', { password })) }, [password])
+  useEffect(() => {
+    if (searchParams.get('registred') === 'true') {
+      setToastColor('bg-success')
+      setToastIsOpen(true)
+      setToastMessage('Registrado com sucesso!')
+    }
+  }, [])
 
   const hasError = (error: string | undefined): 'bg-danger' | 'bg-success' => {
     return error === undefined ? 'bg-success' : 'bg-danger'
@@ -35,6 +45,7 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
     try {
       await authentication({ email, password })
     } catch (error: any) {
+      setToastColor('bg-danger')
       setToastIsOpen(true)
       setToastMessage(error.message)
     }
@@ -58,7 +69,7 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
           </form>
         </div>
       </main>
-      <Toas color='bg-danger' isOpen={toastIsOpen} setIsOpen={setToastIsOpen} setLodding={setLodding} message={toastMessage}/>
+      <Toas color={toastColor} isOpen={toastIsOpen} setIsOpen={setToastIsOpen} setLodding={setLodding} message={toastMessage}/>
     </>
   )
 }
