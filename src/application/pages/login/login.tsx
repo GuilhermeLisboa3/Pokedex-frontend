@@ -1,5 +1,5 @@
 import './styles.scss'
-import { Button, Input } from '@/application/components'
+import { Button, Input, Toas } from '@/application/components'
 import { type Validator } from '@/application/validation'
 import { type Authentication } from '@/domain/use-cases/account'
 
@@ -13,6 +13,8 @@ type Props = {
 }
 
 export const Login: React.FC<Props> = ({ validator, authentication }: Props) => {
+  const [toastIsOpen, setToastIsOpen] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
   const [lodding, setLodding] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState<string | undefined>('')
@@ -30,7 +32,12 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
     event.preventDefault()
     if (lodding || emailError || passwordError) return
     setLodding(true)
-    await authentication({ email, password })
+    try {
+      await authentication({ email, password })
+    } catch (error: any) {
+      setToastIsOpen(true)
+      setToastMessage(error.message)
+    }
   }
 
   return (
@@ -51,6 +58,7 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
           </form>
         </div>
       </main>
+      <Toas color='bg-danger' isOpen={toastIsOpen} setIsOpen={setToastIsOpen} setLodding={setLodding} message={toastMessage}/>
     </>
   )
 }
