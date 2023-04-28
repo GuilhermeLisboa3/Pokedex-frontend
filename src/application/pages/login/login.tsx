@@ -13,10 +13,16 @@ type Props = {
 
 export const Login: React.FC<Props> = ({ validator }: Props) => {
   const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState<string | undefined>('')
   const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState<string | undefined>('')
 
-  useEffect(() => { validator.validate('email', { email }) }, [email])
-  useEffect(() => { validator.validate('password', { password }) }, [password])
+  useEffect(() => { setEmailError(validator.validate('email', { email })) }, [email])
+  useEffect(() => { setPasswordError(validator.validate('password', { password })) }, [password])
+
+  const hasError = (error: string | undefined): 'bg-danger' | 'bg-success' => {
+    return error === undefined ? 'bg-success' : 'bg-danger'
+  }
 
   return (
     <>
@@ -30,8 +36,8 @@ export const Login: React.FC<Props> = ({ validator }: Props) => {
             <img src="/machoke.png" alt="charizard" className='imgPokemon'/>
           </div>
           <form data-testid='form'>
-            <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={'bg-danger'} state={email} setState={setEmail}/>
-            <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={'bg-danger'} state={password} setState={setPassword}/>
+            <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={hasError(emailError)} state={email} setState={setEmail}/>
+            <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={hasError(passwordError)} state={password} setState={setPassword}/>
             <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
           </form>
         </div>
