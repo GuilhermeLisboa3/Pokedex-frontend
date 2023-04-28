@@ -8,11 +8,11 @@ import { mock } from 'jest-mock-extended'
 describe('AuthenticationUseCase', () => {
   let sut: Authentication
   const { url } = httpClientParams
-  const { email, password } = AccountParams
+  const { email, password, token, name } = AccountParams
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200 })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: { token, email, name } })
   })
 
   beforeEach(() => {
@@ -48,5 +48,11 @@ describe('AuthenticationUseCase', () => {
     const promise = sut({ email, password })
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('should return an account if HttpClient return 200', async () => {
+    const result = await sut({ email, password })
+
+    expect(result).toEqual({ token, email, name })
   })
 })
