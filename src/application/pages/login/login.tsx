@@ -38,7 +38,7 @@ export const Login: React.FC<Props> = ({ validator }: Props) => {
           <form data-testid='form'>
             <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={hasError(emailError)} state={email} setState={setEmail}/>
             <Input icon={ <IoIosLock className='icon'/> } name="password" type="password" placeholder="Digite sua senha" hasError={hasError(passwordError)} state={password} setState={setPassword}/>
-            <Button type='submit' isFormInvalid={true} text='ENTRAR'/>
+            <Button type='submit' isFormInvalid={!!emailError || !!passwordError} text='ENTRAR'/>
           </form>
         </div>
       </main>
