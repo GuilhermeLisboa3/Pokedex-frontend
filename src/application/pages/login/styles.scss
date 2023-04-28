@@ -1,0 +1,40 @@
+@import '../../styles/colors.scss';
+
+main{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-container{
+    width: 600px;
+    padding: 50px;
+    margin:0 auto;
+    border-radius: 6px;
+    box-shadow:$box-shadow 0px 12px 28px 0px, $box-shadow 0px 2px 4px 0px, $box-shadow 0px 0px 0px 1px inset;
+
+    .imagens{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+
+      .imgLogo{
+        width: 150px;
+        cursor: pointer;
+      }
+
+      .imgPokemon{
+        width: 150px;
+      }
+    }
+
+    form {
+      padding: 10px;
+      .button{
+        display: block;
+        margin: 30px auto 10px auto;
+      }
+    }
+  }
+}
