@@ -63,4 +63,12 @@ describe('Login', () => {
     expect(container.getElementsByTagName('label')[0].className).toBe('label bg-success')
     expect(container.getElementsByTagName('label')[1].className).toBe('label bg-success')
   })
+
+  it('should enable submit button if form is valid', () => {
+    makeSut()
+
+    populateFields()
+
+    expect(screen.getByRole('button')).toBeEnabled()
+  })
 })
