@@ -10,7 +10,9 @@ import { type MockProxy, mock } from 'jest-mock-extended'
 jest.mock('next/navigation')
 
 describe('SignUp', () => {
+  const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
   const { email, name, password, passwordConfirmation } = AccountParams
+  const router = { push: jest.fn() }
   const validator: MockProxy<Validator> = mock()
   const addAccount: jest.Mock = jest.fn()
 
@@ -38,6 +40,7 @@ describe('SignUp', () => {
   }
 
   beforeAll(() => {
+    useRouter.mockReturnValue(router)
     validator.validate.mockReturnValue(undefined)
     addAccount.mockReturnValue(true)
   })
@@ -134,13 +137,20 @@ describe('SignUp', () => {
 
   it('should call router.push if addAccount is successful', async () => {
     makeSut()
-    const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
-    const router = { push: jest.fn() }
-    useRouter.mockReturnValue(router)
 
     simulateSubmit()
     await waitFor(() => screen.getByTestId('form'))
 
     expect(router.push).toHaveBeenCalledWith('/login?registred=true')
+  })
+
+  it('should not call router.push if addAccount returns empty', async () => {
+    makeSut()
+    addAccount.mockReturnValueOnce(undefined)
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(router.push).not.toHaveBeenCalled()
   })
 })
