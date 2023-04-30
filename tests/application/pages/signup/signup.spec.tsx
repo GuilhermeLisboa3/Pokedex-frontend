@@ -7,17 +7,7 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
-jest.mock('next/navigation', () => ({
-  useRouter () {
-    return ({
-      route: '/',
-      pathname: '',
-      query: '',
-      asPath: '',
-      push: jest.fn()
-    })
-  }
-}))
+jest.mock('next/navigation')
 
 describe('SignUp', () => {
   const { email, name, password, passwordConfirmation } = AccountParams
@@ -49,6 +39,7 @@ describe('SignUp', () => {
 
   beforeAll(() => {
     validator.validate.mockReturnValue(undefined)
+    addAccount.mockReturnValue(true)
   })
 
   it('should load with correct initial state', () => {
@@ -139,5 +130,17 @@ describe('SignUp', () => {
     simulateSubmit()
 
     expect(await screen.findByText(new FieldInUseError('email').message)).toBeInTheDocument()
+  })
+
+  it('should call router.push if addAccount is successful', async () => {
+    makeSut()
+    const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
+    const router = { push: jest.fn() }
+    useRouter.mockReturnValue(router)
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(router.push).toHaveBeenCalledWith('/login?registred=true')
   })
 })
