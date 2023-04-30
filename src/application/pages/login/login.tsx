@@ -5,8 +5,9 @@ import { type Authentication } from '@/domain/use-cases/account'
 
 import { IoIosLock, IoIosMail } from 'react-icons/io'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useEffect, useState, useContext } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { AccountContext } from '@/application/contexts'
 
 type Props = {
   validator: Validator
@@ -14,7 +15,9 @@ type Props = {
 }
 
 export const Login: React.FC<Props> = ({ validator, authentication }: Props) => {
+  const { setCurrentAccount } = useContext(AccountContext)
   const searchParams = useSearchParams()
+  const router = useRouter()
   const [toastIsOpen, setToastIsOpen] = useState(false)
   const [toastColor, setToastColor] = useState('bg-danger')
   const [toastMessage, setToastMessage] = useState('')
@@ -43,7 +46,9 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
     if (lodding || emailError || passwordError) return
     setLodding(true)
     try {
-      await authentication({ email, password })
+      const account = await authentication({ email, password })
+      setCurrentAccount(account)
+      router.push('/')
     } catch (error: any) {
       setToastColor('bg-danger')
       setToastIsOpen(true)
