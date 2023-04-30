@@ -1,4 +1,5 @@
 import { Login } from '@/application/pages/login/login'
+import { AccountContext } from '@/application/contexts'
 import { AccountParams, populateField } from '@/tests/mocks'
 import { type Validator } from '@/application/validation'
 import { InvalidCredentialsError } from '@/domain/errors'
@@ -8,22 +9,26 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { type MockProxy, mock } from 'jest-mock-extended'
 
 jest.mock('next/navigation', () => ({
-  useSearchParams () {
-    return {
-      get: jest.fn()
-    }
-  }
+  useSearchParams () { return { get: jest.fn() } },
+  useRouter () { return { push: jest.fn() } }
 }))
 
 describe('Login', () => {
-  const { email, password } = AccountParams
+  const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
+  const router = { push: jest.fn() }
+  const { email, password, name, token } = AccountParams
   const validator: MockProxy<Validator> = mock()
   const authentication: jest.Mock = jest.fn()
+  const setCurrentAccountMock: jest.Mock = jest.fn()
 
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
-    const { container } = render(<Login validator={validator} authentication={authentication}/>)
+    const { container } = render(
+      <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountMock, getCurrentAccount: jest.fn() }}>
+        <Login validator={validator} authentication={authentication}/>
+      </AccountContext.Provider>
+    )
     return { container }
   }
 
@@ -38,7 +43,9 @@ describe('Login', () => {
   }
 
   beforeAll(() => {
+    useRouter.mockReturnValue(router)
     validator.validate.mockReturnValue(undefined)
+    authentication.mockResolvedValue({ name, email, token })
   })
 
   it('should load with correct initial state', () => {
@@ -135,5 +142,15 @@ describe('Login', () => {
     simulateSubmit()
 
     expect(await screen.findByText(new InvalidCredentialsError().message)).toBeInTheDocument()
+  })
+
+  it('should save account data on localstorage and go to home page', async () => {
+    makeSut()
+
+    simulateSubmit()
+    await waitFor(() => screen.getByTestId('form'))
+
+    expect(setCurrentAccountMock).toHaveBeenCalledWith({ name, email, token })
+    expect(router.push).toHaveBeenCalledWith('/')
   })
 })
