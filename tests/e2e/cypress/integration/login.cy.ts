@@ -29,4 +29,11 @@ describe('Login', () => {
     cy.get('button').should('have.attr', 'disabled')
     cy.get("[data-testid='toas']").should('not.exist')
   })
+
+  it('should enable the button and add the class bg-success pro label', () => {
+    populateFields()
+    cy.getLabelByFor('email').should('have.class', 'bg-success')
+    cy.getLabelByFor('password').should('have.class', 'bg-success')
+    cy.get('button').should('not.have.attr', 'disabled')
+  })
 })
