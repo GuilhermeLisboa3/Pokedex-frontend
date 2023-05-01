@@ -9,6 +9,13 @@ export const mockOk = (method: string, url: RegExp, fixture: string | object, al
 
 const body = { error: faker.random.words() }
 
+export const mockUnauthorizedError = (method: string, url: RegExp, alias: string = 'request'): void => {
+  cy.intercept(
+    { method, url },
+    { delay: 50, statusCode: 401, body }
+  ).as(alias)
+}
+
 export const mockForbiddenError = (method: string, url: RegExp, alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
@@ -16,7 +23,7 @@ export const mockForbiddenError = (method: string, url: RegExp, alias: string = 
   ).as(alias)
 }
 
-export const mockUnauthorizedError = (method: string, url: RegExp, error = [500, 404], alias: string = 'request'): void => {
+export const mockUnexpectedError = (method: string, url: RegExp, error = [500, 404], alias: string = 'request'): void => {
   cy.intercept(
     { method, url },
     { delay: 50, statusCode: faker.helpers.randomize(error), body }
