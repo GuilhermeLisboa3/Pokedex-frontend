@@ -71,4 +71,13 @@ describe('Login', () => {
 
     cy.get('@request.all').should('have.length', 1)
   })
+
+  it('should not call submit if form is invalid', () => {
+    mockSuccess()
+    const email = faker.internet.email()
+
+    cy.getInputById('email').focus().type(email).type('{enter}')
+
+    cy.get('@request.all').should('have.length', 0)
+  })
 })
