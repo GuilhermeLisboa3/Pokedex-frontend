@@ -3,11 +3,16 @@ import { type HttpClient } from '@/domain/contracts/http'
 import { httpClientParams } from '@/tests/mocks'
 
 import { mock } from 'jest-mock-extended'
+import { UnexpectedError } from '@/domain/errors'
 
 describe('ListPokemonsUseCase', () => {
   let sut: ListPokemons
   const { url } = httpClientParams
   const httpClient = mock<HttpClient>()
+
+  beforeAll(() => {
+    httpClient.request.mockResolvedValue({ statusCode: 200 })
+  })
 
   beforeEach(() => {
     sut = ListPokemonsUseCase(url, httpClient)
@@ -18,5 +23,13 @@ describe('ListPokemonsUseCase', () => {
 
     expect(httpClient.request).toHaveBeenCalledWith({ url, method: 'get' })
     expect(httpClient.request).toHaveBeenCalledTimes(1)
+  })
+
+  it('should throw UnexpectedError if HttpClient return error', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut()
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
