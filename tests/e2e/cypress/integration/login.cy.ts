@@ -1,10 +1,10 @@
 import faker from 'faker'
-import { mockUnauthorizedError } from '../mocks/http-mocks'
+import { mockUnauthorizedError, mockUnexpectedError } from '../mocks/http-mocks'
 
 describe('Login', () => {
   const invalidEmail = faker.random.word()
 
-  const mockError = (method: any): void => { method('POST', /register/) }
+  const mockError = (method: any): void => { method('POST', /login/) }
 
   const populateFields = (email = faker.internet.email(), password = faker.internet.password()): void => {
     cy.getInputById('email').focus().type(email)
@@ -51,5 +51,13 @@ describe('Login', () => {
     simulateSubmit()
 
     cy.get("[data-testid='toas']").should('exist').should('have.text', 'Credenciais inválidas')
+  })
+
+  it('should return UnexpectedError on 500', () => {
+    mockError(mockUnexpectedError)
+
+    simulateSubmit()
+
+    cy.get("[data-testid='toas']").should('exist').should('have.text', 'Algo deu errado. Tente novamente!')
   })
 })

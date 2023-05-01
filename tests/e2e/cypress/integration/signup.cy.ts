@@ -1,4 +1,4 @@
-import { mockOk, mockForbiddenError, mockUnauthorizedError } from '../mocks/http-mocks'
+import { mockOk, mockForbiddenError, mockUnexpectedError } from '../mocks/http-mocks'
 
 import faker from 'faker'
 
@@ -61,7 +61,7 @@ describe('SignUp', () => {
   })
 
   it('should return UnexpectedError on 500', () => {
-    mockError(mockUnauthorizedError)
+    mockError(mockUnexpectedError)
 
     simulateSubmit()
 
