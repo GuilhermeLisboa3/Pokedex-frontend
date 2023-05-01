@@ -7,11 +7,12 @@ import { UnexpectedError } from '@/domain/errors'
 
 describe('ListPokemonsUseCase', () => {
   let sut: ListPokemons
+  const { name } = PokemonParams
   const { url } = httpClientParams
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: PokemonParams })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: { results: [name] } })
   })
 
   beforeEach(() => {
@@ -36,6 +37,6 @@ describe('ListPokemonsUseCase', () => {
   it('should return an pokemon if HttpClient return 200', async () => {
     const result = await sut()
 
-    expect(result).toEqual(PokemonParams)
+    expect(result).toEqual([name])
   })
 })
