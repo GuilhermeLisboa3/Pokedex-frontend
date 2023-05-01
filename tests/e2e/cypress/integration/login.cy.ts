@@ -80,4 +80,14 @@ describe('Login', () => {
 
     cy.get('@request.all').should('have.length', 0)
   })
+
+  it('should store account on localStorage if valid credentials are provided', () => {
+    mockSuccess()
+
+    simulateSubmit()
+    cy.wait('@request')
+
+    cy.testUrl('/')
+    cy.testLocalStorageItem('pokemon-token')
+  })
 })
