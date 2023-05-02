@@ -9,12 +9,12 @@ describe('ListPokemonsUseCase', () => {
   const page: number = 25
   const perPage: number = 25
   let sut: ListPokemons
-  const { name } = PokemonParams
+  const { name, id, height } = PokemonParams
   const { url } = httpClientParams
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: { results: [{ name }] } })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: { results: [{ name }], count: 1 } })
   })
 
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe('ListPokemonsUseCase', () => {
     expect(httpClient.request).toHaveBeenCalledWith({ url: `${url}/pokemon?limit=${perPage}&offset=${page}`, method: 'get' })
   })
 
-  it('should throw UnexpectedError if HttpClient return error', async () => {
+  it('should throw UnexpectedError if first HttpClient return error', async () => {
     httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
 
     const promise = sut({ page, perPage })
@@ -35,9 +35,18 @@ describe('ListPokemonsUseCase', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  it('should call HttpClient if HttpClient returns 200', async () => {
+  it('should call second HttpClient if first HttpClient returns 200', async () => {
     await sut({ page, perPage })
 
     expect(httpClient.request).toHaveBeenNthCalledWith(2, { url: `${url}/pokemon/${name}`, method: 'get' })
+  })
+
+  it('should return listPokemons on success', async () => {
+    httpClient.request
+      .mockResolvedValueOnce({ statusCode: 200, data: { results: [{ name }], count: 1 } })
+      .mockResolvedValueOnce({ statusCode: 200, data: { name, id, height } })
+    const result = await sut({ page, perPage })
+
+    expect(result).toEqual({ count: 1, pokemons: [{ name, id, height }] })
   })
 })
