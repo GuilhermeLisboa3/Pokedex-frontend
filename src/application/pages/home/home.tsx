@@ -1,10 +1,9 @@
 import './styles.scss'
-import { Header } from '@/application/components'
+import { Footer, Header } from '@/application/components'
 
 import { Container } from 'reactstrap'
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs'
-import { FaLinkedinIn, FaGithub, FaInstagram, FaRegCopyright, FaRegHeart } from 'react-icons/fa'
-import Link from 'next/link'
+import { FaRegHeart } from 'react-icons/fa'
 
 export const Home: React.FC = () => {
   return (
@@ -33,20 +32,7 @@ export const Home: React.FC = () => {
             </div>
           </div>
         </main>
-        <footer>
-          <p className='name'><FaRegCopyright/> Guilherme Gonçalves Lisboa</p>
-          <div className='icons'>
-            <Link href="https://www.linkedin.com/in/guilherme-gon%C3%A7alves-lisboa-abb8b0227/" target='_blank' className='linkIcon'>
-              <FaLinkedinIn className='icon'/>
-            </Link>
-            <Link href="https://github.com/GuilhermeLisboa3" target='_blank' className='linkIcon'>
-              <FaGithub className='icon'/>
-            </Link>
-            <Link href="https://www.instagram.com/guime.lisboa/" target='_blank' className='linkIcon'>
-              <FaInstagram className='icon'/>
-            </Link>
-          </div>
-        </footer>
+        <Footer/>
       </Container>
     </>
   )
