@@ -1,8 +1,7 @@
 import './styles.scss'
-import { Button } from '@/application/components'
+import { Header } from '@/application/components'
 
 import { Container } from 'reactstrap'
-import { TbPokeball } from 'react-icons/tb'
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs'
 import { FaLinkedinIn, FaGithub, FaInstagram, FaRegCopyright, FaRegHeart } from 'react-icons/fa'
 import Link from 'next/link'
@@ -11,18 +10,7 @@ export const Home: React.FC = () => {
   return (
     <>
       <Container className='homeContainer'>
-        <div className='header'>
-          <div className='search'>
-            <input className='input' type="search" placeholder="Buscar pokemon"/>
-            <button className='btn' type="button">
-              <TbPokeball className='iconPokemon' />
-            </button>
-          </div>
-          <div className='navigate'>
-            <Link href={'/login'}> <Button text='Login' type='button'/> </Link>
-            <Link href={'/signup'}> <Button text='Registar' type='button'/> </Link>
-          </div>
-        </div>
+        <Header/>
         <main>
           <div className='containerPagination'>
             <h1>Pokedex</h1>
