@@ -1,7 +1,7 @@
 type Props = {
   type: 'button' | 'submit' | 'reset' | undefined
   text: string
-  isFormInvalid: boolean
+  isFormInvalid?: boolean
 }
 
 export const Button: React.FC<Props> = ({ type, text, isFormInvalid }: Props) => {
