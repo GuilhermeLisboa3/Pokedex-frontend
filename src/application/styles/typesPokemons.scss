@@ -1,0 +1,82 @@
+@import './colors.scss';
+
+.type {
+  width: 65px;
+  height: 25px;
+  text-align: center;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.electric{
+    color: $pokemon-text-electric;
+    background-color:$pokemon-electric;
+}
+.grass{
+    color: $pokemon-text-grass;
+    background-color:$pokemon-grass;
+}
+.poison{
+    color: $pokemon-text-poison;
+    background-color:$pokemon-poison;
+}
+.fire{
+    color: $pokemon-text-fire;
+    background-color:$pokemon-fire;
+}
+.flying{
+    color: black;
+    background:linear-gradient(to bottom, $pokemon-ice 50%, $pokemon-steel 50%);
+}
+.water{
+    color:$pokemon-text-water;
+    background-color:$pokemon-water;
+}
+.bug{
+    color:$pokemon-text-bug;
+    background-color:$pokemon-bug;
+}
+.ghost{
+    color:$pokemon-text-ghost;
+    background-color:$pokemon-ghost;
+}
+.fairy{
+    color:$pokemon-text-fairy;
+    background-color:$pokemon-fairy;
+}
+.psychic{
+    color:$pokemon-text-psychic;
+    background-color:$pokemon-psychic;
+}
+.fighting{
+    color:$pokemon-text-fighting;
+    background-color:$pokemon-fighting;
+}
+.steel{
+    color:$pokemon-text-steel;
+    background-color:$pokemon-steel;
+}
+.normal{
+    color:$pokemon-text-normal;
+    background-color:$pokemon-normal;
+}
+.ice{
+    color:$pokemon-text-ice;
+    background-color:$pokemon-ice;
+}
+.dragon{
+    color:black;
+    background:linear-gradient(to bottom, $pokemon-ice 50%, $pokemon-fighting 50%);
+}
+.ground{
+    color:$pokemon-text-ground;
+    background-color:$pokemon-ground;
+}
+.rock{
+    color:$pokemon-text-rock;
+    background-color:$pokemon-rock;
+}
+.dark{
+    color:$pokemon-text-dark;
+    background-color:$pokemon-dark;
+}
