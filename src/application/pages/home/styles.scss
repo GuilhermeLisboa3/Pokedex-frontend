@@ -6,219 +6,20 @@
   justify-content: space-between;
   min-height: 100vh;
 
-  .header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 30px 0px;
-    .search {
-      background-color: #ffffff;
-      height: 50px;
-      width: 700px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 10px 10px 10px $box-shadow;
-    
-      .input {
-        background-color: #ffffff;
-        border: none;
-        border-radius: 10px;
-        padding: 10px;
-        width: 90%;
-        &:focus {
-          box-shadow: 0 0 0 0;
-          outline: 0;
-        }
-        &::placeholder {
-          color: #A9B0B8;
-        }
-      }
-      .btn {
-        border: none;
-        border-radius: 7px;
-      }
-
-      .iconPokemon {
-        background-color: $color-third;
-        color: #ffffff;
-        font-size: 2.3rem;
-        padding: 2px;
-        border-radius: 7px;
-        box-shadow: 3px 3px 20px rgb(253 79 85 / 48%);
-      }
-    }
-
-    .navigate {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-  }
-
   main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     margin-top: 4rem;
-    
-    .containerPagination {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      h1{
-        color: $color-third;
-        margin-bottom: 0;
-      }
-
-      .pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        gap: 6px;
-      }
-      .pages {
-        background-color: transparent;
-      }
-      
-      .btnPagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 28px;
-        width: 28px;
-        border-radius: 100%;
-        background-color: $color-third;
-        border: none;
-        box-shadow: 3px 4px 13px #fd4f55be;
-        color: white;
-      }
     }
 
     .listPokemons {
       display: flex;
       flex-wrap: wrap;
       gap: 3rem;
-      .cardPokemon{
-        position: relative;
-        margin: 0;
-        width: 280px;
-        margin-top: 5rem;
-        height: 180px;
-        background-color: #ffffff ;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        border-radius: 10px;
-        box-shadow: $box-shadow 0px 5px 15px;
-        cursor: pointer;
-        transition: 0.5s;
-      }
-  
-      .imgPokemon{
-          background-color: transparent;
-          width: 150px;
-          position: absolute;
-          top: -85px;
-          right: 50%;
-          transform: translate(50%);
-      }
-  
-      .buttonFavorite{
-          position: absolute;
-          background-color: transparent;
-          top: 8px;
-          right: 8px;
-          width: 35px;
-          height: 30px;
-          border: none;
-      }
-  
-      .favorite{
-          background-color: transparent;
-          width: 25px;
-          height: 20px;
-          cursor: pointer;
-      
-          &:hover{
-              color: $color-third;
-          }
-      }
-  
-      .favoriteRed{
-          background-color: transparent;
-          width: 25px;
-          height: 20px;
-          cursor: pointer;
-          color: $color-third;
-          transition: 0.5s;
-          &:hover{
-            transform: scale(1.1);
-          }
-      }
-  
-      .idPokemon{
-          background-color: transparent;
-          font-weight: bold;
-          color: $color-idPokemon;
-          padding-top: 3rem;
-          margin-bottom: 0px;
-      }
-  
-      .namePokemon{
-          background-color: transparent;
-          font-weight: bold;
-          color: black;
-          font-size: 1.5rem;
-      }
-  
-      .typesPokemon{
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 15px;
-          background-color: transparent;
-      }
     }
-  }
-
-  footer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem 0 1rem;
-
-    .name{
-      font-weight: bold;
-    }
-
-    .icons{
-      display: flex;
-      gap: 15px;
-    }
-    .linkIcon{
-    background-color: $color-third;
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    }
-
-    .icon{
-      background-color: transparent;
-      color: white;
-      font-size: 1.3rem;
-    }
-  }
 }
+
 
 @media (max-width: 1380px) {
   .homeContainer {
@@ -230,14 +31,3 @@
   }
 }
 
-@media (max-width: 991px) {
-  .homeContainer {
-    .header{
-      flex-direction: column;
-      gap: 2rem;
-      .search {
-        width: 90%;
-      }
-    }
-  }
-}

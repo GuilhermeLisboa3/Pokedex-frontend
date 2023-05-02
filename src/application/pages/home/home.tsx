@@ -1,5 +1,5 @@
 import './styles.scss'
-import { CardPokemon, Footer, Header } from '@/application/components'
+import { EmptyCardPokemon, Footer, Header } from '@/application/components'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
@@ -12,7 +12,7 @@ export const Home: React.FC = () => {
         <main>
           <Pagination/>
           <div className='listPokemons'>
-            <CardPokemon/>
+            <EmptyCardPokemon/>
           </div>
         </main>
         <Footer/>
