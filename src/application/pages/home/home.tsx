@@ -1,9 +1,8 @@
 import './styles.scss'
-import { Footer, Header } from '@/application/components'
+import { CardPokemon, Footer, Header } from '@/application/components'
 
 import { Container } from 'reactstrap'
 import { BsChevronLeft, BsChevronRight } from 'react-icons/bs'
-import { FaRegHeart } from 'react-icons/fa'
 
 export const Home: React.FC = () => {
   return (
@@ -20,16 +19,7 @@ export const Home: React.FC = () => {
             </div>
           </div>
           <div className='listPokemons'>
-            <div className='cardPokemon'>
-              <img className='imgPokemon' src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/448.png' alt=''/>
-              <button className='buttonFavorite'> <FaRegHeart/> </button>
-              <p className='idPokemon'>N° 1</p>
-              <p className='namePokemon'>Lucario</p>
-              <p className='typesPokemon'>
-                <span className='type fire'>fire</span>
-                <span className='type water'>water</span>
-              </p>
-            </div>
+            <CardPokemon/>
           </div>
         </main>
         <Footer/>
