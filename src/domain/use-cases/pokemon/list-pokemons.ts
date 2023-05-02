@@ -1,15 +1,15 @@
-import { type HttpClient } from '@/domain/contracts/http'
+import { type HttpResponse, type HttpClient } from '@/domain/contracts/http'
 import { UnexpectedError } from '@/domain/errors'
+import { type ListPokemon } from '@/domain/models'
 
-type Setup = (url: string, httpClient: HttpClient<{ results: Array<{ name: string }> }>) => ListPokemons
+type Setup = (url: string, httpClient: HttpClient) => ListPokemons
 type Input = { page: number, perPage: number }
-type Output = Array<{ name: string }>
-export type ListPokemons = (input: Input) => Promise<Output>
+export type ListPokemons = (input: Input) => Promise<void>
 
-export const ListPokemonsUseCase: Setup = (url, httpClient) => async ({ page, perPage = 25 }) => {
-  const listNamePokemons = await httpClient.request({ url: `${url}/pokemon?limit=${perPage}&offset=${page}`, method: 'get' })
-  switch (listNamePokemons.statusCode) {
-    case 200: return listNamePokemons.data!.results
-    default: throw new UnexpectedError()
-  }
+export const ListPokemonsUseCase: Setup = (url, httpClient) => async ({ page, perPage }) => {
+  const listNamePokemons: HttpResponse<ListPokemon> = await httpClient.request({ url: `${url}/pokemon?limit=${perPage}&offset=${page}`, method: 'get' })
+  if (listNamePokemons.statusCode !== 200) throw new UnexpectedError()
+  listNamePokemons.data?.results.forEach(async (pokemon) => {
+    await httpClient.request({ url: `${url}/pokemon/${pokemon.name}`, method: 'get' })
+  })
 }
