@@ -49,4 +49,13 @@ describe('ListPokemonsUseCase', () => {
 
     expect(result).toEqual({ count: 1, pokemons: [{ name, id, height }] })
   })
+
+  it('should return an empty listPokemon if the request fails', async () => {
+    httpClient.request
+      .mockResolvedValueOnce({ statusCode: 200, data: { results: [{ name }], count: 1 } })
+      .mockResolvedValueOnce({ statusCode: 500 })
+    const result = await sut({ page, perPage })
+
+    expect(result).toEqual({ count: 1, pokemons: [] })
+  })
 })
