@@ -10,17 +10,24 @@ import { useEffect, useState } from 'react'
 type Props = { listPokemons: ListPokemons }
 
 export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
+  const perPage = 25
   const [listPokemon, setListPokemon] = useState<Pokemon[]>([])
+  const [page, setPage] = useState(0)
+  const [count, setCount] = useState<number>(0)
 
   useEffect(() => {
-    listPokemons({ page: 0, perPage: 25 }).then(result => { setListPokemon(result.pokemons) })
+    listPokemons({ page: 0, perPage }).then(result => {
+      setListPokemon(result.pokemons)
+      setCount(result.count)
+    })
   })
+
   return (
     <>
       <Container className='homeContainer'>
         <Header/>
         <main>
-          <Pagination/>
+          <Pagination count={count} page={page} setPage={setPage} perPage={25}/>
           <div className='listPokemons'>
             { listPokemon.length > 0
               ? listPokemon.map(pokemon => (<CardPokemon key={pokemon.id} pokemon={pokemon}/>))

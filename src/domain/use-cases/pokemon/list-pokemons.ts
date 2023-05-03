@@ -4,7 +4,7 @@ import { type Pokemon, type ListPokemon } from '@/domain/models'
 
 type Setup = (url: string, httpClient: HttpClient) => ListPokemons
 type Input = { page: number, perPage: number }
-type Output = { count?: number, pokemons: Pokemon[] }
+type Output = { count: number, pokemons: Pokemon[] }
 export type ListPokemons = (input: Input) => Promise<Output>
 
 export const ListPokemonsUseCase: Setup = (url, httpClient) => async ({ page, perPage }) => {
@@ -15,5 +15,5 @@ export const ListPokemonsUseCase: Setup = (url, httpClient) => async ({ page, pe
     const dataPokemon = await httpClient.request({ url: `${url}/pokemon/${pokemon.name}`, method: 'get' })
     if (dataPokemon.statusCode === 200) pokemons.push(dataPokemon.data)
   })
-  return { count: listNamePokemons.data?.count, pokemons }
+  return { count: listNamePokemons.data!.count, pokemons }
 }
