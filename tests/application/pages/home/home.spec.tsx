@@ -2,7 +2,8 @@ import { Home } from '@/application/pages/home/home'
 import { PokemonParams } from '@/tests/mocks'
 
 import React from 'react'
-import { render, waitFor } from '@testing-library/react'
+import { render, waitFor, screen } from '@testing-library/react'
+import { UnexpectedError } from '@/domain/errors'
 
 describe('Home', () => {
   const listPokemons: jest.Mock = jest.fn()
@@ -32,11 +33,19 @@ describe('Home', () => {
     expect(listPokemons).toHaveBeenCalledTimes(1)
   })
 
-  test('Should render CardPokemon on success', async () => {
+  it('should render CardPokemon on success', async () => {
     const { container } = makeSut()
     await waitFor(() => container.querySelector('.listPokemons'))
 
     expect(container.querySelectorAll('.cardPokemon')).toHaveLength(3)
     expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(0)
+  })
+
+  it('should render Error if ListPokemons return error', async () => {
+    listPokemons.mockRejectedValueOnce(new UnexpectedError())
+    const { container } = makeSut()
+    await waitFor(() => screen.queryByRole('main'))
+
+    expect(container.querySelector('.error')).toBeInTheDocument()
   })
 })
