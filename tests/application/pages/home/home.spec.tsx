@@ -2,7 +2,7 @@ import { Home } from '@/application/pages/home/home'
 import { PokemonParams } from '@/tests/mocks'
 
 import React from 'react'
-import { render, waitFor, screen } from '@testing-library/react'
+import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import { UnexpectedError } from '@/domain/errors'
 
 describe('Home', () => {
@@ -47,5 +47,15 @@ describe('Home', () => {
     await waitFor(() => screen.queryByRole('main'))
 
     expect(container.querySelector('.error')).toBeInTheDocument()
+  })
+
+  it('should call ListPokemons on reload', async () => {
+    listPokemons.mockRejectedValueOnce(new UnexpectedError())
+    makeSut()
+    fireEvent.click(await screen.findByRole('button', { name: /Tentar novamente/i }))
+
+    expect(listPokemons).toHaveBeenCalledWith({ page: 0, perPage: 25 })
+    expect(listPokemons).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.queryByRole('main'))
   })
 })
