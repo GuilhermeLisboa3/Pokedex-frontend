@@ -20,11 +20,11 @@ export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
   const changeReload = (): void => { setReload(!reload) }
 
   useEffect(() => {
-    listPokemons({ page: 0, perPage }).then(result => {
+    listPokemons({ page: page * perPage, perPage }).then(result => {
       setListPokemon(result.pokemons)
       setCount(result.count)
     }).catch(error => { setError(error.message) })
-  }, [reload])
+  }, [reload, page])
 
   return (
     <>
