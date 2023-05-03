@@ -58,4 +58,13 @@ describe('Home', () => {
     expect(listPokemons).toHaveBeenCalledTimes(2)
     await waitFor(() => screen.queryByRole('main'))
   })
+
+  it('should call ListPokemons on page', async () => {
+    const { container } = makeSut()
+    fireEvent.click(container.querySelectorAll('.btnPagination')[1])
+
+    expect(listPokemons).toHaveBeenCalledWith({ page: 25, perPage: 25 })
+    expect(listPokemons).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.queryByRole('main'))
+  })
 })
