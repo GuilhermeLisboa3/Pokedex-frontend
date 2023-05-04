@@ -53,8 +53,8 @@ describe('Login', () => {
     const { container } = makeSut()
 
     expect(screen.queryByText('Registrado com sucesso!')).not.toBeInTheDocument()
-    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
-    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[0].className).toBe('input-label bg-danger')
+    expect(container.getElementsByTagName('label')[1].className).toBe('input-label bg-danger')
     expect(screen.getByText('ENTRAR')).toBeTruthy()
     expect(screen.getByRole('button')).toBeDisabled()
   })
@@ -74,8 +74,8 @@ describe('Login', () => {
 
     populateFields()
 
-    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
-    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[0].className).toBe('input-label bg-danger')
+    expect(container.getElementsByTagName('label')[1].className).toBe('input-label bg-danger')
   })
 
   it('should add class bg-success if Validation on success', () => {
@@ -83,8 +83,8 @@ describe('Login', () => {
 
     populateFields()
 
-    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-success')
-    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-success')
+    expect(container.getElementsByTagName('label')[0].className).toBe('input-label bg-success')
+    expect(container.getElementsByTagName('label')[1].className).toBe('input-label bg-success')
   })
 
   it('should enable submit button if form is valid', () => {

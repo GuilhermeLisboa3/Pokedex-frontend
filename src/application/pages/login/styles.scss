@@ -1,30 +1,30 @@
 @import '../../styles/colors.scss';
 
-.loginContainer{
+.login-container{
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .form-container{
+  .login-form-container{
     width: 600px;
     padding: 50px;
     margin:0 auto;
     border-radius: 6px;
     box-shadow:$box-shadow 0px 12px 28px 0px, $box-shadow 0px 2px 4px 0px, $box-shadow 0px 0px 0px 1px inset;
 
-    .imagens{
+    .login-imagens{
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 20px;
 
-      .imgLogo{
+      .login-img-logo{
         width: 150px;
         cursor: pointer;
       }
 
-      .imgPokemon{
+      .login-img-pokemon{
         width: 150px;
       }
     }

@@ -50,7 +50,7 @@ describe('SignUp', () => {
 
     const { container } = makeSut()
 
-    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[0].className).toBe('input-label bg-danger')
     expect(screen.getByText('ENTRAR')).toBeTruthy()
     expect(screen.getByRole('button')).toBeDisabled()
   })
@@ -72,10 +72,10 @@ describe('SignUp', () => {
 
     populateFields()
 
-    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-danger')
-    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-danger')
-    expect(container.getElementsByTagName('label')[2].className).toBe('label bg-danger')
-    expect(container.getElementsByTagName('label')[3].className).toBe('label bg-danger')
+    expect(container.getElementsByTagName('label')[0].className).toBe('input-label bg-danger')
+    expect(container.getElementsByTagName('label')[1].className).toBe('input-label bg-danger')
+    expect(container.getElementsByTagName('label')[2].className).toBe('input-label bg-danger')
+    expect(container.getElementsByTagName('label')[3].className).toBe('input-label bg-danger')
   })
 
   it('should add class bg-success if Validation on success', () => {
@@ -83,10 +83,10 @@ describe('SignUp', () => {
 
     populateFields()
 
-    expect(container.getElementsByTagName('label')[0].className).toBe('label bg-success')
-    expect(container.getElementsByTagName('label')[1].className).toBe('label bg-success')
-    expect(container.getElementsByTagName('label')[2].className).toBe('label bg-success')
-    expect(container.getElementsByTagName('label')[3].className).toBe('label bg-success')
+    expect(container.getElementsByTagName('label')[0].className).toBe('input-label bg-success')
+    expect(container.getElementsByTagName('label')[1].className).toBe('input-label bg-success')
+    expect(container.getElementsByTagName('label')[2].className).toBe('input-label bg-success')
+    expect(container.getElementsByTagName('label')[3].className).toBe('input-label bg-success')
   })
 
   it('should enable submit button if form is valid', () => {

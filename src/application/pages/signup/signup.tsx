@@ -51,14 +51,14 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
 
   return (
     <>
-      <main className='signupContainer'>
-        <div className='form-container'>
-          <div className='imagens'>
-            <img src="/greninja.png" alt="greninja" className='imgPokemon'/>
+      <main className='signup-container'>
+        <div className='signup-form-container'>
+          <div className='signup-imagens'>
+            <img src="/greninja.png" alt="greninja" className='signup-img-pokemon'/>
             <Link href={'/'}>
-              <img src="/pokedexLogo.png" alt="pokedexLogo" className='imgLogo'/>
+              <img src="/pokedexLogo.png" alt="pokedexLogo" className='signup-img-logo'/>
             </Link>
-            <img src="/charizard.png" alt="charizard" className='imgPokemon'/>
+            <img src="/charizard.png" alt="charizard" className='signup-img-pokemon'/>
           </div>
           <form onClick={handleSubmit} data-testid='form'>
             <Input icon={ <IoIosPerson className='icon'/> } name="name" type="text" placeholder="Digite seu nome" hasError={hasError(nameError)} state={name} setState={setName}/>

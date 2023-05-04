@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 30px 0px;
-  .search {
+  .header-search {
     background-color: #ffffff;
     height: 50px;
     width: 700px;
@@ -15,7 +15,7 @@
     align-items: center;
     box-shadow: 10px 10px 10px $box-shadow;
   
-    .input {
+    .header-input {
       background-color: #ffffff;
       border: none;
       border-radius: 10px;
@@ -29,12 +29,13 @@
         color: #A9B0B8;
       }
     }
-    .btn {
+    .header-btn {
       border: none;
+      margin-right: 10px;
       border-radius: 7px;
     }
 
-    .iconPokemon {
+    .header-icon-pokemon {
       background-color: $color-third;
       color: #ffffff;
       font-size: 2.3rem;
@@ -44,7 +45,7 @@
     }
   }
 
-  .navigate {
+  .header-navigate {
     display: flex;
     align-items: center;
     gap: 24px;
@@ -52,13 +53,11 @@
 }
 
 @media (max-width: 991px) {
-  .homeContainer {
-    .header{
-      flex-direction: column;
-      gap: 2rem;
-      .search {
-        width: 90%;
-      }
+  .header{
+    flex-direction: column;
+    gap: 2rem;
+    .header-search {
+      width: 90%;
     }
   }
 }

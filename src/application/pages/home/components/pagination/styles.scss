@@ -1,7 +1,7 @@
 @import '../../../../styles/colors.scss';
 
 
-.containerPagination {
+.pagination-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,11 +18,11 @@
     font-weight: bold;
     gap: 6px;
   }
-  .pages {
+  .pagination-pages {
     background-color: transparent;
   }
   
-  .btnPagination {
+  .pagination-btn {
     display: flex;
     justify-content: center;
     align-items: center;

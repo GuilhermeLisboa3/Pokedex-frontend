@@ -19,9 +19,9 @@ describe('Home', () => {
     mockListPokemonSuccess()
     mockSuccess()
 
-    cy.get('.imgPokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
-    cy.get('.idPokemon').should('have.text', 'Nº9')
-    cy.get('.namePokemon').should('have.text', 'blastoise')
+    cy.get('.card-pokemon-img-pokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
+    cy.get('.card-pokemon-id-pokemon').should('have.text', 'Nº9')
+    cy.get('.card-pokemon-name-pokemon').should('have.text', 'blastoise')
     cy.get('.type').should('have.text', 'water')
   })
 
@@ -29,11 +29,11 @@ describe('Home', () => {
     mockListPokemonSuccess()
     mockSuccess()
 
-    cy.get('.btnPagination').eq(1).click()
-    cy.get('.page').should('have.text', '2 de 48')
-    cy.get('.imgPokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
-    cy.get('.idPokemon').should('have.text', 'Nº9')
-    cy.get('.namePokemon').should('have.text', 'blastoise')
+    cy.get('.pagination-btn').eq(1).click()
+    cy.get('.pagination-page').should('have.text', '2 de 48')
+    cy.get('.card-pokemon-img-pokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
+    cy.get('.card-pokemon-id-pokemon').should('have.text', 'Nº9')
+    cy.get('.card-pokemon-name-pokemon').should('have.text', 'blastoise')
     cy.get('.type').should('have.text', 'water')
   })
 

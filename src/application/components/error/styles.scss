@@ -20,14 +20,14 @@
     }
   }
 
-  .img {
+  .error-img {
     width: 400px;
   }
 }
 
 @media (max-width: 1200px) {
   .error {
-    .img {
+    .error-img {
       width: 210px;
     }
   }
@@ -42,7 +42,7 @@
         font-size: 15px;
       }
     }
-    .img:nth-child(1) {
+    .error-img:nth-child(1) {
       display: none;
     }
     .button {
@@ -58,7 +58,7 @@
         font-size: 17px;
       }
     }
-    .img {
+    .error-img {
       display: none;
     }
     .button {

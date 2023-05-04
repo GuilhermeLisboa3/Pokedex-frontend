@@ -23,12 +23,12 @@ export const Pagination: React.FC<Props> = ({ count, page, setPage, perPage }: P
   }
   return (
     <>
-      <div className='containerPagination'>
+      <div className='pagination-container'>
         <h1>Pokedex</h1>
         <div className='pagination'>
-          <button className='btnPagination' onClick={onLeftClick}> <BsChevronLeft/> </button>
-          <span className='page'>{`${page + 1} de ${allPages}`}</span>
-          <button className='btnPagination' onClick={onRightClick}> <BsChevronRight /> </button>
+          <button className='pagination-btn' onClick={onLeftClick}> <BsChevronLeft/> </button>
+          <span className='pagination-page'>{`${page + 1} de ${allPages}`}</span>
+          <button className='pagination-btn' onClick={onRightClick}> <BsChevronRight /> </button>
         </div>
       </div>
     </>

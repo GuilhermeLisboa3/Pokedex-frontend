@@ -58,14 +58,14 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
 
   return (
     <>
-      <main className='loginContainer'>
-        <div className='form-container'>
-          <div className='imagens'>
-            <img src="/lucario.png" alt="greninja" className='imgPokemon'/>
+      <main className='login-container'>
+        <div className='login-form-container'>
+          <div className='login-imagens'>
+            <img src="/lucario.png" alt="greninja" className='login-img-pokemon'/>
             <Link href={'/'}>
-              <img src="/pokedexLogo.png" alt="pokedexLogo" className='imgLogo'/>
+              <img src="/pokedexLogo.png" alt="pokedexLogo" className='login-img-logo'/>
             </Link>
-            <img src="/machoke.png" alt="charizard" className='imgPokemon'/>
+            <img src="/machoke.png" alt="charizard" className='login-img-pokemon'/>
           </div>
           <form onClick={handleSubmit} data-testid='form'>
             <Input icon={ <IoIosMail className='icon'/> } name="email" type="email" placeholder="Digite seu email" hasError={hasError(emailError)} state={email} setState={setEmail}/>

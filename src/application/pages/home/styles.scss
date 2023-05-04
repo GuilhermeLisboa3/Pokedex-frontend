@@ -1,17 +1,17 @@
 @import '../../styles/colors.scss';
 
-.homeContainer {
+.home-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
 
-  .ContainerListPokemon {
+  .home-container-list-pokemon {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     margin-top: 4rem;
-      .listPokemons {
+      .home-list-pokemons {
         display: flex;
         flex-wrap: wrap;
         gap: 3rem;
@@ -24,9 +24,9 @@
 
 
 @media (max-width: 1380px) {
-  .homeContainer {
+  .home-container {
     main {
-      .listPokemons {
+      .home-list-pokemons {
         justify-content: center;
       }
     }

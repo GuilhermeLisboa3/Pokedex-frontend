@@ -1,6 +1,6 @@
 @import '../../styles/colors.scss';
 
-.cardPokemon{
+.card-pokemon{
   position: relative;
   margin: 0;
   width: 280px;
@@ -16,7 +16,7 @@
   cursor: pointer;
   transition: 0.5s;
   
-  .imgPokemon{
+  .card-pokemon-img-pokemon{
     background-color: transparent;
     width: 150px;
     position: absolute;
@@ -25,7 +25,7 @@
     transform: translate(50%);
   }
   
-  .buttonFavorite{
+  .card-pokemon-button-favorite{
     position: absolute;
     background-color: transparent;
     top: 8px;
@@ -58,7 +58,7 @@
     }
   }
   
-  .idPokemon{
+  .card-pokemon-id-pokemon{
     background-color: transparent;
     font-weight: bold;
     color: $color-light-gray;
@@ -66,14 +66,14 @@
     margin-bottom: 0px;
   }
 
-  .namePokemon{
+  .card-pokemon-name-pokemon{
     background-color: transparent;
     font-weight: bold;
     color: black;
     font-size: 1.5rem;
   }
 
-  .typesPokemon{
+  .card-pokemon-types-pokemon{
     display: flex;
     justify-content: center;
     align-items: center;

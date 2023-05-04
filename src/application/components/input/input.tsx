@@ -11,11 +11,11 @@ type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>
 export const Input: React.FC<Props> = ({ icon, hasError, setState, state, name, ...props }: Props) => {
   return (
     <>
-      <div className='formGroup'>
-        <label htmlFor= {name} className={['label', `${hasError}`].join(' ')}>
+      <div className='input-form-group'>
+        <label htmlFor= {name} className={['input-label', `${hasError}`].join(' ')}>
           { icon }
         </label>
-        <input {...props} data-testid={name} title={state} id={name} autoComplete="off" className='inputName' onChange={e => { setState(e.target.value) } }/>
+        <input {...props} data-testid={name} title={state} id={name} autoComplete="off" className='input-name' onChange={e => { setState(e.target.value) } }/>
       </div>
     </>
   )

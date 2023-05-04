@@ -28,13 +28,13 @@ export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
 
   return (
     <>
-      <Container className='homeContainer'>
+      <Container className='home-container'>
         <Header/>
-        <main className='ContainerListPokemon'>
+        <main className='home-container-list-pokemon'>
           <Pagination count={count} page={page} setPage={setPage} perPage={25}/>
           { error
             ? <Error error={error} reload={changeReload}/>
-            : <div className='listPokemons'>
+            : <div className='home-list-pokemons'>
                 { listPokemon.length > 0
                   ? listPokemon.map(pokemon => (<CardPokemon key={pokemon.id} pokemon={pokemon}/>))
                   : <EmptyCardPokemon/>

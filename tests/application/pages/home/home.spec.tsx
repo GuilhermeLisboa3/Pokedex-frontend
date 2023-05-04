@@ -27,7 +27,7 @@ describe('Home', () => {
 
   it('should call ListPokemons', async () => {
     const { container } = makeSut()
-    await waitFor(() => container.querySelector('.listPokemons'))
+    await waitFor(() => container.querySelector('.home-list-pokemons'))
 
     expect(listPokemons).toHaveBeenCalledWith({ page: 0, perPage: 25 })
     expect(listPokemons).toHaveBeenCalledTimes(1)
@@ -37,7 +37,7 @@ describe('Home', () => {
     const { container } = makeSut()
     await waitFor(() => container.querySelector('.listPokemons'))
 
-    expect(container.querySelectorAll('.cardPokemon')).toHaveLength(3)
+    expect(container.querySelectorAll('.card-pokemon')).toHaveLength(3)
     expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(0)
   })
 
@@ -61,7 +61,7 @@ describe('Home', () => {
 
   it('should call ListPokemons on page', async () => {
     const { container } = makeSut()
-    fireEvent.click(container.querySelectorAll('.btnPagination')[1])
+    fireEvent.click(container.querySelectorAll('.pagination-btn')[1])
 
     expect(listPokemons).toHaveBeenCalledWith({ page: 25, perPage: 25 })
     expect(listPokemons).toHaveBeenCalledTimes(2)
