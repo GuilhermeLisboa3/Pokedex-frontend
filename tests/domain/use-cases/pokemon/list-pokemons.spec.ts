@@ -14,7 +14,7 @@ describe('ListPokemonsUseCase', () => {
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: { results: [{ name }], count: 1 } })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: { results: [{ name, url }], count: 1 } })
   })
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('ListPokemonsUseCase', () => {
   it('should call second HttpClient if first HttpClient returns 200', async () => {
     await sut({ page, perPage })
 
-    expect(httpClient.request).toHaveBeenNthCalledWith(2, { url: `${url}/pokemon/${name}`, method: 'get' })
+    expect(httpClient.request).toHaveBeenNthCalledWith(2, { url: `${url}`, method: 'get' })
   })
 
   it('should return listPokemons on success', async () => {

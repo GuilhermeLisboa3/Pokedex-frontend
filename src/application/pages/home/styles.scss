@@ -6,19 +6,17 @@
   justify-content: space-between;
   min-height: 100vh;
 
-  main {
+  .ContainerListPokemon {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
     margin-top: 4rem;
+      .listPokemons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+      }
     }
-
-    .listPokemons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 3rem;
-    }
-
     .error {
       margin-top: 3rem;
     }

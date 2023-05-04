@@ -12,8 +12,8 @@ export const CardPokemon: React.FC<Props> = ({ pokemon }: Props) => {
       <div className='cardPokemon'>
         <img className='imgPokemon' src={pokemon.sprites.front_default} alt={pokemon.name}/>
         <button className='buttonFavorite'> <FaRegHeart className='favorite'/> </button>
-        <p className='idPokemon'>{pokemon.id}</p>
-        <p className='namePokemon'>{pokemon.name}</p>
+        <p className='idPokemon'>Nº{pokemon.id}</p>
+        <p className='namePokemon'>{pokemon.name.substr(0, 16)}</p>
         <p className='typesPokemon'>
           <span className={`type ${typePokemon(0)}`}>{typePokemon(0)}</span>
           {pokemon.types.length > 1 ? <span className={`type ${typePokemon(1)}`}>{typePokemon(1)}</span> : ''}

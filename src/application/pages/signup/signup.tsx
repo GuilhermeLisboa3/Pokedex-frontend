@@ -51,7 +51,7 @@ export const SignUp: React.FC<Props> = ({ validator, addAccount }: Props) => {
 
   return (
     <>
-      <main>
+      <main className='signupContainer'>
         <div className='form-container'>
           <div className='imagens'>
             <img src="/greninja.png" alt="greninja" className='imgPokemon'/>

@@ -30,7 +30,7 @@ export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
     <>
       <Container className='homeContainer'>
         <Header/>
-        <main>
+        <main className='ContainerListPokemon'>
           <Pagination count={count} page={page} setPage={setPage} perPage={25}/>
           { error
             ? <Error error={error} reload={changeReload}/>

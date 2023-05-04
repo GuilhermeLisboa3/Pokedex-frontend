@@ -58,7 +58,7 @@ export const Login: React.FC<Props> = ({ validator, authentication }: Props) => 
 
   return (
     <>
-      <main>
+      <main className='loginContainer'>
         <div className='form-container'>
           <div className='imagens'>
             <img src="/lucario.png" alt="greninja" className='imgPokemon'/>
