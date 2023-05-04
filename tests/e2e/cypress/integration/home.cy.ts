@@ -27,4 +27,18 @@ describe('Home', () => {
     cy.get('.namePokemon').should('have.text', 'blastoise')
     cy.get('.type').should('have.text', 'water')
   })
+
+  it('should present pokemon list if click button', () => {
+    mockListPokemonSuccess()
+    mockSuccess()
+
+    cy.visit('')
+
+    cy.get('.btnPagination').eq(1).click()
+    cy.get('.page').should('have.text', '2 de 48')
+    cy.get('.imgPokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
+    cy.get('.idPokemon').should('have.text', 'Nº9')
+    cy.get('.namePokemon').should('have.text', 'blastoise')
+    cy.get('.type').should('have.text', 'water')
+  })
 })
