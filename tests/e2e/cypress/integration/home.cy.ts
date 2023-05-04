@@ -46,4 +46,14 @@ describe('Home', () => {
 
     cy.testUrl('/login')
   })
+
+  it('should redirect to signup if you click the Registrar button', () => {
+    mockListPokemonSuccess()
+    mockSuccess()
+
+    cy.contains('Registrar').click()
+    cy.wait('@request')
+
+    cy.testUrl('/signup')
+  })
 })
