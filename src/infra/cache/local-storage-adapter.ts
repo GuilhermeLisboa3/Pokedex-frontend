@@ -1,7 +1,12 @@
-import { type SetStorage } from '@/domain/contracts/cache'
+import { type SetStorage, type GetStorage } from '@/domain/contracts/cache'
 
 export class LocalStorageAdapter {
-  async set ({ key, value }: SetStorage.Input): Promise<void> {
+  set ({ key, value }: SetStorage.Input): void {
     localStorage.setItem(key, JSON.stringify(value))
+  }
+
+  get ({ key }: GetStorage.Input): any {
+    const value = localStorage.getItem(key)
+    return JSON.parse(value!)
   }
 }
