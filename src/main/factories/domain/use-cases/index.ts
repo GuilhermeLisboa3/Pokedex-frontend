@@ -1,2 +1,2 @@
-export * from './add-account'
-export * from './authentication'
+export * from './account'
+export * from './pokemon'
