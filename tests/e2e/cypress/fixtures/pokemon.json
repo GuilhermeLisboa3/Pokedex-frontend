@@ -1,0 +1,13 @@
+{
+  "id": "9",
+  "name": "blastoise",
+  "sprites": { "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png" },
+  "types": [{ "type": { "name": "water" } }],
+  "height": 7,
+  "weight": 69,
+  "base_experience": 64,
+  "abilities": [{ "ability": { "name":  "overgrow"} }],
+  "species": { "url": "https://pokeapi.co/api/v2/pokemon-species/1/" },
+  "stats": [{ "base_stat": 10 }]
+}
+
