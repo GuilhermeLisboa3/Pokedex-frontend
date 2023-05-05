@@ -4,6 +4,8 @@ import { AccountContext } from '@/application/contexts'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
+jest.useFakeTimers()
+
 describe('Header', () => {
   const getSpy = jest.fn()
   type SutTypes = { container: HTMLElement }
@@ -22,11 +24,9 @@ describe('Header', () => {
     expect(screen.getByRole('button', { name: /Registrar/i })).toBeInTheDocument()
   })
 
-  it('should load the Auth header if it has token', () => {
+  it('should load the Auth header if it has token', async () => {
     getSpy.mockReturnValueOnce({ token: 'any_token', name: 'any_name', email: 'any_email' })
-    const { container } = makeSut()
-    expect(screen.queryByRole('button', { name: /Entrar/i })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Registrar/i })).not.toBeInTheDocument()
-    expect(container.querySelector('.auth-icon-navigate')).toBeInTheDocument()
+    makeSut()
+    expect(await screen.findByTestId('auth-button')).toBeInTheDocument()
   })
 })

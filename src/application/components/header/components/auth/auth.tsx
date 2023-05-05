@@ -14,7 +14,7 @@ export const Auth: React.FC = () => {
     <>
       <Container className='auth'>
         <div className='auth-icons'>
-          <button className='auth-icon-navigate' onClick={handlerModal}>
+          <button data-testid='auth-button' className='auth-icon-navigate' onClick={handlerModal}>
             <FaUserAlt className='auth-icon' />
           </button>
 
