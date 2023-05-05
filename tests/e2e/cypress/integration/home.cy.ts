@@ -5,12 +5,9 @@ describe('Home', () => {
   const mockListPokemonSuccess = (): void => { mockOk('GET', /pokemon?/, 'list-pokemon') }
   const mockSuccess = (): void => { mockOk('GET', /pokemon[/]/, 'pokemon') }
 
-  beforeEach(() => {
-    cy.visit('')
-  })
-
   it('should present error on UnexpectedError', () => {
     mockError(mockUnexpectedError)
+    cy.visit('')
 
     cy.get('.error span').should('have.text', 'Algo deu errado. Tente novamente!')
   })
@@ -18,6 +15,7 @@ describe('Home', () => {
   it('should present pokemon list', () => {
     mockListPokemonSuccess()
     mockSuccess()
+    cy.visit('')
 
     cy.get('.card-pokemon-img-pokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
     cy.get('.card-pokemon-id-pokemon').should('have.text', 'Nº9')
@@ -28,6 +26,7 @@ describe('Home', () => {
   it('should present pokemon list if click button', () => {
     mockListPokemonSuccess()
     mockSuccess()
+    cy.visit('')
 
     cy.get('.pagination-btn').eq(1).click()
     cy.get('.pagination-page').should('have.text', '2 de 48')
@@ -40,9 +39,9 @@ describe('Home', () => {
   it('should redirect to login if you click the Entrar button', () => {
     mockListPokemonSuccess()
     mockSuccess()
+    cy.visit('')
 
     cy.contains('Entrar').click()
-    cy.wait('@request')
 
     cy.testUrl('/login')
   })
@@ -50,10 +49,16 @@ describe('Home', () => {
   it('should redirect to signup if you click the Registrar button', () => {
     mockListPokemonSuccess()
     mockSuccess()
+    cy.visit('')
 
     cy.contains('Registrar').click()
-    cy.wait('@request')
 
     cy.testUrl('/signup')
+  })
+
+  it('should load the correct header if it has token', () => {
+    cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    cy.visit('')
+    cy.get('.auth-icon-navigate').should('exist')
   })
 })

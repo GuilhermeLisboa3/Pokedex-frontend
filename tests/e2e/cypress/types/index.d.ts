@@ -5,5 +5,6 @@ declare namespace Cypress {
     getByTestId: (id: string) => Chainable<Element>
     testLocalStorageItem: (item: string) => Chainable<Element>
     testUrl: (path: string) => Chainable<Element>
+    setLocalStorageItem: (key: string, value: any) => Chainable<Element>
   }
 }
