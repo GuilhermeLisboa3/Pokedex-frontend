@@ -58,7 +58,18 @@ describe('Home', () => {
 
   it('should load the correct header if it has token', () => {
     cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    mockListPokemonSuccess()
+    mockSuccess()
     cy.visit('')
     cy.get('.auth-icon-navigate').should('exist')
+  })
+
+  it('should show modal on click button', () => {
+    cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    mockListPokemonSuccess()
+    mockSuccess()
+    cy.visit('')
+    cy.get('.auth-icon-navigate').eq(0).click()
+    cy.get('.auth-link').should('exist')
   })
 })
