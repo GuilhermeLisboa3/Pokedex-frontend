@@ -1,16 +1,21 @@
 import { Home } from '@/application/pages/home/home'
 import { PokemonParams } from '@/tests/mocks'
+import { UnexpectedError } from '@/domain/errors'
+import { AccountContext } from '@/application/contexts'
 
 import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
-import { UnexpectedError } from '@/domain/errors'
 
 describe('Home', () => {
   const listPokemons: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
-    const { container } = render(<Home listPokemons={listPokemons}/>)
+    const { container } = render(
+    <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
+      <Home listPokemons={listPokemons}/>
+    </AccountContext.Provider>
+    )
     return { container }
   }
 

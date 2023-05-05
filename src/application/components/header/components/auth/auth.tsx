@@ -25,9 +25,7 @@ export const Auth: React.FC = () => {
           </button>
         </div>
         <Modal data-testid='modal' modalOpen={modalOpen} classNameModal='auth-modal' overlayClassName='auth-modal-overlay'>
-          <Link href="/" className='auth-link'>
-            <span>Deletar conta</span >
-          </Link>
+          <Link href="/" className='auth-link'> Deletar conta </Link>
           <span className='auth-link'>Sair</span>
         </Modal>
       </Container>
