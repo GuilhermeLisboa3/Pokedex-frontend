@@ -1,9 +1,12 @@
-import { NoAuth } from './components'
 import './styles.scss'
+import { NoAuth, Auth } from './components'
+import { AccountContext } from '@/application/contexts'
 
+import { useContext } from 'react'
 import { TbPokeball } from 'react-icons/tb'
 
 export const Header: React.FC = () => {
+  const { getCurrentAccount } = useContext(AccountContext)
   return (
     <>
       <div className='header'>
@@ -14,7 +17,11 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className='header-navigate'>
-          <NoAuth/>
+          {
+            getCurrentAccount()?.token
+              ? <Auth/>
+              : <NoAuth/>
+          }
         </div>
       </div>
     </>
