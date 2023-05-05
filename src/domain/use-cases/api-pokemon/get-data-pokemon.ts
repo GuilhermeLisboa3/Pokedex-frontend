@@ -1,16 +1,13 @@
-import { type HttpClient } from '@/domain/contracts/http'
+import { type HttpResponse, type HttpClient } from '@/domain/contracts/http'
 import { UnexpectedError } from '@/domain/errors'
 import { type Pokemon } from '@/domain/models'
 
-type Setup = (url: string, httpClient: HttpClient<Pokemon>) => GetDataPokemon
+type Setup = (url: string, httpClient: HttpClient) => GetDataPokemon
 type Input = { name: string }
-type Output = Pokemon
-export type GetDataPokemon = (input: Input) => Promise<Output>
+export type GetDataPokemon = (input: Input) => Promise<void>
 
 export const GetDataPokemonUseCase: Setup = (url, httpClient) => async ({ name }) => {
-  const { statusCode, data } = await httpClient.request({ url: `${url}/pokemon/${name}`, method: 'get' })
-  switch (statusCode) {
-    case 200: return data!
-    default: throw new UnexpectedError()
-  }
+  const pokemon: HttpResponse<Pokemon> = await httpClient.request({ url: `${url}/pokemon/${name}`, method: 'get' })
+  if (pokemon.statusCode !== 200) throw new UnexpectedError()
+  await httpClient.request({ url: `${pokemon.data!.species.url}`, method: 'get' })
 }
