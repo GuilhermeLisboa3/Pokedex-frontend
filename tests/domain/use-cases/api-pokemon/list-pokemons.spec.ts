@@ -1,4 +1,4 @@
-import { type ListPokemons, ListPokemonsUseCase } from '@/domain/use-cases/pokemon'
+import { type ListPokemons, ListPokemonsUseCase } from '@/domain/use-cases/api-pokemon'
 import { type HttpClient } from '@/domain/contracts/http'
 import { httpClientParams, PokemonParams } from '@/tests/mocks'
 

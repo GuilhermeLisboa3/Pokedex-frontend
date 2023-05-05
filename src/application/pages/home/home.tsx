@@ -1,7 +1,7 @@
 import './styles.scss'
 import { EmptyCardPokemon, Footer, Header, CardPokemon, Error } from '@/application/components'
 import { type Pokemon } from '@/domain/models'
-import { type ListPokemons } from '@/domain/use-cases/pokemon'
+import { type ListPokemons } from '@/domain/use-cases/api-pokemon'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
