@@ -8,11 +8,11 @@ import { UnexpectedError } from '@/domain/errors'
 describe('GetDataPokemonUseCase', () => {
   let sut: GetDataPokemon
   const { url } = httpClientParams
-  const { name, abilities, height } = PokemonParams
+  const { name, abilities, height, species } = PokemonParams
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200, data: { name, abilities, height } })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: { name, abilities, height, species } })
   })
 
   beforeEach(() => {
@@ -33,9 +33,9 @@ describe('GetDataPokemonUseCase', () => {
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 
-  it('should return data pokemon on success', async () => {
-    const result = await sut({ name })
+  it('should call HttpClient if first HttpClient return 200', async () => {
+    await sut({ name })
 
-    expect(result).toEqual({ name, abilities, height })
+    expect(httpClient.request).toHaveBeenNthCalledWith(2, { url: `${species.url}`, method: 'get' })
   })
 })
