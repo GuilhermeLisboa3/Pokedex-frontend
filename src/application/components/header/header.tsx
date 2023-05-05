@@ -1,8 +1,7 @@
+import { NoAuth } from './components'
 import './styles.scss'
-import { Button } from '@/application/components'
 
 import { TbPokeball } from 'react-icons/tb'
-import Link from 'next/link'
 
 export const Header: React.FC = () => {
   return (
@@ -15,8 +14,7 @@ export const Header: React.FC = () => {
           </button>
         </div>
         <div className='header-navigate'>
-          <Link href={'/login'}> <Button text='Entrar' type='button'/> </Link>
-          <Link href={'/signup'}> <Button text='Registrar' type='button'/> </Link>
+          <NoAuth/>
         </div>
       </div>
     </>
