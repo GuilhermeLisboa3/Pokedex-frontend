@@ -4,13 +4,17 @@ import Link from 'next/link'
 import { Container } from 'reactstrap'
 import { FaHeart, FaUserAlt } from 'react-icons/fa'
 import { Modal } from '@/application/components/modal/modal'
+import { useState } from 'react'
 
 export const Auth: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const handlerModal = (): void => { setModalOpen(!modalOpen) }
   return (
     <>
       <Container className='auth'>
         <div className='auth-icons'>
-          <button className='auth-icon-navigate'>
+          <button className='auth-icon-navigate' onClick={handlerModal}>
             <FaUserAlt className='auth-icon' />
           </button>
 
@@ -20,11 +24,11 @@ export const Auth: React.FC = () => {
             </Link>
           </button>
         </div>
-        <Modal modalOpen={false} classNameModal='auth-modal' overlayClassName='auth-modal-overlay'>
+        <Modal data-testid='modal' modalOpen={modalOpen} classNameModal='auth-modal' overlayClassName='auth-modal-overlay'>
           <Link href="/" className='auth-link'>
-            <span>Delete account</span >
+            <span>Deletar conta</span >
           </Link>
-          <span className='auth-link'>Exit</span>
+          <span className='auth-link'>Sair</span>
         </Modal>
       </Container>
     </>

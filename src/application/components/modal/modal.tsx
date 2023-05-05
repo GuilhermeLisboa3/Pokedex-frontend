@@ -11,7 +11,7 @@ type Props = {
 export const Modal: React.FC<Props> = ({ children, classNameModal, closeModal, modalOpen, overlayClassName }: Props) => {
   return (
     <>
-      <ReactModal data-testid='modal' ariaHideApp={false} isOpen={modalOpen} onRequestClose={closeModal} shouldCloseOnEsc={true} className={classNameModal} overlayClassName={overlayClassName}>
+      <ReactModal ariaHideApp={false} isOpen={modalOpen} onRequestClose={closeModal} shouldCloseOnEsc={true} className={classNameModal} overlayClassName={overlayClassName}>
         {children}
       </ReactModal>
     </>
