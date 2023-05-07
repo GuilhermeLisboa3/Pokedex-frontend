@@ -10,6 +10,8 @@ describe('GetDataPokemonUseCase', () => {
   const { url } = httpClientParams
   const { name, abilities, height, species } = PokemonParams
   const httpClient = mock<HttpClient>()
+  const returnFirstRequest = { statusCode: 200, data: { name, abilities, height, species } }
+  const returnSecondRequest = { statusCode: 200, data: { flavor_text_entries: [{ flavor_text: 'Capable of copying an enemys genetic code to instantlytransform itself into a duplicate of the enemy', language: { name: 'en' } }] } }
 
   beforeAll(() => {
     httpClient.request.mockResolvedValue({ statusCode: 200, data: { name, abilities, height, species } })
@@ -20,6 +22,7 @@ describe('GetDataPokemonUseCase', () => {
   })
 
   it('should call HttpClient with correct values', async () => {
+    httpClient.request.mockResolvedValueOnce(returnFirstRequest).mockResolvedValueOnce(returnSecondRequest)
     await sut({ name })
 
     expect(httpClient.request).toHaveBeenCalledWith({ url: `${url}/pokemon/${name}`, method: 'get' })
@@ -34,8 +37,16 @@ describe('GetDataPokemonUseCase', () => {
   })
 
   it('should call HttpClient if first HttpClient return 200', async () => {
+    httpClient.request.mockResolvedValueOnce(returnFirstRequest).mockResolvedValueOnce(returnSecondRequest)
     await sut({ name })
 
     expect(httpClient.request).toHaveBeenNthCalledWith(2, { url: `${species.url}`, method: 'get' })
+  })
+
+  it('should return pokemons on success', async () => {
+    httpClient.request.mockResolvedValueOnce(returnFirstRequest).mockResolvedValueOnce(returnSecondRequest)
+    const result = await sut({ name })
+
+    expect(result).toEqual({ pokemon: { name, abilities, height, species }, description: 'Capable of copying an enemys genetic code to instantly transform itself into a duplicate of the enemy' })
   })
 })
