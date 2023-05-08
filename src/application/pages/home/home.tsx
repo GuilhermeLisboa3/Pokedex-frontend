@@ -1,15 +1,15 @@
 import './styles.scss'
 import { EmptyCardPokemon, Footer, Header, CardPokemon, Error } from '@/application/components'
 import { type Pokemon } from '@/domain/models'
-import { type ListPokemons } from '@/domain/use-cases/api-pokemon'
+import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
 import { useEffect, useState } from 'react'
 
-type Props = { listPokemons: ListPokemons }
+type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon }
 
-export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
+export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) => {
   const perPage = 25
   const [listPokemon, setListPokemon] = useState<Pokemon[]>([])
   const [page, setPage] = useState(0)
@@ -27,6 +27,10 @@ export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
     }).catch(error => { setError(error.message) })
   }, [reload, page])
 
+  const getDataPokemonHandler = async (namePokemon: string): Promise<void> => {
+    await getDataPokemon({ name: namePokemon })
+  }
+
   return (
     <>
       <Container className='home-container'>
@@ -37,7 +41,7 @@ export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
             ? <Error error={error} reload={changeReload}/>
             : <div className='home-list-pokemons'>
                 { listPokemon.length > 0
-                  ? listPokemon.map(pokemon => (<CardPokemon key={pokemon.id} pokemon={pokemon}/>))
+                  ? listPokemon.map(pokemon => (<div data-testid='card-pokemon' key={pokemon.id} onClick={() => { getDataPokemonHandler(pokemon.name) }}><CardPokemon pokemon={pokemon}/></div>))
                   : <EmptyCardPokemon/>
                 }
               </div>
