@@ -1,5 +1,5 @@
 import './styles.scss'
-import { EmptyCardPokemon, Footer, Header, CardPokemon, Error } from '@/application/components'
+import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon } from '@/application/components'
 import { type Pokemon } from '@/domain/models'
 import { type ListPokemons } from '@/domain/use-cases/api-pokemon'
 
@@ -44,6 +44,7 @@ export const Home: React.FC<Props> = ({ listPokemons }: Props) => {
           }
         </main>
         <Footer/>
+        <ModalDataPokemon/>
       </Container>
     </>
   )

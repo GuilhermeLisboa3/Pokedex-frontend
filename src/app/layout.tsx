@@ -2,6 +2,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@/application/styles/global.scss'
 import '@/application/styles/typesPokemons.scss'
+import '@/application/styles/abilityPokemon.scss'
 import { AccountContext } from '@/application/contexts'
 import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapters'
 
