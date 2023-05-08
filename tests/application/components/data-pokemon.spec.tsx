@@ -24,4 +24,25 @@ describe('DataPokemon', () => {
     expect(screen.getByText(`${weight}kg`)).toBeInTheDocument()
     expect(screen.getByText(stats[0].base_stat)).toBeInTheDocument()
   })
+
+  it('should render correct values if the array is larger than one', () => {
+    const type1 = faker.name.findName()
+    const type2 = faker.name.findName()
+    const ability1 = faker.name.findName()
+    const ability2 = faker.name.findName()
+    const pokemonParams = {
+      ...PokemonParams,
+      types: [{ type: { name: type1 } }, { type: { name: type2 } }],
+      abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
+    }
+    render(<DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>)
+    expect(screen.getByText(type1)).toBeInTheDocument()
+    expect(screen.getByText(type1)).toHaveClass(`type ${type1}`)
+    expect(screen.getByText(type2)).toBeInTheDocument()
+    expect(screen.getByText(type2)).toHaveClass(`type ${type2}`)
+    expect(screen.getByText(ability1)).toBeInTheDocument()
+    expect(screen.getByText(ability1)).toHaveClass(`br-${type1}`)
+    expect(screen.getByText(ability2)).toBeInTheDocument()
+    expect(screen.getByText(ability2)).toHaveClass(`br-${type2}`)
+  })
 })
