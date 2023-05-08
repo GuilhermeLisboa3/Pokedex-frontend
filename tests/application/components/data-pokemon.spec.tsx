@@ -45,4 +45,17 @@ describe('DataPokemon', () => {
     expect(screen.getByText(ability2)).toBeInTheDocument()
     expect(screen.getByText(ability2)).toHaveClass(`br-${type2}`)
   })
+
+  it('should contain the class of the first type if the second type does not exist', () => {
+    const type1 = faker.name.findName()
+    const ability1 = faker.name.findName()
+    const ability2 = faker.name.findName()
+    const pokemonParams = {
+      ...PokemonParams,
+      types: [{ type: { name: type1 } }],
+      abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
+    }
+    render(<DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>)
+    expect(screen.getByText(ability2)).toHaveClass(`br-${type1}`)
+  })
 })
