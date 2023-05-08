@@ -8,12 +8,13 @@ import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 
 describe('Home', () => {
   const listPokemons: jest.Mock = jest.fn()
+  const getDataPokemons: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
-      <Home listPokemons={listPokemons}/>
+      <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons}/>
     </AccountContext.Provider>
     )
     return { container }
@@ -71,5 +72,14 @@ describe('Home', () => {
     expect(listPokemons).toHaveBeenCalledWith({ page: 25, perPage: 25 })
     expect(listPokemons).toHaveBeenCalledTimes(2)
     await waitFor(() => screen.queryByRole('main'))
+  })
+
+  it('should call GetDataPokemon if click cardPokemon', async () => {
+    const { container } = makeSut()
+    await waitFor(() => container.querySelector('.listPokemons'))
+    fireEvent.click(screen.getAllByTestId('card-pokemon')[0])
+
+    expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
+    expect(getDataPokemons).toHaveBeenCalledTimes(1)
   })
 })
