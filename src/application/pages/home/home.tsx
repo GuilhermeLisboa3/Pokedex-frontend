@@ -31,10 +31,13 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) =
   }, [reload, page])
 
   const getDataPokemonHandler = async (namePokemon: string): Promise<void> => {
-    const { description, pokemon } = await getDataPokemon({ name: namePokemon })
-    setPokemon(pokemon)
-    setPokemonDescription(description)
-    setIsOpenModalDataPokemon(true)
+    try {
+      const { description, pokemon } = await getDataPokemon({ name: namePokemon })
+      setPokemon(pokemon)
+      setPokemonDescription(description)
+      setIsOpenModalDataPokemon(true)
+    } catch (error) {
+    }
   }
 
   return (
