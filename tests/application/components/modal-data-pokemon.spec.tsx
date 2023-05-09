@@ -9,7 +9,7 @@ describe('ModalDataPokemon', () => {
   const { name, id, types, abilities, height, weight, stats } = PokemonParams
   it('should render with correct values', () => {
     const type2 = faker.name.findName()
-    render(<ModalDataPokemon pokemon={PokemonParams} pokemonDescription='any_description'/>)
+    render(<ModalDataPokemon pokemon={PokemonParams} pokemonDescription='any_description' isOpen={true}/>)
     expect(screen.getByRole('img')).toHaveAttribute('src', PokemonParams.sprites.front_default)
     expect(screen.getByRole('img')).toHaveAttribute('alt', name)
     expect(screen.getByText(name)).toBeInTheDocument()
