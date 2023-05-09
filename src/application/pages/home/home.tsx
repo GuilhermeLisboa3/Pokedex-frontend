@@ -1,5 +1,5 @@
 import './styles.scss'
-import { EmptyCardPokemon, Footer, Header, CardPokemon, Error } from '@/application/components'
+import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon } from '@/application/components'
 import { type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
 
@@ -12,6 +12,9 @@ type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon }
 export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) => {
   const perPage = 25
   const [listPokemon, setListPokemon] = useState<Pokemon[]>([])
+  const [pokemon, setPokemon] = useState<Pokemon>()
+  const [pokemonDescription, setPokemonDescription] = useState('')
+  const [isOpenModalDataPokemon, setIsOpenModalDataPokemon] = useState(false)
   const [page, setPage] = useState(0)
   const [count, setCount] = useState<number>(0)
   const [error, setError] = useState('')
@@ -28,7 +31,10 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) =
   }, [reload, page])
 
   const getDataPokemonHandler = async (namePokemon: string): Promise<void> => {
-    await getDataPokemon({ name: namePokemon })
+    const { description, pokemon } = await getDataPokemon({ name: namePokemon })
+    setPokemon(pokemon)
+    setPokemonDescription(description)
+    setIsOpenModalDataPokemon(true)
   }
 
   return (
@@ -48,6 +54,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) =
           }
         </main>
         <Footer/>
+        <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon}/>
       </Container>
     </>
   )
