@@ -16,18 +16,7 @@
     color: $pokemon-text-fire;
     border: 2px solid $pokemon-fire;
 }
-.br-flying{
-    color: black;
-    &::before{
-      content: '';
-      position: absolute;
-      inset:0;
-      background: linear-gradient(to bottom, $pokemon-ice 50%, $pokemon-steel 50%);
-      z-index: -1;
-      margin: -3px;
-      border-radius: 40px;
-    }
-}
+
 .br-water{
     color:$pokemon-text-water;
     border: 2px solid $pokemon-water;
@@ -64,6 +53,21 @@
     color:$pokemon-text-ice;
     border: 2px solid $pokemon-ice;
 }
+
+.br-flying{
+  color: black;
+  position: relative;
+  &::before{
+    content: '';
+    position: absolute;
+    inset:0;
+    background: linear-gradient(to bottom, $pokemon-ice 50%, $pokemon-steel 50%);
+    z-index: -1;
+    margin: -3px;
+    border-radius: 40px;
+  }
+}
+
 .br-dragon{
     color:black;
     position: relative;

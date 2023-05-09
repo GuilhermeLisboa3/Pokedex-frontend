@@ -57,7 +57,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) =
           }
         </main>
         <Footer/>
-        <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon}/>
+        <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon} setIsOpen={setIsOpenModalDataPokemon}/>
       </Container>
     </>
   )
