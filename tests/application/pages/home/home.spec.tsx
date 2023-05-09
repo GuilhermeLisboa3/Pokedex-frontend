@@ -1,5 +1,5 @@
 import { Home } from '@/application/pages/home/home'
-import { PokemonParams } from '@/tests/mocks'
+import { PokemonParams, populateField } from '@/tests/mocks'
 import { UnexpectedError } from '@/domain/errors'
 import { AccountContext } from '@/application/contexts'
 
@@ -95,5 +95,13 @@ describe('Home', () => {
     await waitFor(() => {
       expect(screen.getByText(`#${PokemonParams.id}`)).toBeInTheDocument()
     })
+  })
+
+  it('should call GetDataPokemon if the search has value', async () => {
+    makeSut()
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    populateField('search-pokemon', PokemonParams.name)
+    expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
+    expect(getDataPokemons).toHaveBeenCalledTimes(1)
   })
 })
