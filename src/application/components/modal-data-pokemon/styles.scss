@@ -1,0 +1,94 @@
+@import '../../styles/colors.scss';
+
+.modal-data-pokemon-modal {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 95vh;
+  transform: translate(-50%,-50%);
+  background-color: #ffffff;
+  outline: none;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 999;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px 20px 20px;
+
+  .modal-data-pokemon-div-icon {
+    position: absolute;
+    right: 556px;
+    top: 10px;
+    color: $color-third;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    cursor: pointer;
+
+    .modal-data-pokemon-icon-close {
+      font-size: 35px;
+    }
+
+  }
+}
+
+@media (max-width: 636px) {
+  .modal-data-pokemon-modal {
+    width: 90%;
+    
+    .modal-data-pokemon-div-icon {
+      top: 15px;
+      right: 92%;
+    }
+  }
+}
+
+@media (max-width: 524px) {
+  .modal-data-pokemon-modal {
+    .card-data-pokemon {
+      .card-data-pokemon-body {
+        div {
+          .card-data-pokemon-body-content {
+            width: 100px;
+            font-size: 16px;
+          }
+        }
+      }
+    
+      .card-data-pokemon-exp {
+        div {
+          .card-data-pokemon-exp-content {
+            width: 100px;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 524px) {
+  .modal-data-pokemon-modal {
+    .modal-data-pokemon-div-icon {
+      right: 85%;
+    }
+
+    .card-data-pokemon {
+      img {
+        width: 150px;
+      }
+
+      .card-data-pokemon-ability {
+        div {
+          span {
+            font-size: 16px;
+            padding: 0px 5px;
+          }
+        }
+      }
+    }
+  }
+}
+

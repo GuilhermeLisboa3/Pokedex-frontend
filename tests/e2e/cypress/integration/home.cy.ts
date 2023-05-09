@@ -3,7 +3,8 @@ import { mockOk, mockUnexpectedError } from '../mocks/http-mocks'
 describe('Home', () => {
   const mockError = (method: any): void => { method('GET', /pokemon?/) }
   const mockListPokemonSuccess = (): void => { mockOk('GET', /pokemon?/, 'list-pokemon') }
-  const mockSuccess = (): void => { mockOk('GET', /pokemon[/]/, 'pokemon') }
+  const mockPokemonDescription = (): void => { mockOk('GET', /pokemon-species/, 'pokemon-description') }
+  const mockDataPokemon = (): void => { mockOk('GET', /pokemon[/]/, 'pokemon') }
 
   it('should present error on UnexpectedError', () => {
     mockError(mockUnexpectedError)
@@ -14,7 +15,7 @@ describe('Home', () => {
 
   it('should present pokemon list', () => {
     mockListPokemonSuccess()
-    mockSuccess()
+    mockDataPokemon()
     cy.visit('')
 
     cy.get('.card-pokemon-img-pokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
@@ -25,7 +26,7 @@ describe('Home', () => {
 
   it('should present pokemon list if click button', () => {
     mockListPokemonSuccess()
-    mockSuccess()
+    mockDataPokemon()
     cy.visit('')
 
     cy.get('.pagination-btn').eq(1).click()
@@ -38,7 +39,7 @@ describe('Home', () => {
 
   it('should redirect to login if you click the Entrar button', () => {
     mockListPokemonSuccess()
-    mockSuccess()
+    mockDataPokemon()
     cy.visit('')
 
     cy.contains('Entrar').click()
@@ -48,7 +49,7 @@ describe('Home', () => {
 
   it('should redirect to signup if you click the Registrar button', () => {
     mockListPokemonSuccess()
-    mockSuccess()
+    mockDataPokemon()
     cy.visit('')
 
     cy.contains('Registrar').click()
@@ -59,7 +60,7 @@ describe('Home', () => {
   it('should load the correct header if it has token', () => {
     cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
     mockListPokemonSuccess()
-    mockSuccess()
+    mockDataPokemon()
     cy.visit('')
     cy.get('.auth-icon-navigate').should('exist')
   })
@@ -67,9 +68,18 @@ describe('Home', () => {
   it('should show modal on click button', () => {
     cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
     mockListPokemonSuccess()
-    mockSuccess()
+    mockDataPokemon()
     cy.visit('')
     cy.get('.auth-icon-navigate').eq(0).click()
     cy.get('.auth-link').should('exist')
+  })
+
+  it('should render ModalDataPokemon if click CardPokemon', () => {
+    mockListPokemonSuccess()
+    mockDataPokemon()
+    mockPokemonDescription()
+    cy.visit('')
+    cy.getByTestId('card-pokemon').click()
+    cy.get('.card-data-pokemon-name-pokemon').should('have.text', 'blastoise')
   })
 })

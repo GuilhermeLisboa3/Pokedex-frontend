@@ -8,6 +8,6 @@
   "base_experience": 64,
   "abilities": [{ "ability": { "name":  "overgrow"} }],
   "species": { "url": "https://pokeapi.co/api/v2/pokemon-species/1/" },
-  "stats": [{ "base_stat": 10 }]
+  "stats": [{ "base_stat": 10 },{ "base_stat": 20 },{ "base_stat": 30 },{ "base_stat": 40 },{ "base_stat": 50 },{ "base_stat": 60 }]
 }
 

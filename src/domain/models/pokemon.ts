@@ -11,3 +11,5 @@ export interface Pokemon {
   species: { url: string }
   stats: Array<{ base_stat: number }>
 }
+
+export interface SpeciesPokemon { flavor_text_entries: Array<{ flavor_text: string, language: { name: string } }>}
