@@ -1,2 +1,2 @@
 export * from './account'
-export * from './pokemon'
+export * from './api-pokemon'

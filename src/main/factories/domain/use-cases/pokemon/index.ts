@@ -1,2 +1,1 @@
-export * from './list-pokemon'
-export * from './get-data-pokemon'
+export * from './get-list-favorite-pokemon'
