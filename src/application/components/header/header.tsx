@@ -18,7 +18,7 @@ export const Header: React.FC<Props> = ({ setNamePokemon }: Props) => {
     <>
       <div className='header'>
         <div className='header-search'>
-          <input data-testid='search-pokemon' className='header-input' type="search" placeholder="Buscar pokemon" onChange={e => { setNamePokemon(e.target.value) }}/>
+          <input data-testid='search-pokemon' className='header-input' type="search" placeholder="Buscar pokemon" onChange={e => { setNamePokemon(e.target.value.toLocaleLowerCase()) }}/>
           <button className='header-btn' type="button">
             <TbPokeball className='header-icon-pokemon' />
           </button>

@@ -99,8 +99,8 @@ describe('Home', () => {
 
   it('should call GetDataPokemon if the search has value', async () => {
     makeSut()
-    populateField('search-pokemon', PokemonParams.name)
-    expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
+    populateField('search-pokemon', PokemonParams.name.toLocaleUpperCase())
+    expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name.toLocaleLowerCase() })
     expect(getDataPokemons).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
