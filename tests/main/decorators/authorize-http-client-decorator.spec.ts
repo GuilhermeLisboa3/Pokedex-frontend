@@ -39,4 +39,10 @@ describe('AuthorizeHttpClientDecorator', () => {
 
     expect(httpClient.request).toHaveBeenCalledWith({ method, url, headers: { authorization: `Bearer: ${token}` } })
   })
+
+  it('should merge headers to HttpClient', async () => {
+    await sut.request({ url, method, headers: { field: 'any_field' } })
+
+    expect(httpClient.request).toHaveBeenCalledWith({ url, method, headers: { field: 'any_field', authorization: `Bearer: ${token}` } })
+  })
 })
