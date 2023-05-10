@@ -104,4 +104,13 @@ describe('Home', () => {
     expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
     expect(getDataPokemons).toHaveBeenCalledTimes(1)
   })
+
+  it('should call ListPokemon if search is empty', async () => {
+    makeSut()
+    populateField('search-pokemon', 'any_name')
+    populateField('search-pokemon', '')
+    expect(listPokemons).toHaveBeenCalledWith({ page: 0, perPage: 25 })
+    expect(listPokemons).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
 })
