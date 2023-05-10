@@ -2,14 +2,15 @@ import './styles.scss'
 import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon } from '@/application/components'
 import { type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
+import { type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
 import { useEffect, useState } from 'react'
 
-type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon }
+type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon, getListFavoritePokemon: GetListFavoritePokemon }
 
-export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) => {
+export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon }: Props) => {
   const perPage = 25
   const [listPokemon, setListPokemon] = useState<Pokemon[]>([])
   const [namePokemon, setNamePokemon] = useState<string | undefined>(undefined)
@@ -24,6 +25,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) =
   const changeReload = (): void => { setReload(!reload) }
 
   useEffect(() => {
+    getListFavoritePokemon()
     setListPokemon([])
     listPokemons({ page: page * perPage, perPage }).then(result => {
       setListPokemon(result.pokemons)
