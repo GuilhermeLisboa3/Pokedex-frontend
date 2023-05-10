@@ -14,11 +14,17 @@ export const Header: React.FC<Props> = ({ setNamePokemon }: Props) => {
   const { getCurrentAccount } = useContext(AccountContext)
   useEffect(() => { setToken(getCurrentAccount()?.token) }, [])
 
+  const test = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setTimeout(() => {
+      setNamePokemon(event.target.value.toLocaleLowerCase())
+    }, 1000 * 1)
+  }
+
   return (
     <>
       <div className='header'>
         <div className='header-search'>
-          <input data-testid='search-pokemon' className='header-input' type="search" placeholder="Buscar pokemon" onChange={e => { setNamePokemon(e.target.value.toLocaleLowerCase()) }}/>
+          <input data-testid='search-pokemon' className='header-input' type="search" placeholder="Buscar pokemon" onChange={e => { test(e) }}/>
           <button className='header-btn' type="button">
             <TbPokeball className='header-icon-pokemon' />
           </button>

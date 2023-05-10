@@ -5,6 +5,9 @@ import { AccountContext } from '@/application/contexts'
 
 import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
+
+jest.useFakeTimers()
 
 describe('Home', () => {
   const listPokemons: jest.Mock = jest.fn()
@@ -43,7 +46,7 @@ describe('Home', () => {
 
   it('should render CardPokemon on success', async () => {
     const { container } = makeSut()
-    await waitFor(() => container.querySelector('.home-list-pokemons'))
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
 
     expect(container.querySelectorAll('.card-pokemon')).toHaveLength(3)
     expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(0)
@@ -79,8 +82,8 @@ describe('Home', () => {
   })
 
   it('should call GetDataPokemon if click cardPokemon', async () => {
-    const { container } = makeSut()
-    await waitFor(() => container.querySelector('.home-list-pokemons'))
+    makeSut()
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
     fireEvent.click(screen.getAllByTestId('card-pokemon')[0])
 
     expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
@@ -100,6 +103,7 @@ describe('Home', () => {
   it('should call GetDataPokemon if the search has value', async () => {
     makeSut()
     populateField('search-pokemon', PokemonParams.name.toLocaleUpperCase())
+    act(() => { jest.advanceTimersByTime(1000) })
     expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name.toLocaleLowerCase() })
     expect(getDataPokemons).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
@@ -109,6 +113,7 @@ describe('Home', () => {
     makeSut()
     populateField('search-pokemon', 'any_name')
     populateField('search-pokemon', '')
+    act(() => { jest.advanceTimersByTime(1000) })
     expect(listPokemons).toHaveBeenCalledWith({ page: 0, perPage: 25 })
     expect(listPokemons).toHaveBeenCalledTimes(2)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
@@ -117,6 +122,7 @@ describe('Home', () => {
   it('should render DataPokemon if search finds pokemon', async () => {
     makeSut()
     populateField('search-pokemon', PokemonParams.name)
+    act(() => { jest.advanceTimersByTime(1000) })
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
     expect(screen.getAllByTestId('card-pokemon')).toHaveLength(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
@@ -126,6 +132,7 @@ describe('Home', () => {
     getDataPokemons.mockRejectedValueOnce(new Error())
     const { container } = makeSut()
     populateField('search-pokemon', 'any_value')
+    act(() => { jest.advanceTimersByTime(1000) })
     await waitFor(() => container.querySelectorAll('.home-list-pokemons'))
     expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(8)
   })
