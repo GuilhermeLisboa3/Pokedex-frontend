@@ -121,4 +121,12 @@ describe('Home', () => {
     expect(screen.getAllByTestId('card-pokemon')).toHaveLength(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
+
+  it('should render EmptyListPokemon if search return error', async () => {
+    getDataPokemons.mockRejectedValueOnce(new Error())
+    const { container } = makeSut()
+    populateField('search-pokemon', 'any_value')
+    await waitFor(() => container.querySelectorAll('.home-list-pokemons'))
+    expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(8)
+  })
 })
