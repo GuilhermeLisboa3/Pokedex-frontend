@@ -12,12 +12,13 @@ jest.useFakeTimers()
 describe('Home', () => {
   const listPokemons: jest.Mock = jest.fn()
   const getDataPokemons: jest.Mock = jest.fn()
+  const getListFavoritePokemon: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
-      <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons}/>
+      <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon}/>
     </AccountContext.Provider>
     )
     return { container }
@@ -135,5 +136,14 @@ describe('Home', () => {
     act(() => { jest.advanceTimersByTime(1000) })
     await waitFor(() => container.querySelectorAll('.home-list-pokemons'))
     expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(8)
+  })
+
+  it('should call GetListFavoritePokemon', async () => {
+    const { container } = makeSut()
+    await waitFor(() => container.querySelector('.home-list-pokemons'))
+
+    expect(getListFavoritePokemon).toHaveBeenCalledWith()
+    expect(listPokemons).toHaveBeenCalledTimes(1)
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
 })
