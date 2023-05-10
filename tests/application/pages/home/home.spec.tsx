@@ -99,10 +99,10 @@ describe('Home', () => {
 
   it('should call GetDataPokemon if the search has value', async () => {
     makeSut()
-    await waitFor(() => screen.getAllByTestId('card-pokemon'))
     populateField('search-pokemon', PokemonParams.name)
     expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
     expect(getDataPokemons).toHaveBeenCalledTimes(1)
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
 
   it('should call ListPokemon if search is empty', async () => {
@@ -111,6 +111,14 @@ describe('Home', () => {
     populateField('search-pokemon', '')
     expect(listPokemons).toHaveBeenCalledWith({ page: 0, perPage: 25 })
     expect(listPokemons).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
+
+  it('should render DataPokemon if search finds pokemon', async () => {
+    makeSut()
+    populateField('search-pokemon', PokemonParams.name)
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    expect(screen.getAllByTestId('card-pokemon')).toHaveLength(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
 })
