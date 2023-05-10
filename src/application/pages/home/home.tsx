@@ -49,8 +49,12 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon }: Props) =
       changeReload()
       return
     }
-    const { pokemon } = await getDataPokemon({ name: namePokemon })
-    setListPokemon([pokemon])
+    try {
+      const { pokemon } = await getDataPokemon({ name: namePokemon })
+      setListPokemon([pokemon])
+    } catch (error) {
+      setListPokemon([])
+    }
   }
 
   return (
