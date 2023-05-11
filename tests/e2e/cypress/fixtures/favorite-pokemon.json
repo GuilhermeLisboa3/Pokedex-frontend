@@ -1,0 +1,9 @@
+[
+  {
+  "idPokemon": "9",
+  "namePokemon": "blastoise",
+  "photoPokemon":  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png",
+  "types": [{ "type": { "name": "water" } }],
+  "urlSpecies": "https://pokeapi.co/api/v2/pokemon-species/1/"
+  }
+]

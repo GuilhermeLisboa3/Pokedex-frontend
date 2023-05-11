@@ -4,6 +4,7 @@ describe('Home', () => {
   const mockError = (method: any): void => { method('GET', /pokemon?/) }
   const mockListPokemonSuccess = (): void => { mockOk('GET', /pokemon?/, 'list-pokemon') }
   const mockPokemonDescription = (): void => { mockOk('GET', /pokemon-species/, 'pokemon-description') }
+  const mockFavoritePokemon = (): void => { mockOk('GET', /pokemons/, 'favorite-pokemon') }
   const mockDataPokemon = (): void => { mockOk('GET', /pokemon[/]/, 'pokemon') }
 
   it('should present error on UnexpectedError', () => {
@@ -61,12 +62,14 @@ describe('Home', () => {
     cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
     mockListPokemonSuccess()
     mockDataPokemon()
+    mockFavoritePokemon()
     cy.visit('')
     cy.get('.auth-icon-navigate').should('exist')
   })
 
   it('should show modal on click button', () => {
     cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    mockFavoritePokemon()
     mockListPokemonSuccess()
     mockDataPokemon()
     cy.visit('')
@@ -92,5 +95,14 @@ describe('Home', () => {
     cy.get('.card-pokemon-img-pokemon').should('have.attr', 'src', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png')
     cy.get('.card-pokemon-id-pokemon').should('have.text', 'Nº9')
     cy.get('.card-pokemon-name-pokemon').should('have.text', 'blastoise')
+  })
+
+  it('should contain the red heart if it is a favorite pokemon ', () => {
+    cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    mockListPokemonSuccess()
+    mockDataPokemon()
+    mockFavoritePokemon()
+    cy.visit('')
+    cy.get('.icon-favorite-red').should('exist')
   })
 })
