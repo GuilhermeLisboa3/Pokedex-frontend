@@ -1,4 +1,4 @@
-import { PokemonParams } from '@/tests/mocks'
+import { ApiPokemonParams, PokemonParams } from '@/tests/mocks'
 import { DataPokemon } from '@/application/components/modal-data-pokemon/components'
 import { PokemonProvider } from '@/application/contexts'
 
@@ -7,16 +7,16 @@ import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 
 describe('DataPokemon', () => {
-  const { id, types, abilities, height, weight, stats } = PokemonParams
+  const { id, types, abilities, height, weight, stats } = ApiPokemonParams
   it('should render with correct values', () => {
     const type2 = faker.name.findName()
     const { container } = render(
       <PokemonProvider listFavoritePokemon={[PokemonParams]}>
-        <DataPokemon pokemon={{ ...PokemonParams, name: 'any_name' }} pokemonDescription='any_description'/>
+        <DataPokemon pokemon={{ ...ApiPokemonParams, name: 'any_name' }} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
     expect(container.querySelector('.card-data-pokemon-icon-favorite')).toBeInTheDocument()
-    expect(screen.getByRole('img')).toHaveAttribute('src', PokemonParams.sprites.front_default)
+    expect(screen.getByRole('img')).toHaveAttribute('src', ApiPokemonParams.sprites.front_default)
     expect(screen.getByRole('img')).toHaveAttribute('alt', 'any_name')
     expect(screen.getByText('any_name')).toBeInTheDocument()
     expect(screen.getByText(`#${id}`)).toBeInTheDocument()
@@ -37,12 +37,13 @@ describe('DataPokemon', () => {
     const ability1 = faker.name.findName()
     const ability2 = faker.name.findName()
     const pokemonParams = {
-      ...PokemonParams,
+      ...ApiPokemonParams,
+      name: 'any_name',
       types: [{ type: { name: type1 } }, { type: { name: type2 } }],
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[pokemonParams]}>
+      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, namePokemon: 'any_name' }]}>
         <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
@@ -62,12 +63,12 @@ describe('DataPokemon', () => {
     const ability1 = faker.name.findName()
     const ability2 = faker.name.findName()
     const pokemonParams = {
-      ...PokemonParams,
+      ...ApiPokemonParams,
       types: [{ type: { name: type1 } }],
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
     render(
-      <PokemonProvider listFavoritePokemon={[pokemonParams]}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
         <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
       </PokemonProvider>
     )

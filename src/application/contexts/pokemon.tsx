@@ -11,7 +11,7 @@ type ProviderProps = { children: ReactNode, listFavoritePokemon: Pokemon[] }
 
 export function PokemonProvider ({ children, listFavoritePokemon }: ProviderProps): any {
   const pokemonFavorite = (namePokemon: string): boolean => {
-    const pokemon = listFavoritePokemon.find(poke => poke.name === namePokemon)
+    const pokemon = listFavoritePokemon.find(poke => poke.namePokemon === namePokemon)
     return pokemon !== undefined
   }
   return <PokemonContext.Provider value={{ pokemonFavorite }}>{children}</PokemonContext.Provider>

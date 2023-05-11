@@ -1,4 +1,4 @@
-import { PokemonParams } from '@/tests/mocks'
+import { ApiPokemonParams } from '@/tests/mocks'
 import { ModalDataPokemon } from '@/application/components/modal-data-pokemon/modal-data-pokemon'
 import { PokemonProvider } from '@/application/contexts'
 
@@ -7,13 +7,13 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import faker from 'faker'
 
 describe('ModalDataPokemon', () => {
-  const { name, id, types, abilities, height, weight, stats } = PokemonParams
+  const { name, id, types, abilities, height, weight, stats } = ApiPokemonParams
   const setIsOpenSpy = jest.fn()
   type SutTypes = { container: HTMLElement }
   const makeSut = (): SutTypes => {
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
-        <ModalDataPokemon pokemon={PokemonParams} pokemonDescription='any_description' isOpen={true} setIsOpen={setIsOpenSpy}/>
+      <PokemonProvider listFavoritePokemon={[ApiPokemonParams]}>
+        <ModalDataPokemon pokemon={ApiPokemonParams} pokemonDescription='any_description' isOpen={true} setIsOpen={setIsOpenSpy}/>
       </PokemonProvider>
     )
     return { container }
@@ -21,7 +21,7 @@ describe('ModalDataPokemon', () => {
   it('should render with correct values', () => {
     const type2 = faker.name.findName()
     makeSut()
-    expect(screen.getByRole('img')).toHaveAttribute('src', PokemonParams.sprites.front_default)
+    expect(screen.getByRole('img')).toHaveAttribute('src', ApiPokemonParams.sprites.front_default)
     expect(screen.getByRole('img')).toHaveAttribute('alt', name)
     expect(screen.getByText(name)).toBeInTheDocument()
     expect(screen.getByText(`#${id}`)).toBeInTheDocument()

@@ -1,3 +1,4 @@
 export * from './account'
-export * from './pokemon'
+export * from './api-pokemon'
 export * from './list-pokemons'
+export * from './pokemon'

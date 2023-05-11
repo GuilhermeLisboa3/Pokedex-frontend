@@ -1,6 +1,6 @@
 import faker from 'faker'
 
-export const PokemonParams = {
+export const ApiPokemonParams = {
   id: faker.datatype.uuid(),
   name: faker.name.findName(),
   sprites: { front_default: faker.internet.url() },
@@ -18,4 +18,12 @@ export const PokemonParams = {
     { base_stat: 90 },
     { base_stat: 100 }
   ]
+}
+
+export const PokemonParams = {
+  idPokemon: faker.datatype.uuid(),
+  namePokemon: faker.name.findName(),
+  photoPokemon: faker.internet.url(),
+  urlSpecies: faker.internet.url(),
+  types: [{ type: { name: faker.name.findName() } }]
 }

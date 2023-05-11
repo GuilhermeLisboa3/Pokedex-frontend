@@ -1,11 +1,11 @@
 import './styles.scss'
 import { PokemonContext } from '@/application/contexts'
-import { type Pokemon } from '@/domain/models'
+import { type ApiPokemon } from '@/domain/models'
 import { useContext } from 'react'
 
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 
-type Props = { pokemon: Pokemon }
+type Props = { pokemon: ApiPokemon }
 
 export const CardPokemon: React.FC<Props> = ({ pokemon }: Props) => {
   const { pokemonFavorite } = useContext(PokemonContext)

@@ -1,5 +1,5 @@
 import { Home } from '@/application/pages/home/home'
-import { PokemonParams, populateField } from '@/tests/mocks'
+import { ApiPokemonParams, populateField, PokemonParams } from '@/tests/mocks'
 import { UnexpectedError } from '@/domain/errors'
 import { AccountContext, PokemonProvider } from '@/application/contexts'
 
@@ -27,9 +27,9 @@ describe('Home', () => {
   }
 
   beforeAll(() => {
-    listPokemons.mockResolvedValue({ count: 1, pokemons: [PokemonParams, { ...PokemonParams, id: '1' }, { ...PokemonParams, id: '2' }] })
-    getDataPokemons.mockResolvedValue({ pokemon: PokemonParams, description: 'any_description' })
-    getListFavoritePokemon.mockResolvedValue([PokemonParams])
+    listPokemons.mockResolvedValue({ count: 1, pokemons: [ApiPokemonParams, { ...ApiPokemonParams, id: '1' }, { ...ApiPokemonParams, id: '2' }] })
+    getDataPokemons.mockResolvedValue({ pokemon: ApiPokemonParams, description: 'any_description' })
+    getListFavoritePokemon.mockResolvedValue([ApiPokemonParams])
   })
 
   it('should load with correct initial state', async () => {
@@ -90,7 +90,7 @@ describe('Home', () => {
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
     fireEvent.click(screen.getAllByTestId('card-pokemon')[0])
 
-    expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name })
+    expect(getDataPokemons).toHaveBeenCalledWith({ name: ApiPokemonParams.name })
     expect(getDataPokemons).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
@@ -100,15 +100,15 @@ describe('Home', () => {
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
     fireEvent.click(screen.getAllByTestId('card-pokemon')[0])
     await waitFor(() => {
-      expect(screen.getByText(`#${PokemonParams.id}`)).toBeInTheDocument()
+      expect(screen.getByText(`#${ApiPokemonParams.id}`)).toBeInTheDocument()
     })
   })
 
   it('should call GetDataPokemon if the search has value', async () => {
     makeSut()
-    populateField('search-pokemon', PokemonParams.name.toLocaleUpperCase())
+    populateField('search-pokemon', ApiPokemonParams.name.toLocaleUpperCase())
     act(() => { jest.advanceTimersByTime(1000) })
-    expect(getDataPokemons).toHaveBeenCalledWith({ name: PokemonParams.name.toLocaleLowerCase() })
+    expect(getDataPokemons).toHaveBeenCalledWith({ name: ApiPokemonParams.name.toLocaleLowerCase() })
     expect(getDataPokemons).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
@@ -125,7 +125,7 @@ describe('Home', () => {
 
   it('should render DataPokemon if search finds pokemon', async () => {
     makeSut()
-    populateField('search-pokemon', PokemonParams.name)
+    populateField('search-pokemon', ApiPokemonParams.name)
     act(() => { jest.advanceTimersByTime(1000) })
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
     expect(screen.getAllByTestId('card-pokemon')).toHaveLength(1)
@@ -146,7 +146,7 @@ describe('Home', () => {
     await waitFor(() => container.querySelector('.home-list-pokemons'))
 
     expect(getListFavoritePokemon).toHaveBeenCalledWith()
-    expect(listPokemons).toHaveBeenCalledTimes(1)
+    expect(getListFavoritePokemon).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
 })

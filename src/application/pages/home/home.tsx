@@ -1,6 +1,6 @@
 import './styles.scss'
 import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon } from '@/application/components'
-import { type Pokemon } from '@/domain/models'
+import { type ApiPokemon, type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
 import { type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { PokemonProvider } from '@/application/contexts'
@@ -13,10 +13,10 @@ type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon, getLi
 
 export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon }: Props) => {
   const perPage = 25
-  const [listPokemon, setListPokemon] = useState<Pokemon[]>([])
+  const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
   const [listFavoritePokemon, setListFavoritePokemon] = useState<Pokemon[]>([])
   const [namePokemon, setNamePokemon] = useState<string | undefined>(undefined)
-  const [pokemon, setPokemon] = useState<Pokemon>()
+  const [pokemon, setPokemon] = useState<ApiPokemon>()
   const [pokemonDescription, setPokemonDescription] = useState('')
 
   const [isOpenModalDataPokemon, setIsOpenModalDataPokemon] = useState(false)

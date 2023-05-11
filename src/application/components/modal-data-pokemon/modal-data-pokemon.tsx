@@ -1,12 +1,12 @@
 import './styles.scss'
 import { Modal } from '../modal/modal'
 import { DataPokemon } from './components'
-import { type Pokemon } from '@/domain/models'
+import { type ApiPokemon } from '@/domain/models'
 
 import { IoMdClose } from 'react-icons/io'
 
 type Props = {
-  pokemon: Pokemon
+  pokemon: ApiPokemon
   pokemonDescription: string
   isOpen: boolean
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>

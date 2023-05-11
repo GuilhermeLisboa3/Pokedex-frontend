@@ -1,6 +1,6 @@
 import { type ListPokemons, ListPokemonsUseCase } from '@/domain/use-cases/api-pokemon'
 import { type HttpClient } from '@/domain/contracts/http'
-import { httpClientParams, PokemonParams } from '@/tests/mocks'
+import { httpClientParams, ApiPokemonParams } from '@/tests/mocks'
 
 import { mock } from 'jest-mock-extended'
 import { UnexpectedError } from '@/domain/errors'
@@ -9,7 +9,7 @@ describe('ListPokemonsUseCase', () => {
   const page: number = 25
   const perPage: number = 25
   let sut: ListPokemons
-  const { name, id, height } = PokemonParams
+  const { name, id, height } = ApiPokemonParams
   const { url } = httpClientParams
   const httpClient = mock<HttpClient>()
 

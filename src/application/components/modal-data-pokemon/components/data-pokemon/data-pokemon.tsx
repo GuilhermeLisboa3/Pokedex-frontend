@@ -1,12 +1,12 @@
 import './styles.scss'
-import { type Pokemon } from '@/domain/models'
+import { type ApiPokemon } from '@/domain/models'
 import { PokemonContext } from '@/application/contexts'
 
 import { FaRegHeart, FaHeart } from 'react-icons/fa'
 import { useContext } from 'react'
 
 type Props = {
-  pokemon: Pokemon
+  pokemon: ApiPokemon
   pokemonDescription: string
 }
 

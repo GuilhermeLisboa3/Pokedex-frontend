@@ -38,13 +38,13 @@ describe('AuthorizeHttpClientDecorator', () => {
   it('should add headers to HttpClient', async () => {
     await sut.request({ method, url })
 
-    expect(httpClient.request).toHaveBeenCalledWith({ method, url, headers: { authorization: `Bearer: ${token}` } })
+    expect(httpClient.request).toHaveBeenCalledWith({ method, url, headers: { authorization: `Bearer ${token}` } })
   })
 
   it('should merge headers to HttpClient', async () => {
     await sut.request({ url, method, headers: { field: 'any_field' } })
 
-    expect(httpClient.request).toHaveBeenCalledWith({ url, method, headers: { field: 'any_field', authorization: `Bearer: ${token}` } })
+    expect(httpClient.request).toHaveBeenCalledWith({ url, method, headers: { field: 'any_field', authorization: `Bearer ${token}` } })
   })
 
   it('should return the same result as HttpClient', async () => {

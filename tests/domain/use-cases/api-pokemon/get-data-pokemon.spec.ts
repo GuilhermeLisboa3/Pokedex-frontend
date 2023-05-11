@@ -1,6 +1,6 @@
 import { type GetDataPokemon, GetDataPokemonUseCase } from '@/domain/use-cases/api-pokemon'
 import { type HttpClient } from '@/domain/contracts/http'
-import { httpClientParams, PokemonParams } from '@/tests/mocks'
+import { httpClientParams, ApiPokemonParams } from '@/tests/mocks'
 
 import { mock } from 'jest-mock-extended'
 import { UnexpectedError } from '@/domain/errors'
@@ -8,7 +8,7 @@ import { UnexpectedError } from '@/domain/errors'
 describe('GetDataPokemonUseCase', () => {
   let sut: GetDataPokemon
   const { url } = httpClientParams
-  const { name, abilities, height, species } = PokemonParams
+  const { name, abilities, height, species } = ApiPokemonParams
   const httpClient = mock<HttpClient>()
   const returnFirstRequest = { statusCode: 200, data: { name, abilities, height, species } }
   const returnSecondRequest = { statusCode: 200, data: { flavor_text_entries: [{ flavor_text: 'Capable of copying an enemys genetic code to instantlytransform itself into a duplicate of the enemy', language: { name: 'en' } }] } }
