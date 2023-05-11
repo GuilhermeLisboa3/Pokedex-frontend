@@ -3,6 +3,10 @@ module.exports = {
     '<rootDir>/src/**/*.{ts,tsx}',
     '<rootDir>/src/main/adapters',
     '!<rootDir>/src/main/**',
+    '!<rootDir>/src/**/index.ts',
+    '!<rootDir>/src/domain/models/**',
+    '!<rootDir>/src/domain/contracts/**',
+    '!<rootDir>/src/**/styles.ts',
     '!<rootDir>/src/app/**'
   ],
   coverageDirectory: 'coverage',

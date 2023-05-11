@@ -12,7 +12,7 @@ describe('Header', () => {
   const makeSut = (): SutTypes => {
     const { container } = render(
       <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
-        <Header/>
+        <Header setNamePokemon={jest.fn()}/>
       </AccountContext.Provider>
     )
     return { container }

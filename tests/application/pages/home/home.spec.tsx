@@ -1,5 +1,5 @@
 import { Home } from '@/application/pages/home/home'
-import { ApiPokemonParams, populateField, PokemonParams } from '@/tests/mocks'
+import { ApiPokemonParams, populateField, PokemonParams, AccountParams } from '@/tests/mocks'
 import { UnexpectedError } from '@/domain/errors'
 import { AccountContext, PokemonProvider } from '@/application/contexts'
 
@@ -10,14 +10,16 @@ import { act } from 'react-dom/test-utils'
 jest.useFakeTimers()
 
 describe('Home', () => {
+  const { name, email, token } = AccountParams
   const listPokemons: jest.Mock = jest.fn()
   const getDataPokemons: jest.Mock = jest.fn()
   const getListFavoritePokemon: jest.Mock = jest.fn()
+  const getSpy: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
     const { container } = render(
-    <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
+    <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
       <PokemonProvider listFavoritePokemon={[PokemonParams]}>
         <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon}/>
       </PokemonProvider>
@@ -141,7 +143,16 @@ describe('Home', () => {
     expect(container.querySelectorAll('.emptyCardPokemon')).toHaveLength(8)
   })
 
+  it('should not call GetListFavoritePokemon if it has no token', async () => {
+    const { container } = makeSut()
+    await waitFor(() => container.querySelector('.home-list-pokemons'))
+
+    expect(getListFavoritePokemon).not.toHaveBeenCalledWith()
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
+
   it('should call GetListFavoritePokemon', async () => {
+    getSpy.mockReturnValue({ name, email, token })
     const { container } = makeSut()
     await waitFor(() => container.querySelector('.home-list-pokemons'))
 
