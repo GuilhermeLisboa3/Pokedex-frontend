@@ -1,7 +1,7 @@
 import { Home } from '@/application/pages/home/home'
 import { PokemonParams, populateField } from '@/tests/mocks'
 import { UnexpectedError } from '@/domain/errors'
-import { AccountContext } from '@/application/contexts'
+import { AccountContext, PokemonProvider } from '@/application/contexts'
 
 import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
@@ -18,7 +18,9 @@ describe('Home', () => {
   const makeSut = (): SutTypes => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
-      <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon}/>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
+        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon}/>
+      </PokemonProvider>
     </AccountContext.Provider>
     )
     return { container }
@@ -27,6 +29,7 @@ describe('Home', () => {
   beforeAll(() => {
     listPokemons.mockResolvedValue({ count: 1, pokemons: [PokemonParams, { ...PokemonParams, id: '1' }, { ...PokemonParams, id: '2' }] })
     getDataPokemons.mockResolvedValue({ pokemon: PokemonParams, description: 'any_description' })
+    getListFavoritePokemon.mockResolvedValue([PokemonParams])
   })
 
   it('should load with correct initial state', async () => {
