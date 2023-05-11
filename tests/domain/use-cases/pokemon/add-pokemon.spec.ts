@@ -11,7 +11,7 @@ describe('AddPokemonUseCase', () => {
   const httpClient = mock<HttpClient>()
 
   beforeAll(() => {
-    httpClient.request.mockResolvedValue({ statusCode: 200 })
+    httpClient.request.mockResolvedValue({ statusCode: 200, data: true })
   })
 
   beforeEach(() => {
@@ -39,5 +39,11 @@ describe('AddPokemonUseCase', () => {
     const promise = sut(PokemonParams)
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  it('should return true if HttpClient return 200', async () => {
+    const result = await sut(PokemonParams)
+
+    expect(result).toBeTruthy()
   })
 })
