@@ -3,15 +3,16 @@ import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon 
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
 import { type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
-import { PokemonProvider } from '@/application/contexts'
+import { PokemonProvider, AccountContext } from '@/application/contexts'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon, getListFavoritePokemon: GetListFavoritePokemon }
 
 export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon }: Props) => {
+  const { getCurrentAccount } = useContext(AccountContext)
   const perPage = 25
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
   const [listFavoritePokemon, setListFavoritePokemon] = useState<Pokemon[]>([])
@@ -29,7 +30,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   const changeReload = (): void => { setReload(!reload) }
 
   useEffect(() => {
-    getListFavoritePokemon().then(result => { setListFavoritePokemon(result) })
+    if (getCurrentAccount()?.token) { getListFavoritePokemon().then(result => { setListFavoritePokemon(result) }) }
     setListPokemon([])
     listPokemons({ page: page * perPage, perPage }).then(result => {
       setListPokemon(result.pokemons)
