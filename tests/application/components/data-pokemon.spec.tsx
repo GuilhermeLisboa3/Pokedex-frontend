@@ -1,18 +1,24 @@
 import { PokemonParams } from '@/tests/mocks'
 import { DataPokemon } from '@/application/components/modal-data-pokemon/components'
+import { PokemonProvider } from '@/application/contexts'
 
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import faker from 'faker'
 
 describe('DataPokemon', () => {
-  const { name, id, types, abilities, height, weight, stats } = PokemonParams
+  const { id, types, abilities, height, weight, stats } = PokemonParams
   it('should render with correct values', () => {
     const type2 = faker.name.findName()
-    render(<DataPokemon pokemon={PokemonParams} pokemonDescription='any_description'/>)
+    const { container } = render(
+      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
+        <DataPokemon pokemon={{ ...PokemonParams, name: 'any_name' }} pokemonDescription='any_description'/>
+      </PokemonProvider>
+    )
+    expect(container.querySelector('.card-data-pokemon-icon-favorite')).toBeInTheDocument()
     expect(screen.getByRole('img')).toHaveAttribute('src', PokemonParams.sprites.front_default)
-    expect(screen.getByRole('img')).toHaveAttribute('alt', name)
-    expect(screen.getByText(name)).toBeInTheDocument()
+    expect(screen.getByRole('img')).toHaveAttribute('alt', 'any_name')
+    expect(screen.getByText('any_name')).toBeInTheDocument()
     expect(screen.getByText(`#${id}`)).toBeInTheDocument()
     expect(screen.getByText(types[0].type.name)).toBeInTheDocument()
     expect(screen.getByText(types[0].type.name)).toHaveClass(`type ${types[0].type.name}`)
@@ -35,7 +41,12 @@ describe('DataPokemon', () => {
       types: [{ type: { name: type1 } }, { type: { name: type2 } }],
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
-    render(<DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>)
+    const { container } = render(
+      <PokemonProvider listFavoritePokemon={[pokemonParams]}>
+        <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
+      </PokemonProvider>
+    )
+    expect(container.querySelector('.card-data-pokemon-icon-favorite-red')).toBeInTheDocument()
     expect(screen.getByText(type1)).toBeInTheDocument()
     expect(screen.getByText(type1)).toHaveClass(`type ${type1}`)
     expect(screen.getByText(type2)).toBeInTheDocument()
@@ -55,7 +66,11 @@ describe('DataPokemon', () => {
       types: [{ type: { name: type1 } }],
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
-    render(<DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>)
+    render(
+      <PokemonProvider listFavoritePokemon={[pokemonParams]}>
+        <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
+      </PokemonProvider>
+    )
     expect(screen.getByText(ability2)).toHaveClass(`br-${type1}`)
   })
 })

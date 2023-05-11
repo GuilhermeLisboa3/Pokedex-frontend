@@ -1,6 +1,9 @@
 import './styles.scss'
 import { type Pokemon } from '@/domain/models'
-import { FaRegHeart } from 'react-icons/fa'
+import { PokemonContext } from '@/application/contexts'
+
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
+import { useContext } from 'react'
 
 type Props = {
   pokemon: Pokemon
@@ -8,6 +11,8 @@ type Props = {
 }
 
 export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Props) => {
+  const { pokemonFavorite } = useContext(PokemonContext)
+  const isFavorite = pokemonFavorite(pokemon.name)
   const typePokemon = (position: number): string => pokemon.types[position].type.name
   const abilityPokemon = (position: number): string => pokemon.abilities[position].ability.name
   return (
@@ -15,7 +20,7 @@ export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Pr
       <div className='card-data-pokemon'>
 
         <div className='card-data-pokemon-icons'>
-          <FaRegHeart className='card-data-pokemon-heart-icon'/>
+          { isFavorite ? <FaHeart className='card-data-pokemon-icon-favorite-red'/> : <FaRegHeart className='card-data-pokemon-icon-favorite'/>}
         </div>
 
         <img src={pokemon.sprites.front_default} alt={pokemon.name} />

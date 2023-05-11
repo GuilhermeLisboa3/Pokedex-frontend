@@ -1,5 +1,6 @@
 import { PokemonParams } from '@/tests/mocks'
 import { ModalDataPokemon } from '@/application/components/modal-data-pokemon/modal-data-pokemon'
+import { PokemonProvider } from '@/application/contexts'
 
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
@@ -10,7 +11,11 @@ describe('ModalDataPokemon', () => {
   const setIsOpenSpy = jest.fn()
   type SutTypes = { container: HTMLElement }
   const makeSut = (): SutTypes => {
-    const { container } = render(<ModalDataPokemon pokemon={PokemonParams} pokemonDescription='any_description' isOpen={true} setIsOpen={setIsOpenSpy}/>)
+    const { container } = render(
+      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
+        <ModalDataPokemon pokemon={PokemonParams} pokemonDescription='any_description' isOpen={true} setIsOpen={setIsOpenSpy}/>
+      </PokemonProvider>
+    )
     return { container }
   }
   it('should render with correct values', () => {

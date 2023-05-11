@@ -10,11 +10,23 @@
     display: flex;
     justify-content: end;
 
-    .card-data-pokemon-heart-icon {
+    .card-data-pokemon-icon-favorite{
+      background-color: transparent;
       font-size: 25px;
       cursor: pointer;
       &:hover{
         color: $color-third;
+      }
+    }
+    
+    .card-data-pokemon-icon-favorite-red{
+      background-color: transparent;
+      font-size: 25px;
+      cursor: pointer;
+      color: $color-third;
+      transition: 0.5s;
+      &:hover{
+        transform: scale(1.1);
       }
     }
   }
