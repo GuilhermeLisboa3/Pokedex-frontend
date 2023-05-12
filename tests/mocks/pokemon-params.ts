@@ -20,10 +20,4 @@ export const ApiPokemonParams = {
   ]
 }
 
-export const PokemonParams = {
-  idPokemon: faker.datatype.uuid(),
-  namePokemon: faker.name.findName(),
-  photoPokemon: faker.internet.url(),
-  urlSpecies: faker.internet.url(),
-  types: [{ type: { name: faker.name.findName() } }]
-}
+export const PokemonParams = { idPokemon: faker.datatype.uuid() }

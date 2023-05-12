@@ -14,14 +14,15 @@ describe('Home', () => {
   const listPokemons: jest.Mock = jest.fn()
   const getDataPokemons: jest.Mock = jest.fn()
   const getListFavoritePokemon: jest.Mock = jest.fn()
+  const addPokemon: jest.Mock = jest.fn()
   const getSpy: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
-      <PokemonProvider listFavoritePokemon={[PokemonParams]} getDataPokemon={jest.fn()}>
-        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon}/>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} getDataPokemon={jest.fn()} addPokemon={jest.fn()}>
+        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon} addPokemon={addPokemon}/>
       </PokemonProvider>
     </AccountContext.Provider>
     )
@@ -158,6 +159,16 @@ describe('Home', () => {
 
     expect(getListFavoritePokemon).toHaveBeenCalledWith()
     expect(getListFavoritePokemon).toHaveBeenCalledTimes(1)
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
+
+  it('should call AddPokemon if click icon heart', async () => {
+    const { container } = makeSut()
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    fireEvent.click(container.querySelectorAll('.card-pokemon-button-favorite')[0])
+
+    expect(addPokemon).toHaveBeenCalledWith({ idPokemon: ApiPokemonParams.id })
+    expect(addPokemon).toHaveBeenCalledTimes(1)
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
 })

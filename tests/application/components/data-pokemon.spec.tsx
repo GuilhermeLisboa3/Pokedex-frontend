@@ -11,7 +11,7 @@ describe('DataPokemon', () => {
   it('should render with correct values', () => {
     const type2 = faker.name.findName()
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()}>
         <DataPokemon pokemon={{ ...ApiPokemonParams, name: 'any_name' }} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
@@ -43,7 +43,7 @@ describe('DataPokemon', () => {
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, namePokemon: 'any_name' }]}>
+      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: ApiPokemonParams.id }]} addPokemon={jest.fn()} getDataPokemon={jest.fn()}>
         <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
@@ -68,7 +68,7 @@ describe('DataPokemon', () => {
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
     render(
-      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()}>
         <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
