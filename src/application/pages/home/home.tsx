@@ -70,8 +70,9 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
       return
     }
     try {
-      await addPokemon({ idPokemon: pokemon.id })
-    } catch (error) {}
+      await addPokemon({ idPokemon: pokemon.id.toString() })
+      setListFavoritePokemon([...listFavoritePokemon, { idPokemon: pokemon.id.toString() }])
+    } catch (error) { }
   }
 
   return (

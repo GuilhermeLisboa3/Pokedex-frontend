@@ -11,7 +11,7 @@ type Props = {
 }
 
 export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Props) => {
-  const { pokemonFavorite } = useContext(PokemonContext)
+  const { pokemonFavorite, addPokemon } = useContext(PokemonContext)
   const isFavorite = pokemonFavorite(pokemon.id)
   const typePokemon = (position: number): string => pokemon.types[position].type.name
   const abilityPokemon = (position: number): string => pokemon.abilities[position].ability.name
@@ -19,7 +19,7 @@ export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Pr
     <>
       <div className='card-data-pokemon'>
 
-        <div className='card-data-pokemon-icons'>
+        <div className='card-data-pokemon-icons' onClick={() => { addPokemon(pokemon) }}>
           { isFavorite ? <FaHeart className='card-data-pokemon-icon-favorite-red'/> : <FaRegHeart className='card-data-pokemon-icon-favorite'/>}
         </div>
 
