@@ -2,16 +2,16 @@ import './styles.scss'
 import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon } from '@/application/components'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
-import { type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
+import { type AddPokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { PokemonProvider, AccountContext } from '@/application/contexts'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
 import { useContext, useEffect, useState } from 'react'
 
-type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon, getListFavoritePokemon: GetListFavoritePokemon }
+type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon, getListFavoritePokemon: GetListFavoritePokemon, addPokemon: AddPokemon }
 
-export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon }: Props) => {
+export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon, addPokemon }: Props) => {
   const { getCurrentAccount } = useContext(AccountContext)
   const perPage = 25
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
@@ -64,9 +64,13 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
     }
   }
 
+  const addPokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
+    await addPokemon({ idPokemon: pokemon.id })
+  }
+
   return (
     <>
-      <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler}>
+      <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} addPokemon={addPokemonHandler}>
         <Container className='home-container'>
           <Header setNamePokemon={setNamePokemon}/>
           <main className='home-container-list-pokemon'>

@@ -12,7 +12,7 @@ type Props = {
 
 export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Props) => {
   const { pokemonFavorite } = useContext(PokemonContext)
-  const isFavorite = pokemonFavorite(pokemon.name)
+  const isFavorite = pokemonFavorite(pokemon.id)
   const typePokemon = (position: number): string => pokemon.types[position].type.name
   const abilityPokemon = (position: number): string => pokemon.abilities[position].ability.name
   return (
