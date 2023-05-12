@@ -10,7 +10,6 @@ import { act } from 'react-dom/test-utils'
 jest.useFakeTimers()
 
 describe('Home', () => {
-  const { name, email, token } = AccountParams
   const listPokemons: jest.Mock = jest.fn()
   const getDataPokemons: jest.Mock = jest.fn()
   const getListFavoritePokemon: jest.Mock = jest.fn()
@@ -152,23 +151,36 @@ describe('Home', () => {
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
   })
 
-  it('should call GetListFavoritePokemon', async () => {
-    getSpy.mockReturnValue({ name, email, token })
-    const { container } = makeSut()
-    await waitFor(() => container.querySelector('.home-list-pokemons'))
-
-    expect(getListFavoritePokemon).toHaveBeenCalledWith()
-    expect(getListFavoritePokemon).toHaveBeenCalledTimes(1)
-    await waitFor(() => screen.getAllByTestId('card-pokemon'))
-  })
-
-  it('should call AddPokemon if click icon heart', async () => {
+  it('should show the toas if you click on the heart and has no token', async () => {
     const { container } = makeSut()
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
     fireEvent.click(container.querySelectorAll('.card-pokemon-button-favorite')[0])
 
-    expect(addPokemon).toHaveBeenCalledWith({ idPokemon: ApiPokemonParams.id })
-    expect(addPokemon).toHaveBeenCalledTimes(1)
+    expect(addPokemon).not.toHaveBeenCalled()
+    expect(await screen.findByTestId('toas')).toBeInTheDocument()
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
+
+  describe('test with token', () => {
+    const { name, email, token } = AccountParams
+    beforeAll(() => { getSpy.mockReturnValue({ name, email, token }) })
+    it('should call GetListFavoritePokemon', async () => {
+      const { container } = makeSut()
+      await waitFor(() => container.querySelector('.home-list-pokemons'))
+
+      expect(getListFavoritePokemon).toHaveBeenCalledWith()
+      expect(getListFavoritePokemon).toHaveBeenCalledTimes(1)
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    })
+
+    it('should call AddPokemon if click icon heart', async () => {
+      const { container } = makeSut()
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+      fireEvent.click(container.querySelectorAll('.card-pokemon-button-favorite')[0])
+
+      expect(addPokemon).toHaveBeenCalledWith({ idPokemon: ApiPokemonParams.id })
+      expect(addPokemon).toHaveBeenCalledTimes(1)
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    })
   })
 })
