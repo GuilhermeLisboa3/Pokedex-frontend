@@ -30,7 +30,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   const changeReload = (): void => { setReload(!reload) }
 
   useEffect(() => {
-    if (getCurrentAccount()?.token) { getListFavoritePokemon().then(result => { setListFavoritePokemon(result) }) }
+    if (getCurrentAccount()?.token) { getListFavoritePokemon().then((result: Pokemon[]) => { setListFavoritePokemon(result) }) }
     setListPokemon([])
     listPokemons({ page: page * perPage, perPage }).then(result => {
       setListPokemon(result.pokemons)
@@ -66,7 +66,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
 
   return (
     <>
-      <PokemonProvider listFavoritePokemon={listFavoritePokemon}>
+      <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler}>
         <Container className='home-container'>
           <Header setNamePokemon={setNamePokemon}/>
           <main className='home-container-list-pokemon'>
@@ -75,7 +75,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
               ? <Error error={error} reload={changeReload}/>
               : <div className='home-list-pokemons'>
                   { listPokemon.length > 0
-                    ? listPokemon.map(pokemon => (<div data-testid='card-pokemon' key={pokemon.id} onClick={() => { getDataPokemonHandler(pokemon.name) }}><CardPokemon pokemon={pokemon}/></div>))
+                    ? listPokemon.map(pokemon => (<CardPokemon pokemon={pokemon} key={pokemon.id}/>))
                     : <EmptyCardPokemon/>
                   }
                 </div>

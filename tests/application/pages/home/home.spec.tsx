@@ -20,7 +20,7 @@ describe('Home', () => {
   const makeSut = (): SutTypes => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
-      <PokemonProvider listFavoritePokemon={[PokemonParams]}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} getDataPokemon={jest.fn()}>
         <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon}/>
       </PokemonProvider>
     </AccountContext.Provider>
