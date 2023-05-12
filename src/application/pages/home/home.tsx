@@ -1,5 +1,5 @@
 import './styles.scss'
-import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon } from '@/application/components'
+import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon, Toas } from '@/application/components'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
 import { type AddPokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
@@ -21,6 +21,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   const [pokemonDescription, setPokemonDescription] = useState('')
 
   const [isOpenModalDataPokemon, setIsOpenModalDataPokemon] = useState(false)
+  const [toastIsOpen, setToastIsOpen] = useState(false)
 
   const [page, setPage] = useState(0)
   const [count, setCount] = useState<number>(0)
@@ -46,8 +47,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
       setPokemon(pokemon)
       setPokemonDescription(description)
       setIsOpenModalDataPokemon(true)
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   const searchPokemon = async (namePokemon?: string): Promise<void> => {
@@ -65,7 +65,13 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   }
 
   const addPokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
-    await addPokemon({ idPokemon: pokemon.id })
+    if (!getCurrentAccount()?.token) {
+      setToastIsOpen(true)
+      return
+    }
+    try {
+      await addPokemon({ idPokemon: pokemon.id })
+    } catch (error) {}
   }
 
   return (
@@ -89,6 +95,7 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
           <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon} setIsOpen={setIsOpenModalDataPokemon}/>
         </Container>
       </PokemonProvider>
+      <Toas color={'bg-danger'} isOpen={toastIsOpen} setIsOpen={setToastIsOpen} message={'Faça login para conseguir favoritar um pokemon'}/>
     </>
   )
 }
