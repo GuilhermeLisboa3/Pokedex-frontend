@@ -40,4 +40,10 @@ describe('DeleteAccountUseCase', () => {
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
   })
+
+  it('should return undefined if HttpClient return 204', async () => {
+    const result = await sut()
+
+    expect(result).toBeUndefined()
+  })
 })
