@@ -19,8 +19,10 @@ export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Pr
     <>
       <div className='card-data-pokemon'>
 
-        <div className='card-data-pokemon-icons' onClick={() => { isFavorite ? deletePokemon(pokemon) : addPokemon(pokemon) }}>
-          { isFavorite ? <FaHeart className='card-data-pokemon-icon-favorite-red'/> : <FaRegHeart className='card-data-pokemon-icon-favorite'/>}
+        <div className='card-data-pokemon-icons' >
+          <button onClick={() => { isFavorite ? deletePokemon(pokemon) : addPokemon(pokemon) }}>
+            { isFavorite ? <FaHeart className='card-data-pokemon-icon-favorite-red'/> : <FaRegHeart className='card-data-pokemon-icon-favorite'/>}
+          </button>
         </div>
 
         <img src={pokemon.sprites.front_default} alt={pokemon.name} />

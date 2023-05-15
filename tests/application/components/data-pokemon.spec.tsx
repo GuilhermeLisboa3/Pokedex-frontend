@@ -3,18 +3,22 @@ import { DataPokemon } from '@/application/components/modal-data-pokemon/compone
 import { PokemonProvider } from '@/application/contexts'
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import faker from 'faker'
 
 describe('DataPokemon', () => {
   const { id, types, abilities, height, weight, stats } = ApiPokemonParams
+  const addPokemon = jest.fn()
+  const deletePokemon = jest.fn()
   it('should render with correct values', () => {
     const type2 = faker.name.findName()
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={addPokemon} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
         <DataPokemon pokemon={{ ...ApiPokemonParams, name: 'any_name' }} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
+    fireEvent.click(screen.getByRole('button'))
+    expect(addPokemon).toHaveBeenCalled()
     expect(container.querySelector('.card-data-pokemon-icon-favorite')).toBeInTheDocument()
     expect(screen.getByRole('img')).toHaveAttribute('src', ApiPokemonParams.sprites.front_default)
     expect(screen.getByRole('img')).toHaveAttribute('alt', 'any_name')
@@ -43,10 +47,12 @@ describe('DataPokemon', () => {
       abilities: [{ ability: { name: ability1 } }, { ability: { name: ability2 } }]
     }
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: ApiPokemonParams.id }]} addPokemon={jest.fn()} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
+      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: ApiPokemonParams.id }]} addPokemon={jest.fn()} getDataPokemon={jest.fn()} deletePokemon={deletePokemon}>
         <DataPokemon pokemon={pokemonParams} pokemonDescription='any_description'/>
       </PokemonProvider>
     )
+    fireEvent.click(screen.getByRole('button'))
+    expect(deletePokemon).toHaveBeenCalled()
     expect(container.querySelector('.card-data-pokemon-icon-favorite-red')).toBeInTheDocument()
     expect(screen.getByText(type1)).toBeInTheDocument()
     expect(screen.getByText(type1)).toHaveClass(`type ${type1}`)

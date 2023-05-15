@@ -10,6 +10,12 @@
     display: flex;
     justify-content: end;
 
+    button {
+      width: 30px;
+      background-color: transparent;
+      border: none;
+    }
+
     .card-data-pokemon-icon-favorite{
       background-color: transparent;
       font-size: 25px;
