@@ -7,9 +7,10 @@ import { TbPokeball } from 'react-icons/tb'
 
 type Props = {
   setNamePokemon: React.Dispatch<React.SetStateAction<string | undefined>>
+  deleteAccount: () => Promise<void>
 }
 
-export const Header: React.FC<Props> = ({ setNamePokemon }: Props) => {
+export const Header: React.FC<Props> = ({ setNamePokemon, deleteAccount }: Props) => {
   const [token, setToken] = useState<string | undefined>()
   const { getCurrentAccount } = useContext(AccountContext)
   useEffect(() => { setToken(getCurrentAccount()?.token) }, [])
@@ -32,7 +33,7 @@ export const Header: React.FC<Props> = ({ setNamePokemon }: Props) => {
         <div className='header-navigate'>
           {
             token
-              ? <Auth/>
+              ? <Auth deleteAccount={deleteAccount}/>
               : <NoAuth/>
           }
         </div>

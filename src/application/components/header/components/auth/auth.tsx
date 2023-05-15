@@ -5,8 +5,14 @@ import { Container } from 'reactstrap'
 import { FaHeart, FaUserAlt } from 'react-icons/fa'
 import { Modal } from '@/application/components/modal/modal'
 import { useState } from 'react'
+import { useLogout } from '@/application/hooks'
 
-export const Auth: React.FC = () => {
+type Props = {
+  deleteAccount: () => Promise<void>
+}
+
+export const Auth: React.FC<Props> = ({ deleteAccount }: Props) => {
+  const logout = useLogout()
   const [modalOpen, setModalOpen] = useState(false)
 
   const handlerModal = (): void => { setModalOpen(!modalOpen) }
@@ -25,8 +31,8 @@ export const Auth: React.FC = () => {
           </button>
         </div>
         <Modal data-testid='modal' modalOpen={modalOpen} classNameModal='auth-modal' overlayClassName='auth-modal-overlay'>
-          <Link href="/" className='auth-link'> Deletar conta </Link>
-          <span className='auth-link'>Sair</span>
+          <Link href="/" className='auth-link' onClick={() => { deleteAccount() }}> Deletar conta </Link>
+          <span className='auth-link' onClick={() => { logout() }}>Sair</span>
         </Modal>
       </Container>
     </>
