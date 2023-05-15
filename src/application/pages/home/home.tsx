@@ -2,16 +2,22 @@ import './styles.scss'
 import { EmptyCardPokemon, Footer, Header, CardPokemon, Error, ModalDataPokemon, Toas } from '@/application/components'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
 import { type GetDataPokemon, type ListPokemons } from '@/domain/use-cases/api-pokemon'
-import { type AddPokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
+import { type DeletePokemon, type AddPokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { PokemonProvider, AccountContext } from '@/application/contexts'
 
 import { Container } from 'reactstrap'
 import { Pagination } from './components'
 import { useContext, useEffect, useState } from 'react'
 
-type Props = { listPokemons: ListPokemons, getDataPokemon: GetDataPokemon, getListFavoritePokemon: GetListFavoritePokemon, addPokemon: AddPokemon }
+type Props = {
+  listPokemons: ListPokemons
+  getDataPokemon: GetDataPokemon
+  getListFavoritePokemon: GetListFavoritePokemon
+  addPokemon: AddPokemon
+  deletePokemon: DeletePokemon
+}
 
-export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon, addPokemon }: Props) => {
+export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFavoritePokemon, addPokemon, deletePokemon }: Props) => {
   const { getCurrentAccount } = useContext(AccountContext)
   const perPage = 25
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
@@ -75,9 +81,13 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
     } catch (error) { }
   }
 
+  const deletePokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
+    await deletePokemon({ idPokemon: pokemon.id.toString() })
+  }
+
   return (
     <>
-      <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} addPokemon={addPokemonHandler}>
+      <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} addPokemon={addPokemonHandler} deletePokemon={deletePokemonHandler}>
         <Container className='home-container'>
           <Header setNamePokemon={setNamePokemon}/>
           <main className='home-container-list-pokemon'>

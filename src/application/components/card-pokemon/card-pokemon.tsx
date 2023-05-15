@@ -8,13 +8,15 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa'
 type Props = { pokemon: ApiPokemon }
 
 export const CardPokemon: React.FC<Props> = ({ pokemon }: Props) => {
-  const { pokemonFavorite, getDataPokemon, addPokemon } = useContext(PokemonContext)
+  const { pokemonFavorite, getDataPokemon, addPokemon, deletePokemon } = useContext(PokemonContext)
   const isFavorite = pokemonFavorite(pokemon.id)
   const typePokemon = (position: number): string => pokemon.types[position].type.name
   return (
     <>
     <div className='container-card-pokemon'>
-      <button className='card-pokemon-button-favorite' onClick={() => { addPokemon(pokemon) }}>{ isFavorite ? <FaHeart className='icon-favorite-red'/> : <FaRegHeart className='icon-favorite'/>}</button>
+      <button className='card-pokemon-button-favorite' onClick={() => { isFavorite ? deletePokemon(pokemon) : addPokemon(pokemon) }}>
+        { isFavorite ? <FaHeart className='icon-favorite-red'/> : <FaRegHeart className='icon-favorite'/>}
+      </button>
       <div className='card-pokemon' onClick={() => { getDataPokemon(pokemon.name) }} data-testid='card-pokemon'>
         <img className='card-pokemon-img-pokemon' src={pokemon.sprites.front_default} alt={pokemon.name}/>
         <p className='card-pokemon-id-pokemon'>Nº{pokemon.id}</p>
