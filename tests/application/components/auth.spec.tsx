@@ -3,6 +3,7 @@ import { AccountContext } from '@/application/contexts'
 
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import 'jest-location-mock'
 
 jest.mock('next/navigation')
 
@@ -27,5 +28,12 @@ describe('Auth', () => {
     fireEvent.click(screen.getAllByRole('button')[0])
     expect(screen.getByText('Deletar conta')).toBeInTheDocument()
     expect(screen.getByText('Sair')).toBeInTheDocument()
+  })
+
+  it('should call location.reload() if click text Sair', async () => {
+    makeSut()
+    fireEvent.click(screen.getAllByRole('button')[0])
+    fireEvent.click(screen.getByText('Sair'))
+    expect(location.reload).toHaveBeenCalled()
   })
 })
