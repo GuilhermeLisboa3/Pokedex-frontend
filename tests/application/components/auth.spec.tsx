@@ -1,10 +1,19 @@
 import { Auth } from '@/application/components/header/components'
+import { AccountContext } from '@/application/contexts'
 
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 
+jest.mock('next/navigation')
+
 describe('Auth', () => {
-  const makeSut = (): void => { render(<Auth/>) }
+  const makeSut = (): void => {
+    render(
+      <AccountContext.Provider value={{ getCurrentAccount: jest.fn(), setCurrentAccount: jest.fn() }}>
+        <Auth deleteAccount={jest.fn()}/>
+      </AccountContext.Provider>
+    )
+  }
 
   it('should load with correct initial state', () => {
     makeSut()

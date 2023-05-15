@@ -4,6 +4,7 @@ import { AccountContext } from '@/application/contexts'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 
+jest.mock('next/navigation')
 jest.useFakeTimers()
 
 describe('Header', () => {
@@ -12,7 +13,7 @@ describe('Header', () => {
   const makeSut = (): SutTypes => {
     const { container } = render(
       <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
-        <Header setNamePokemon={jest.fn()}/>
+        <Header setNamePokemon={jest.fn()} deleteAccount={jest.fn()}/>
       </AccountContext.Provider>
     )
     return { container }

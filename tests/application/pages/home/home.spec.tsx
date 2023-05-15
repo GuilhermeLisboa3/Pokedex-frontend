@@ -7,6 +7,7 @@ import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 
+jest.mock('next/navigation')
 jest.useFakeTimers()
 
 describe('Home', () => {
@@ -15,6 +16,7 @@ describe('Home', () => {
   const getListFavoritePokemon: jest.Mock = jest.fn()
   const addPokemon: jest.Mock = jest.fn()
   const deletePokemon: jest.Mock = jest.fn()
+  const deleteAccount: jest.Mock = jest.fn()
   const getSpy: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
@@ -22,7 +24,7 @@ describe('Home', () => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
       <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: '1' }]} getDataPokemon={jest.fn()} addPokemon={jest.fn()} deletePokemon={jest.fn()}>
-        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon} addPokemon={addPokemon} deletePokemon={deletePokemon}/>
+        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon} addPokemon={addPokemon} deletePokemon={deletePokemon} deleteAccount={deleteAccount}/>
       </PokemonProvider>
     </AccountContext.Provider>
     )
@@ -191,6 +193,17 @@ describe('Home', () => {
 
       expect(deletePokemon).toHaveBeenCalledWith({ idPokemon: '1' })
       expect(deletePokemon).toHaveBeenCalledTimes(1)
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    })
+
+    it('should call DeleteAccount if click text Deletar conta', async () => {
+      makeSut()
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+      fireEvent.click(screen.getByTestId('auth-button'))
+      fireEvent.click(screen.getByText('Deletar conta'))
+
+      expect(deleteAccount).toHaveBeenCalled()
+      expect(deleteAccount).toHaveBeenCalledTimes(1)
       await waitFor(() => screen.getAllByTestId('card-pokemon'))
     })
   })
