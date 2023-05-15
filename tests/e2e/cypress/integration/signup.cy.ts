@@ -9,7 +9,7 @@ describe('SignUp', () => {
   const invalidPasswordConfirmation = faker.random.words(2)
 
   const mockError = (method: any): void => { method('POST', /register/) }
-  const mockSuccess = (): void => { mockOk('POST', /register/, 'signup') }
+  const mockSuccess = (): void => { mockOk('POST', /register/, 'success') }
 
   const populateFields = (email = faker.internet.email(), passwordConfirmation = password): void => {
     cy.getInputById('name').focus().type(name)

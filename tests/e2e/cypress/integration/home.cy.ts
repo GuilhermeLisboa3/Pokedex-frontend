@@ -6,6 +6,7 @@ describe('Home', () => {
   const mockPokemonDescription = (): void => { mockOk('GET', /pokemon-species/, 'pokemon-description') }
   const mockFavoritePokemon = (): void => { mockOk('GET', /pokemons/, 'favorite-pokemon') }
   const mockDataPokemon = (): void => { mockOk('GET', /pokemon[/]/, 'pokemon') }
+  const mockAddPokemon = (): void => { mockOk('POST', /pokemon/, 'success') }
 
   it('should present error on UnexpectedError', () => {
     mockError(mockUnexpectedError)
@@ -83,6 +84,7 @@ describe('Home', () => {
     mockPokemonDescription()
     cy.visit('')
     cy.getByTestId('card-pokemon').click()
+    cy.wait('@request')
     cy.get('.card-data-pokemon-name-pokemon').should('have.text', 'blastoise')
   })
 
@@ -103,6 +105,18 @@ describe('Home', () => {
     mockDataPokemon()
     mockFavoritePokemon()
     cy.visit('')
+    cy.get('.icon-favorite-red').should('exist')
+  })
+
+  it('should favorite the pokemon if you click on the heart button', () => {
+    cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    mockListPokemonSuccess()
+    mockDataPokemon()
+    mockOk('GET', /pokemons/, 'array-empty')
+    mockAddPokemon()
+    cy.visit('')
+    cy.get('.icon-favorite').should('exist')
+    cy.get('.card-pokemon-button-favorite').click()
     cy.get('.icon-favorite-red').should('exist')
   })
 })
