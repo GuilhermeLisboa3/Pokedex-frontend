@@ -9,7 +9,7 @@ import faker from 'faker'
 describe('CardPokemon', () => {
   it('should render with correct values', () => {
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
         <CardPokemon pokemon={{ ...ApiPokemonParams, name: 'any_name' }}/>
       </PokemonProvider>
     )
@@ -27,7 +27,7 @@ describe('CardPokemon', () => {
     const type1 = faker.name.findName()
     const type2 = faker.name.findName()
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: ApiPokemonParams.id }]} addPokemon={jest.fn()} getDataPokemon={jest.fn()}>
+      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: ApiPokemonParams.id }]} addPokemon={jest.fn()} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
         <CardPokemon pokemon={{ ...ApiPokemonParams, types: [{ type: { name: type1 } }, { type: { name: type2 } }], name: 'any_name' }}/>
       </PokemonProvider>
     )

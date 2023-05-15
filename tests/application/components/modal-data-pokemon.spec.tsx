@@ -12,7 +12,7 @@ describe('ModalDataPokemon', () => {
   type SutTypes = { container: HTMLElement }
   const makeSut = (): SutTypes => {
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()}>
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={jest.fn()} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
         <ModalDataPokemon pokemon={ApiPokemonParams} pokemonDescription='any_description' isOpen={true} setIsOpen={setIsOpenSpy}/>
       </PokemonProvider>
     )

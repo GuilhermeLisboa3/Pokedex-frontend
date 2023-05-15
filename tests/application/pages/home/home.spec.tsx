@@ -14,14 +14,15 @@ describe('Home', () => {
   const getDataPokemons: jest.Mock = jest.fn()
   const getListFavoritePokemon: jest.Mock = jest.fn()
   const addPokemon: jest.Mock = jest.fn()
+  const deletePokemon: jest.Mock = jest.fn()
   const getSpy: jest.Mock = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
     const { container } = render(
     <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: getSpy }}>
-      <PokemonProvider listFavoritePokemon={[PokemonParams]} getDataPokemon={jest.fn()} addPokemon={jest.fn()}>
-        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon} addPokemon={addPokemon}/>
+      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: '1' }]} getDataPokemon={jest.fn()} addPokemon={jest.fn()} deletePokemon={jest.fn()}>
+        <Home listPokemons={listPokemons} getDataPokemon={getDataPokemons} getListFavoritePokemon={getListFavoritePokemon} addPokemon={addPokemon} deletePokemon={deletePokemon}/>
       </PokemonProvider>
     </AccountContext.Provider>
     )
@@ -31,7 +32,7 @@ describe('Home', () => {
   beforeAll(() => {
     listPokemons.mockResolvedValue({ count: 1, pokemons: [ApiPokemonParams, { ...ApiPokemonParams, id: '1' }, { ...ApiPokemonParams, id: '2' }] })
     getDataPokemons.mockResolvedValue({ pokemon: ApiPokemonParams, description: 'any_description' })
-    getListFavoritePokemon.mockResolvedValue([ApiPokemonParams])
+    getListFavoritePokemon.mockResolvedValue([{ ...PokemonParams, idPokemon: '1' }])
   })
 
   it('should load with correct initial state', async () => {
@@ -180,6 +181,16 @@ describe('Home', () => {
 
       expect(addPokemon).toHaveBeenCalledWith({ idPokemon: ApiPokemonParams.id })
       expect(addPokemon).toHaveBeenCalledTimes(1)
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    })
+
+    it('should call DeletePokemon if click icon heart red', async () => {
+      const { container } = makeSut()
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+      fireEvent.click(container.querySelectorAll('.card-pokemon-button-favorite')[1])
+
+      expect(deletePokemon).toHaveBeenCalledWith({ idPokemon: '1' })
+      expect(deletePokemon).toHaveBeenCalledTimes(1)
       await waitFor(() => screen.getAllByTestId('card-pokemon'))
     })
   })
