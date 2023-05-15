@@ -1,4 +1,4 @@
-import { mockOk, mockUnexpectedError } from '../mocks/http-mocks'
+import { mockOk, mockUnexpectedError, mockNoContent } from '../mocks/http-mocks'
 
 describe('Home', () => {
   const mockError = (method: any): void => { method('GET', /pokemon?/) }
@@ -7,6 +7,7 @@ describe('Home', () => {
   const mockFavoritePokemon = (): void => { mockOk('GET', /pokemons/, 'favorite-pokemon') }
   const mockDataPokemon = (): void => { mockOk('GET', /pokemon[/]/, 'pokemon') }
   const mockAddPokemon = (): void => { mockOk('POST', /pokemon/, 'success') }
+  const mockDeletePokemon = (): void => { mockNoContent('DELETE', /pokemon/) }
 
   it('should present error on UnexpectedError', () => {
     mockError(mockUnexpectedError)
@@ -118,5 +119,17 @@ describe('Home', () => {
     cy.get('.icon-favorite').should('exist')
     cy.get('.card-pokemon-button-favorite').click()
     cy.get('.icon-favorite-red').should('exist')
+  })
+
+  it('should remove favorite the pokemon if you click on the red heart button', () => {
+    cy.fixture('login').then(account => cy.setLocalStorageItem('pokemon-token', account))
+    mockListPokemonSuccess()
+    mockDataPokemon()
+    mockFavoritePokemon()
+    mockDeletePokemon()
+    cy.visit('')
+    cy.get('.icon-favorite-red').should('exist')
+    cy.get('.card-pokemon-button-favorite').click()
+    cy.get('.icon-favorite').should('exist')
   })
 })

@@ -7,6 +7,13 @@ export const mockOk = (method: string, url: RegExp, fixture: string | object, al
   ).as(alias)
 }
 
+export const mockNoContent = (method: string, url: RegExp, alias: string = 'request'): void => {
+  cy.intercept(
+    { method, url },
+    { delay: 50, statusCode: 204 }
+  ).as(alias)
+}
+
 const body = { error: faker.random.words() }
 
 export const mockUnauthorizedError = (method: string, url: RegExp, alias: string = 'request'): void => {
