@@ -92,7 +92,9 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   }
 
   const deleteAccountHandler = async (): Promise<void> => {
-    await deleteAccount()
+    try {
+      await deleteAccount()
+    } catch (error) {}
   }
 
   return (
