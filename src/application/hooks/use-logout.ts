@@ -10,6 +10,7 @@ export const useLogout = (): ResultType => {
   const { setCurrentAccount } = useContext(AccountContext)
   return (): void => {
     setCurrentAccount(undefined as any)
+    location.reload()
     router.push('/')
   }
 }
