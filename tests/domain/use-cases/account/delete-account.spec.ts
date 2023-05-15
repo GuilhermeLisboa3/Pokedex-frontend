@@ -3,7 +3,7 @@ import { type HttpClient } from '@/domain/contracts/http'
 import { httpClientParams } from '@/tests/mocks'
 
 import { mock } from 'jest-mock-extended'
-import { AccessDeniedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 
 describe('DeleteAccountUseCase', () => {
   let sut: DeleteAccount
@@ -31,5 +31,13 @@ describe('DeleteAccountUseCase', () => {
     const promise = sut()
 
     await expect(promise).rejects.toThrow(new AccessDeniedError())
+  })
+
+  it('should throw UnexpectedError if HttpClient return 500', async () => {
+    httpClient.request.mockResolvedValueOnce({ statusCode: 500 })
+
+    const promise = sut()
+
+    await expect(promise).rejects.toThrow(new UnexpectedError())
   })
 })
