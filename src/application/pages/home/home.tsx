@@ -82,7 +82,11 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   }
 
   const deletePokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
-    await deletePokemon({ idPokemon: pokemon.id.toString() })
+    try {
+      await deletePokemon({ idPokemon: pokemon.id.toString() })
+      const favoritePokemon = listFavoritePokemon.filter(pokemonFavorite => pokemonFavorite.idPokemon !== pokemon.id.toString())
+      setListFavoritePokemon(favoritePokemon)
+    } catch (error) {}
   }
 
   return (
