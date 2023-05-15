@@ -31,7 +31,12 @@ export const Auth: React.FC<Props> = ({ deleteAccount }: Props) => {
           </button>
         </div>
         <Modal data-testid='modal' modalOpen={modalOpen} classNameModal='auth-modal' overlayClassName='auth-modal-overlay'>
-          <Link href="/" className='auth-link' onClick={() => { deleteAccount() }}> Deletar conta </Link>
+          <Link href="/" className='auth-link' onClick={() => {
+            deleteAccount()
+            logout()
+          }}>
+            Deletar conta
+          </Link>
           <span className='auth-link' onClick={() => { logout() }}>Sair</span>
         </Modal>
       </Container>

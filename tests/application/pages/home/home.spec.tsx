@@ -6,6 +6,7 @@ import { AccountContext, PokemonProvider } from '@/application/contexts'
 import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
+import 'jest-location-mock'
 
 jest.mock('next/navigation')
 jest.useFakeTimers()
