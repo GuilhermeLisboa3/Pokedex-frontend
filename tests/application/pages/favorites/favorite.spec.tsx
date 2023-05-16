@@ -1,8 +1,9 @@
 import { Favorites } from '@/application/pages/favorites/favorites'
-import { PokemonParams } from '@/tests/mocks'
+import { PokemonParams, ApiPokemonParams } from '@/tests/mocks'
 
 import React from 'react'
 import { render, waitFor, screen } from '@testing-library/react'
+import { PokemonProvider } from '@/application/contexts'
 
 describe('Favorites', () => {
   const getListFavoritePokemon = jest.fn()
@@ -11,13 +12,16 @@ describe('Favorites', () => {
 
   const makeSut = (): SutTypes => {
     const { container } = render(
-      <Favorites getListFavoritePokemon={getListFavoritePokemon} getDataPokemon={getDataPokemon}/>
+      <PokemonProvider listFavoritePokemon={[{ ...PokemonParams, idPokemon: '1' }]} addPokemon={jest.fn()} deletePokemon={jest.fn()} getDataPokemon={jest.fn()}>
+        <Favorites getListFavoritePokemon={getListFavoritePokemon} getDataPokemon={getDataPokemon}/>
+      </PokemonProvider>
     )
     return { container }
   }
 
   beforeAll(() => {
-    getListFavoritePokemon.mockResolvedValue([PokemonParams, PokemonParams])
+    getListFavoritePokemon.mockResolvedValue([{ ...PokemonParams, idPokemon: '1' }])
+    getDataPokemon.mockResolvedValue({ pokemon: ApiPokemonParams, description: 'any_description' })
   })
 
   it('should call GetListFavoritePokemon', async () => {
@@ -31,6 +35,13 @@ describe('Favorites', () => {
     makeSut()
     await waitFor(() => screen.getByRole('img'))
     expect(getDataPokemon).toHaveBeenCalled()
-    expect(getDataPokemon).toHaveBeenCalledTimes(2)
+    expect(getDataPokemon).toHaveBeenCalledTimes(1)
+  })
+
+  it('should render CardPokemon on success', async () => {
+    makeSut()
+    await waitFor(() => screen.getByTestId('card-pokemon'))
+
+    expect(screen.getAllByTestId('card-pokemon')).toHaveLength(1)
   })
 })
