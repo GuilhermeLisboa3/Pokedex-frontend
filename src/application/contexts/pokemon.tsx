@@ -3,7 +3,7 @@ import { type ReactNode, createContext } from 'react'
 
 type Props = {
   pokemonFavorite: (idPokemon: string) => boolean
-  addPokemon: (pokemon: ApiPokemon) => Promise<void>
+  addPokemon?: (pokemon: ApiPokemon) => Promise<void>
   deletePokemon: (pokemon: ApiPokemon) => Promise<void>
   getDataPokemon: (namePokemon: string) => Promise<void>
 }
@@ -13,7 +13,7 @@ export const PokemonContext = createContext<Props>(null as any)
 type ProviderProps = {
   children: ReactNode
   listFavoritePokemon: Pokemon[]
-  addPokemon: (pokemon: ApiPokemon) => Promise<void>
+  addPokemon?: (pokemon: ApiPokemon) => Promise<void>
   getDataPokemon: (namePokemon: string) => Promise<void>
   deletePokemon: (pokemon: ApiPokemon) => Promise<void>
 }

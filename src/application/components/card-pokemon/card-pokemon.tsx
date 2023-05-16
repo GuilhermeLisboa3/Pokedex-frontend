@@ -11,10 +11,20 @@ export const CardPokemon: React.FC<Props> = ({ pokemon }: Props) => {
   const { pokemonFavorite, getDataPokemon, addPokemon, deletePokemon } = useContext(PokemonContext)
   const isFavorite = pokemonFavorite(pokemon.id)
   const typePokemon = (position: number): string => pokemon.types[position].type.name
+
+  const addOrDeletePokemon = (): void => {
+    if (isFavorite) {
+      deletePokemon(pokemon)
+    } else {
+      if (addPokemon) {
+        addPokemon(pokemon)
+      }
+    }
+  }
   return (
     <>
     <div className='container-card-pokemon'>
-      <button className='card-pokemon-button-favorite' onClick={() => { isFavorite ? deletePokemon(pokemon) : addPokemon(pokemon) }}>
+      <button className='card-pokemon-button-favorite' onClick={() => { addOrDeletePokemon() }}>
         { isFavorite ? <FaHeart className='icon-favorite-red'/> : <FaRegHeart className='icon-favorite'/>}
       </button>
       <div className='card-pokemon' onClick={() => { getDataPokemon(pokemon.name) }} data-testid='card-pokemon'>

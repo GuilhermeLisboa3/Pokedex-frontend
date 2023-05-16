@@ -17,9 +17,15 @@
     }
   }
 
-  .favorite-text{
-    text-align: center;
-    font-size: 30px;
-    font-weight: bolder;
+  .home-list-pokemons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+
+    .favorite-text{
+      text-align: center;
+      font-size: 30px;
+      font-weight: bolder;
+    }
   }
 }
