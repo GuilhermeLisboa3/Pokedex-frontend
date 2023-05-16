@@ -63,4 +63,14 @@ describe('Favorites', () => {
 
     expect(screen.getByText('Você não tem pokemons favoritado.')).toBeInTheDocument()
   })
+
+  it('should show DataPokemon if click CardPokemon', async () => {
+    makeSut()
+    await waitFor(() => screen.getByTestId('card-pokemon'))
+    fireEvent.click(screen.getByTestId('card-pokemon'))
+    await waitFor(() => screen.getByTestId('icon-close'))
+
+    expect(screen.getByText('any_description')).toBeInTheDocument()
+    await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
 })
