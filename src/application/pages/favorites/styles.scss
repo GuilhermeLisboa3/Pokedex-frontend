@@ -1,0 +1,25 @@
+@import '../../styles/colors.scss';
+
+.favorite-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+
+  .favorite-container-logo {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+      width: 300px;
+      cursor: pointer;
+    }
+  }
+
+  .favorite-text{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
+  }
+}
