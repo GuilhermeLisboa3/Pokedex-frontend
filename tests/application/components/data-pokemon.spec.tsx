@@ -80,4 +80,30 @@ describe('DataPokemon', () => {
     )
     expect(screen.getByText(ability2)).toHaveClass(`br-${type1}`)
   })
+
+  it('should call addPokemon if exists', () => {
+    const addPokemon = jest.fn()
+    render(
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={addPokemon} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
+        <DataPokemon pokemon={ApiPokemonParams} pokemonDescription='any_description'/>
+      </PokemonProvider>
+    )
+
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(addPokemon).toHaveBeenCalled()
+  })
+
+  it('should call not addPokemon if exists', () => {
+    const addPokemon = jest.fn()
+    render(
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
+        <DataPokemon pokemon={ApiPokemonParams} pokemonDescription='any_description'/>
+      </PokemonProvider>
+    )
+
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(addPokemon).not.toHaveBeenCalled()
+  })
 })

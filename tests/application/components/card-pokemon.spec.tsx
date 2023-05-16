@@ -3,7 +3,7 @@ import { CardPokemon } from '@/application/components'
 import { PokemonProvider } from '@/application/contexts'
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import faker from 'faker'
 
 describe('CardPokemon', () => {
@@ -39,5 +39,31 @@ describe('CardPokemon', () => {
     expect(container.querySelector('.card-pokemon-types-pokemon')?.children).toHaveLength(2)
     expect(container.querySelector('.card-pokemon-types-pokemon')?.children[0]).toHaveTextContent(type1)
     expect(container.querySelector('.card-pokemon-types-pokemon')?.children[1]).toHaveTextContent(type2)
+  })
+
+  it('should call addPokemon if exists', () => {
+    const addPokemon = jest.fn()
+    render(
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} addPokemon={addPokemon} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
+        <CardPokemon pokemon={{ ...ApiPokemonParams, name: 'any_name' }}/>
+      </PokemonProvider>
+    )
+
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(addPokemon).toHaveBeenCalled()
+  })
+
+  it('should call not addPokemon if exists', () => {
+    const addPokemon = jest.fn()
+    render(
+      <PokemonProvider listFavoritePokemon={[PokemonParams]} getDataPokemon={jest.fn()} deletePokemon={jest.fn()}>
+        <CardPokemon pokemon={{ ...ApiPokemonParams, name: 'any_name' }}/>
+      </PokemonProvider>
+    )
+
+    fireEvent.click(screen.getByRole('button'))
+
+    expect(addPokemon).not.toHaveBeenCalled()
   })
 })
