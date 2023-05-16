@@ -2,11 +2,14 @@ import { makeGetDataPokemon, makeGetListFavoritePokemon, makeDeletePokemon } fro
 import { Favorites } from '@/application/pages/favorites/favorites'
 
 import React from 'react'
+import { PrivateRoute } from '@/main/proxies/private-route'
 
 export const MakeFavorite: React.FC = () => (
-  <Favorites
-    getDataPokemon={makeGetDataPokemon()}
-    getListFavoritePokemon={makeGetListFavoritePokemon()}
-    deletePokemon={makeDeletePokemon()}
-  />
+  <PrivateRoute>
+    <Favorites
+      getDataPokemon={makeGetDataPokemon()}
+      getListFavoritePokemon={makeGetListFavoritePokemon()}
+      deletePokemon={makeDeletePokemon()}
+    />
+  </PrivateRoute>
 )

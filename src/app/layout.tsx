@@ -8,7 +8,7 @@ import { getCurrentAccountAdapter, setCurrentAccountAdapter } from '@/main/adapt
 
 const RootLayout = ({ children }: { children: React.ReactNode }): JSX.Element => {
   return (
-    <html lang="en">
+    <html lang="pt-br">
       <body>
       <AccountContext.Provider value={{ setCurrentAccount: setCurrentAccountAdapter, getCurrentAccount: getCurrentAccountAdapter }}>
         {children}
