@@ -27,12 +27,10 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
   }, [listFavoritePokemon])
 
   const listPokemonHandler = async (): Promise<void> => {
-    const listPokemon = listFavoritePokemon.map(async (pokemon) => {
+    listFavoritePokemon.map(async (pokemon) => {
       const dataPokemon = await getDataPokemon({ name: pokemon.idPokemon })
-      return dataPokemon.pokemon
+      setListPokemon([...listPokemon, dataPokemon.pokemon])
     })
-    const pokemons = await Promise.all(listPokemon)
-    setListPokemon(pokemons)
   }
 
   const deletePokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
