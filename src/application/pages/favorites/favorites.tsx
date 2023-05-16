@@ -1,10 +1,20 @@
-import { Footer } from '@/application/components'
 import './styles.scss'
+import { Footer } from '@/application/components'
+import { type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 
 import { Container } from 'reactstrap'
 import Link from 'next/link'
+import { useEffect } from 'react'
 
-export const Favorites: React.FC = () => {
+type Props = {
+  getListFavoritePokemon: GetListFavoritePokemon
+}
+
+export const Favorites: React.FC<Props> = ({ getListFavoritePokemon }: Props) => {
+  useEffect(() => {
+    getListFavoritePokemon()
+  })
+
   return (
     <>
       <Container className='favorite-container'>
