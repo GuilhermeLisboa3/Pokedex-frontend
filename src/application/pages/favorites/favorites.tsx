@@ -1,6 +1,6 @@
 import './styles.scss'
 import { CardPokemon, Footer } from '@/application/components'
-import { type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
+import { type DeletePokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { type GetDataPokemon } from '@/domain/use-cases/api-pokemon'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
 
@@ -12,9 +12,10 @@ import { PokemonProvider } from '@/application/contexts'
 type Props = {
   getListFavoritePokemon: GetListFavoritePokemon
   getDataPokemon: GetDataPokemon
+  deletePokemon: DeletePokemon
 }
 
-export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPokemon }: Props) => {
+export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPokemon, deletePokemon }: Props) => {
   const [listFavoritePokemon, setListFavoritePokemon] = useState<Pokemon[]>([])
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
 
@@ -26,17 +27,25 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
   })
 
   const listPokemonHandler = async (): Promise<void> => {
-    listFavoritePokemon.map(async (pokemon) => {
+    const listPokemon = listFavoritePokemon.map(async (pokemon) => {
       const dataPokemon = await getDataPokemon({ name: pokemon.idPokemon })
-      setListPokemon([...listPokemon, dataPokemon.pokemon])
+      return dataPokemon.pokemon
     })
+    const pokemons = await Promise.all(listPokemon)
+    setListPokemon(pokemons)
+  }
+
+  const deletePokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
+    try {
+      await deletePokemon({ idPokemon: pokemon.id.toString() })
+    } catch (error) {}
   }
 
   const fakeFunction = async (): Promise<void> => {}
 
   return (
     <>
-    <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={fakeFunction} deletePokemon={fakeFunction}>
+    <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={fakeFunction} deletePokemon={deletePokemonHandler}>
       <Container className='favorite-container'>
         <Link href={'/'} className='favorite-container-logo'>
           <img src="/pokedexLogo.png" alt="logo" />

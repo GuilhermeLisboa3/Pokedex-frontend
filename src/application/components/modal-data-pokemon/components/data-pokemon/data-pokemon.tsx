@@ -15,12 +15,21 @@ export const DataPokemon: React.FC<Props> = ({ pokemon, pokemonDescription }: Pr
   const isFavorite = pokemonFavorite(pokemon.id)
   const typePokemon = (position: number): string => pokemon.types[position].type.name
   const abilityPokemon = (position: number): string => pokemon.abilities[position].ability.name
+  const addOrDeletePokemon = (): void => {
+    if (isFavorite) {
+      deletePokemon(pokemon)
+    } else {
+      if (addPokemon) {
+        addPokemon(pokemon)
+      }
+    }
+  }
   return (
     <>
       <div className='card-data-pokemon'>
 
         <div className='card-data-pokemon-icons' >
-          <button onClick={() => { isFavorite ? deletePokemon(pokemon) : addPokemon(pokemon) }}>
+          <button onClick={() => { addOrDeletePokemon() }}>
             { isFavorite ? <FaHeart className='card-data-pokemon-icon-favorite-red'/> : <FaRegHeart className='card-data-pokemon-icon-favorite'/>}
           </button>
         </div>
