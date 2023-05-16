@@ -1,5 +1,5 @@
 import './styles.scss'
-import { CardPokemon, Footer } from '@/application/components'
+import { CardPokemon, Footer, ModalDataPokemon } from '@/application/components'
 import { type DeletePokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { type GetDataPokemon } from '@/domain/use-cases/api-pokemon'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
@@ -18,6 +18,10 @@ type Props = {
 export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPokemon, deletePokemon }: Props) => {
   const [listFavoritePokemon, setListFavoritePokemon] = useState<Pokemon[]>([])
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
+  const [pokemon, setPokemon] = useState<ApiPokemon>()
+  const [pokemonDescription, setPokemonDescription] = useState('')
+
+  const [isOpenModalDataPokemon, setIsOpenModalDataPokemon] = useState(false)
 
   useEffect(() => {
     getListFavoritePokemon().then((result: Pokemon[]) => {
@@ -41,11 +45,18 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
     } catch (error) {}
   }
 
-  const fakeFunction = async (): Promise<void> => {}
+  const getDataPokemonHandler = async (namePokemon: string): Promise<void> => {
+    try {
+      const { description, pokemon } = await getDataPokemon({ name: namePokemon })
+      setPokemon(pokemon)
+      setPokemonDescription(description)
+      setIsOpenModalDataPokemon(true)
+    } catch (error) {}
+  }
 
   return (
     <>
-    <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={fakeFunction} deletePokemon={deletePokemonHandler}>
+    <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} deletePokemon={deletePokemonHandler}>
       <Container className='favorite-container'>
         <Link href={'/'} className='favorite-container-logo'>
           <img src="/pokedexLogo.png" alt="logo" />
@@ -57,6 +68,7 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
         }
         </div>
         <Footer/>
+        <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon} setIsOpen={setIsOpenModalDataPokemon}/>
       </Container>
     </PokemonProvider>
     </>
