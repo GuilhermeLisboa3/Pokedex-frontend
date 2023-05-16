@@ -17,15 +17,16 @@
     }
   }
 
-  .home-list-pokemons {
+  .favorite-list-pokemons {
     display: flex;
     flex-wrap: wrap;
     gap: 3rem;
+    justify-content: center;
 
-    .favorite-text{
-      text-align: center;
-      font-size: 30px;
-      font-weight: bolder;
-    }
+  }
+  .favorite-text{
+    text-align: center;
+    font-size: 30px;
+    font-weight: bolder;
   }
 }
