@@ -33,10 +33,13 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
 
   const [page, setPage] = useState(0)
   const [count, setCount] = useState<number>(0)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string | undefined>(undefined)
   const [reload, setReload] = useState(false)
 
-  const changeReload = (): void => { setReload(!reload) }
+  const changeReload = (): void => {
+    setError(undefined)
+    setReload(!reload)
+  }
 
   useEffect(() => {
     if (getCurrentAccount()?.token) {
