@@ -3,9 +3,13 @@ import { ApiPokemonParams } from '@/tests/mocks'
 
 import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
-import { PokemonProvider } from '@/application/contexts'
+import { AccountContext, PokemonProvider } from '@/application/contexts'
+
+jest.mock('next/router')
 
 describe('Favorites', () => {
+  const useRouter = jest.spyOn(require('next/navigation'), 'useRouter')
+  const router = { push: jest.fn() }
   const getListFavoritePokemon = jest.fn()
   const getDataPokemon = jest.fn()
   const deletePokemon = jest.fn()
@@ -13,14 +17,17 @@ describe('Favorites', () => {
 
   const makeSut = (): SutTypes => {
     const { container } = render(
-      <PokemonProvider listFavoritePokemon={[{ idPokemon: '1' }]} addPokemon={jest.fn()} deletePokemon={jest.fn()} getDataPokemon={jest.fn()}>
-        <Favorites getListFavoritePokemon={getListFavoritePokemon} getDataPokemon={getDataPokemon} deletePokemon={deletePokemon}/>
-      </PokemonProvider>
+      <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
+        <PokemonProvider listFavoritePokemon={[{ idPokemon: '1' }]} addPokemon={jest.fn()} deletePokemon={jest.fn()} getDataPokemon={jest.fn()}>
+          <Favorites getListFavoritePokemon={getListFavoritePokemon} getDataPokemon={getDataPokemon} deletePokemon={deletePokemon}/>
+        </PokemonProvider>
+      </AccountContext.Provider>
     )
     return { container }
   }
 
   beforeAll(() => {
+    useRouter.mockReturnValue(router)
     getListFavoritePokemon.mockResolvedValue([{ idPokemon: '1' }])
     getDataPokemon.mockResolvedValue({ pokemon: { ...ApiPokemonParams, id: '1' }, description: 'any_description' })
   })

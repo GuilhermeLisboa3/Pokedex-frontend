@@ -39,7 +39,9 @@ export const Home: React.FC<Props> = ({ listPokemons, getDataPokemon, getListFav
   const changeReload = (): void => { setReload(!reload) }
 
   useEffect(() => {
-    if (getCurrentAccount()?.token) { getListFavoritePokemon().then((result: Pokemon[]) => { setListFavoritePokemon(result) }) }
+    if (getCurrentAccount()?.token) {
+      getListFavoritePokemon().then((result: Pokemon[]) => { setListFavoritePokemon(result) }).catch(() => { setListFavoritePokemon([]) })
+    }
     setListPokemon([])
     listPokemons({ page: page * perPage, perPage }).then(result => {
       setListPokemon(result.pokemons)

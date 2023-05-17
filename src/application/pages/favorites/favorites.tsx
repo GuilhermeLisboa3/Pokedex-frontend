@@ -3,11 +3,12 @@ import { CardPokemon, Footer, ModalDataPokemon } from '@/application/components'
 import { type DeletePokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { type GetDataPokemon } from '@/domain/use-cases/api-pokemon'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
+import { useError } from '@/application/hooks'
+import { PokemonProvider } from '@/application/contexts'
 
 import { Container } from 'reactstrap'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { PokemonProvider } from '@/application/contexts'
 
 type Props = {
   getListFavoritePokemon: GetListFavoritePokemon
@@ -16,6 +17,7 @@ type Props = {
 }
 
 export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPokemon, deletePokemon }: Props) => {
+  const handleError = useError(error => console.log(error))
   const [listFavoritePokemon, setListFavoritePokemon] = useState<Pokemon[]>([])
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
   const [pokemon, setPokemon] = useState<ApiPokemon>()
@@ -27,7 +29,7 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
     getListFavoritePokemon().then((result: Pokemon[]) => {
       setListFavoritePokemon(result)
       listPokemonHandler()
-    })
+    }).catch(handleError)
   }, [listFavoritePokemon])
 
   const listPokemonHandler = async (): Promise<void> => {
