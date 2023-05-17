@@ -4,6 +4,8 @@ import { ApiPokemonParams } from '@/tests/mocks'
 import React from 'react'
 import { render, waitFor, screen, fireEvent } from '@testing-library/react'
 import { AccountContext, PokemonProvider } from '@/application/contexts'
+import { AccessDeniedError } from '@/domain/errors'
+import 'jest-location-mock'
 
 jest.mock('next/router')
 
@@ -13,11 +15,12 @@ describe('Favorites', () => {
   const getListFavoritePokemon = jest.fn()
   const getDataPokemon = jest.fn()
   const deletePokemon = jest.fn()
+  const setSpy = jest.fn()
   type SutTypes = { container: HTMLElement }
 
   const makeSut = (): SutTypes => {
     const { container } = render(
-      <AccountContext.Provider value={{ setCurrentAccount: jest.fn(), getCurrentAccount: jest.fn() }}>
+      <AccountContext.Provider value={{ setCurrentAccount: setSpy, getCurrentAccount: jest.fn() }}>
         <PokemonProvider listFavoritePokemon={[{ idPokemon: '1' }]} addPokemon={jest.fn()} deletePokemon={jest.fn()} getDataPokemon={jest.fn()}>
           <Favorites getListFavoritePokemon={getListFavoritePokemon} getDataPokemon={getDataPokemon} deletePokemon={deletePokemon}/>
         </PokemonProvider>
@@ -41,8 +44,8 @@ describe('Favorites', () => {
 
   it('should call GetDataPokemon with correct value', async () => {
     makeSut()
-    await waitFor(() => screen.getByRole('img'))
-    expect(getDataPokemon).toHaveBeenCalled()
+    await waitFor(() => screen.getByTestId('card-pokemon'))
+    expect(getDataPokemon).toHaveBeenCalledWith({ name: '1' })
     expect(getDataPokemon).toHaveBeenCalledTimes(1)
   })
 
@@ -79,5 +82,23 @@ describe('Favorites', () => {
 
     expect(screen.getByText('any_description')).toBeInTheDocument()
     await waitFor(() => screen.getAllByTestId('card-pokemon'))
+  })
+
+  it('should show empty content if GetListFavoritePokemon returns AccessDeniedError', async () => {
+    getListFavoritePokemon.mockRejectedValueOnce(new AccessDeniedError())
+    makeSut()
+    await waitFor(() => screen.getByText('Tentar novamente'))
+    expect(screen.getByText('Tentar novamente')).toBeInTheDocument()
+    expect(location.reload).toHaveBeenCalled()
+    expect(setSpy).toHaveBeenCalledWith(undefined)
+  })
+
+  it('should show empty content if GetListFavoritePokemon returns Error', async () => {
+    getListFavoritePokemon.mockRejectedValueOnce(new Error('error'))
+    makeSut()
+    await waitFor(() => screen.getByText('Tentar novamente'))
+    expect(screen.getByText('Tentar novamente')).toBeInTheDocument()
+    expect(location.reload).not.toHaveBeenCalled()
+    expect(setSpy).not.toHaveBeenCalledWith(undefined)
   })
 })
