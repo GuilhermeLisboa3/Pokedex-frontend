@@ -1,5 +1,5 @@
 import './styles.scss'
-import { CardPokemon, Footer, ModalDataPokemon } from '@/application/components'
+import { CardPokemon, Footer, ModalDataPokemon, Error } from '@/application/components'
 import { type DeletePokemon, type GetListFavoritePokemon } from '@/domain/use-cases/pokemon'
 import { type GetDataPokemon } from '@/domain/use-cases/api-pokemon'
 import { type ApiPokemon, type Pokemon } from '@/domain/models'
@@ -17,13 +17,17 @@ type Props = {
 }
 
 export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPokemon, deletePokemon }: Props) => {
-  const handleError = useError(error => console.log(error))
+  const handleError = useError(error => setError(error.message))
   const [listFavoritePokemon, setListFavoritePokemon] = useState<Pokemon[]>([])
   const [listPokemon, setListPokemon] = useState<ApiPokemon[]>([])
   const [pokemon, setPokemon] = useState<ApiPokemon>()
+  const [error, setError] = useState<string | undefined>(undefined)
   const [pokemonDescription, setPokemonDescription] = useState('')
 
   const [isOpenModalDataPokemon, setIsOpenModalDataPokemon] = useState(false)
+  const [reload, setReload] = useState(false)
+
+  const changeReload = (): void => { setReload(!reload) }
 
   useEffect(() => {
     getListFavoritePokemon().then((result: Pokemon[]) => {
@@ -60,8 +64,10 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
 
   return (
     <>
-    <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} deletePokemon={deletePokemonHandler}>
-      <Container className='favorite-container'>
+    { error
+      ? <Error error={error} reload={changeReload}/>
+      : <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} deletePokemon={deletePokemonHandler}>
+        <Container className='favorite-container'>
         <Link href={'/'} className='favorite-container-logo'>
           <img src="/pokedexLogo.png" alt="logo" />
         </Link>
@@ -75,6 +81,7 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
         <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon} setIsOpen={setIsOpenModalDataPokemon}/>
       </Container>
     </PokemonProvider>
+    }
     </>
   )
 }
