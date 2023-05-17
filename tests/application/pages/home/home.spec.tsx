@@ -1,6 +1,6 @@
 import { Home } from '@/application/pages/home/home'
 import { ApiPokemonParams, populateField, PokemonParams, AccountParams } from '@/tests/mocks'
-import { UnexpectedError } from '@/domain/errors'
+import { AccessDeniedError, UnexpectedError } from '@/domain/errors'
 import { AccountContext, PokemonProvider } from '@/application/contexts'
 
 import React from 'react'
@@ -205,6 +205,15 @@ describe('Home', () => {
 
       expect(deleteAccount).toHaveBeenCalled()
       expect(deleteAccount).toHaveBeenCalledTimes(1)
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+    })
+
+    it('should return array empty if GetListFavoritePokemon returns AccessDeniedError', async () => {
+      getListFavoritePokemon.mockRejectedValueOnce(new AccessDeniedError())
+      const { container } = makeSut()
+      await waitFor(() => screen.getAllByTestId('card-pokemon'))
+
+      expect(container.querySelectorAll('.icon-favorite')).toHaveLength(3)
       await waitFor(() => screen.getAllByTestId('card-pokemon'))
     })
   })
