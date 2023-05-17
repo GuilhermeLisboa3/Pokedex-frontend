@@ -16,6 +16,15 @@ describe('Home', () => {
     cy.get('.error span').should('have.text', 'Algo deu errado. Tente novamente!')
   })
 
+  it('Should reload on button click', () => {
+    mockError(mockUnexpectedError)
+
+    cy.visit('')
+    cy.contains('Tentar novamente').click()
+
+    cy.get('.emptyCardPokemon').should('have.length', 8)
+  })
+
   it('should present pokemon list', () => {
     mockListPokemonSuccess()
     mockDataPokemon()
