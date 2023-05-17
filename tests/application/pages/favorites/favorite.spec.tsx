@@ -105,9 +105,11 @@ describe('Favorites', () => {
   it('should call GetListFavoritePokemon on reload', async () => {
     getListFavoritePokemon.mockRejectedValueOnce(new Error('error'))
     makeSut()
-    fireEvent.click(await screen.findByRole('button', { name: /Tentar novamente/i }))
+    await waitFor(() => screen.getByText('Tentar novamente'))
+    fireEvent.click(screen.getByText('Tentar novamente'))
 
     expect(getListFavoritePokemon).toHaveBeenCalled()
-    expect(getListFavoritePokemon).toHaveBeenCalledTimes(1)
+    expect(getListFavoritePokemon).toHaveBeenCalledTimes(2)
+    await waitFor(() => screen.getByRole('img'))
   })
 })

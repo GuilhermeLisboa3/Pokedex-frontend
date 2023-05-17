@@ -27,22 +27,25 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
   const [isOpenModalDataPokemon, setIsOpenModalDataPokemon] = useState(false)
   const [reload, setReload] = useState(false)
 
-  const changeReload = (): void => { setReload(!reload) }
+  const changeReload = (): void => {
+    setError(undefined)
+    setReload(!reload)
+  }
 
   useEffect(() => {
-    getListFavoritePokemon().then((result: Pokemon[]) => {
-      setListFavoritePokemon(result)
-      listPokemonHandler()
-    }).catch(handleError)
-  }, [listFavoritePokemon])
+    getListFavoritePokemon().then(result => {
+      listPokemonHandler(result)
+    }).catch(error => handleError(error))
+  }, [reload])
 
-  const listPokemonHandler = async (): Promise<void> => {
-    const listPokemon = listFavoritePokemon.map(async (pokemon) => {
+  const listPokemonHandler = async (favoritePokemon: Pokemon[]): Promise<void> => {
+    const listPokemon = favoritePokemon.map(async (pokemon) => {
       const dataPokemon = await getDataPokemon({ name: pokemon.idPokemon })
       return dataPokemon.pokemon
     })
     const pokemons = await Promise.all(listPokemon)
     setListPokemon(pokemons)
+    setListFavoritePokemon(favoritePokemon)
   }
 
   const deletePokemonHandler = async (pokemon: ApiPokemon): Promise<void> => {
@@ -50,6 +53,7 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
       await deletePokemon({ idPokemon: pokemon.id.toString() })
       const favoritePokemon = listFavoritePokemon.filter(pokemonFavorite => pokemonFavorite.idPokemon !== pokemon.id.toString())
       setListFavoritePokemon(favoritePokemon)
+      changeReload()
     } catch (error) {}
   }
 
@@ -64,24 +68,24 @@ export const Favorites: React.FC<Props> = ({ getListFavoritePokemon, getDataPoke
 
   return (
     <>
-    { error
-      ? <Error error={error} reload={changeReload}/>
-      : <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} deletePokemon={deletePokemonHandler}>
+      <PokemonProvider listFavoritePokemon={listFavoritePokemon} getDataPokemon={getDataPokemonHandler} deletePokemon={deletePokemonHandler}>
         <Container className='favorite-container'>
-        <Link href={'/'} className='favorite-container-logo'>
-          <img src="/pokedexLogo.png" alt="logo" />
-        </Link>
-        <div className='favorite-list-pokemons'>
-        { listPokemon.length > 0
-          ? listPokemon.map(pokemon => (<CardPokemon pokemon={pokemon} key={pokemon.id}/>))
-          : <p className='favorite-text'>Você não tem pokemons favoritado.</p>
-        }
-        </div>
-        <Footer/>
-        <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon} setIsOpen={setIsOpenModalDataPokemon}/>
-      </Container>
-    </PokemonProvider>
-    }
+          <Link href={'/'} className='favorite-container-logo'>
+            <img src="/pokedexLogo.png" alt="logo" />
+          </Link>
+          { error
+            ? <Error error={error} reload={changeReload}/>
+            : <div className='favorite-list-pokemons'>
+              { listPokemon.length > 0
+                ? listPokemon.map(pokemon => (<CardPokemon pokemon={pokemon} key={pokemon.id}/>))
+                : <p className='favorite-text'>Você não tem pokemons favoritado.</p>
+              }
+            </div>
+          }
+          <ModalDataPokemon pokemon={pokemon!} pokemonDescription={pokemonDescription} isOpen={isOpenModalDataPokemon} setIsOpen={setIsOpenModalDataPokemon}/>
+          <Footer/>
+        </Container>
+      </PokemonProvider>
     </>
   )
 }
