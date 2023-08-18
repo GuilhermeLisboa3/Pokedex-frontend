@@ -48,6 +48,7 @@
   ],
   "exclude": [
     "node_modules",
-    "cypress.config.js"
+    "cypress.config.js",
+    "tests/e2e/cypress"
   ]
 }
